@@ -1,0 +1,186 @@
+@page
+@model figjam2.Pages.ProfileModel
+@{
+    ViewData["Title"] = "Profil";
+}
+
+<div class="profile-container">
+    <div class="page-header mb-4 fade-in">
+        <h1>
+            <i class="fas fa-user me-2 text-secondary-custom"></i>
+            Profil Bilgilerim
+        </h1>
+        <p class="text-muted">Kişisel bilgilerinizi görüntüleyin ve yönetin</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 fade-in">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="profile-avatar mb-3">
+                        <i class="fas fa-user-circle fa-5x text-secondary-custom"></i>
+                    </div>
+                    <h4>Ahmet Yılmaz</h4>
+                    <p class="text-muted mb-3">Müşteri No: 12345678</p>
+                    <a href="/ProfileManagement" class="btn btn-primary w-100">
+                        <i class="fas fa-edit me-2"></i>
+                        Bilgileri Düzenle
+                    </a>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        Güvenlik
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="security-item mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>PIN Kodu</strong>
+                                <br>
+                                <small class="text-muted">Son değişiklik: 10 Ocak 2025</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>İki Faktörlü Doğrulama</strong>
+                                <br>
+                                <small class="text-muted">Aktif</small>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 fade-in">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Kişisel Bilgiler
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Ad</label>
+                            <p class="form-control-plaintext"><strong>Ahmet</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Soyad</label>
+                            <p class="form-control-plaintext"><strong>Yılmaz</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">TC Kimlik No</label>
+                            <p class="form-control-plaintext"><strong>123***5678</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Doğum Tarihi</label>
+                            <p class="form-control-plaintext"><strong>15 Mart 1985</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">E-posta</label>
+                            <p class="form-control-plaintext"><strong>ahmet.yilmaz@email.com</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Telefon</label>
+                            <p class="form-control-plaintext"><strong>5XX XXX XX XX</strong></p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">
+                        <i class="fas fa-map-marker-alt me-2 text-secondary-custom"></i>
+                        Adres Bilgileri
+                    </h5>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label text-muted">Adres</label>
+                            <p class="form-control-plaintext">
+                                <strong>Atatürk Mahallesi, Cumhuriyet Caddesi No: 123</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label text-muted">İl</label>
+                            <p class="form-control-plaintext"><strong>İstanbul</strong></p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted">İlçe</label>
+                            <p class="form-control-plaintext"><strong>Kadıköy</strong></p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted">Posta Kodu</label>
+                            <p class="form-control-plaintext"><strong>34700</strong></p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">
+                        <i class="fas fa-briefcase me-2 text-secondary-custom"></i>
+                        İş Bilgileri
+                    </h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Meslek</label>
+                            <p class="form-control-plaintext"><strong>Yazılım Geliştirici</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Gelir</label>
+                            <p class="form-control-plaintext"><strong>₺25,000 - ₺30,000</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        padding: 2rem 0;
+    }
+
+    .page-header {
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+
+    .profile-avatar {
+        margin: 0 auto;
+    }
+
+    .form-control-plaintext {
+        padding: 0.5rem 0;
+        font-size: 1rem;
+    }
+
+    .security-item {
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: 8px;
+    }
+</style>
+

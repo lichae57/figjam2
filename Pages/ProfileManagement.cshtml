@@ -1,0 +1,247 @@
+@page
+@model figjam2.Pages.ProfileManagementModel
+@{
+    ViewData["Title"] = "Profil Yönetimi";
+}
+
+<div class="profile-management-container">
+    <div class="page-header mb-4 fade-in">
+        <h1>
+            <i class="fas fa-edit me-2 text-secondary-custom"></i>
+            Profil Bilgilerini Güncelle
+        </h1>
+        <p class="text-muted">Kişisel bilgilerinizi güncelleyebilirsiniz</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 fade-in">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Adres Bilgileri
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form id="addressForm" data-validate="true">
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="address">
+                                <i class="fas fa-home me-2"></i>Adres
+                            </label>
+                            <textarea class="form-control" 
+                                      id="address" 
+                                      name="address" 
+                                      rows="3" 
+                                      placeholder="Adres bilginizi giriniz"
+                                      required>Atatürk Mahallesi, Cumhuriyet Caddesi No: 123</textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="city">
+                                        <i class="fas fa-city me-2"></i>İl
+                                    </label>
+                                    <select class="form-control" id="city" name="city" required>
+                                        <option value="">Seçiniz</option>
+                                        <option value="istanbul" selected>İstanbul</option>
+                                        <option value="ankara">Ankara</option>
+                                        <option value="izmir">İzmir</option>
+                                        <option value="antalya">Antalya</option>
+                                        <option value="bursa">Bursa</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="district">
+                                        <i class="fas fa-map-marked-alt me-2"></i>İlçe
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="district" 
+                                           name="district"
+                                           value="Kadıköy"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="postalCode">
+                                        <i class="fas fa-mail-bulk me-2"></i>Posta Kodu
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="postalCode" 
+                                           name="postalCode"
+                                           value="34700"
+                                           maxlength="5"
+                                           pattern="[0-9]{5}"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                Adres Bilgilerini Kaydet
+                            </button>
+                            <a href="/Profile" class="btn btn-outline">
+                                <i class="fas fa-times me-2"></i>
+                                İptal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-briefcase me-2"></i>
+                        İş Bilgileri
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form id="jobForm" data-validate="true">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="profession">
+                                        <i class="fas fa-user-tie me-2"></i>Meslek
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="profession" 
+                                           name="profession"
+                                           value="Yazılım Geliştirici"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="income">
+                                        <i class="fas fa-lira-sign me-2"></i>Gelir Aralığı
+                                    </label>
+                                    <select class="form-control" id="income" name="income" required>
+                                        <option value="">Seçiniz</option>
+                                        <option value="0-10000">₺0 - ₺10,000</option>
+                                        <option value="10000-15000">₺10,000 - ₺15,000</option>
+                                        <option value="15000-20000">₺15,000 - ₺20,000</option>
+                                        <option value="20000-25000">₺20,000 - ₺25,000</option>
+                                        <option value="25000-30000" selected>₺25,000 - ₺30,000</option>
+                                        <option value="30000+">₺30,000+</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                İş Bilgilerini Kaydet
+                            </button>
+                            <a href="/Profile" class="btn btn-outline">
+                                <i class="fas fa-times me-2"></i>
+                                İptal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 fade-in">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Bilgilendirme
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-3">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>Önemli:</strong> Adres değişiklikleriniz güvenlik kontrolünden geçecektir.
+                    </div>
+                    <div class="alert alert-warning mb-3">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong>Güvenlik:</strong> Bilgileriniz şifrelenmiş bağlantı ile korunmaktadır.
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong>Onay:</strong> Değişiklikleriniz anında geçerli olacaktır.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history me-2"></i>
+                        Son Değişiklikler
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="change-item mb-3">
+                        <small class="text-muted">10 Ocak 2025</small>
+                        <p class="mb-0"><strong>Adres güncellendi</strong></p>
+                    </div>
+                    <div class="change-item">
+                        <small class="text-muted">5 Ocak 2025</small>
+                        <p class="mb-0"><strong>Meslek bilgisi güncellendi</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-management-container {
+        padding: 2rem 0;
+    }
+
+    .page-header {
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+
+    .change-item {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .change-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.getElementById('addressForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm('addressForm')) {
+                showToast('Adres bilgileri başarıyla güncellendi!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/Profile';
+                }, 1500);
+            }
+        });
+
+        document.getElementById('jobForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (validateForm('jobForm')) {
+                showToast('İş bilgileri başarıyla güncellendi!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/Profile';
+                }, 1500);
+            }
+        });
+    </script>
+}
+

@@ -1,0 +1,169 @@
+@page
+@model figjam2.Pages.PinVerificationModel
+@{
+    ViewData["Title"] = "PIN Doğrulama";
+    ViewData["ShowNavbar"] = false;
+    ViewData["ShowFooter"] = false;
+}
+
+<div class="pin-container">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-5 col-lg-4">
+                <div class="card fade-in">
+                    <div class="card-header text-center">
+                        <h2 class="mb-0">
+                            <i class="fas fa-lock me-2"></i>
+                            Güvenlik Doğrulaması
+                        </h2>
+                        <p class="mb-0 mt-2" style="font-size: 0.9rem; opacity: 0.9;">PIN kodunuzu giriniz</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="pinForm" data-validate="true" method="post">
+                            <div class="form-group">
+                                <label class="form-label text-center d-block" for="pin">
+                                    <i class="fas fa-key me-2"></i>6 Haneli PIN
+                                </label>
+                                <div class="pin-input-container">
+                                    <input type="text" 
+                                           class="form-control pin-input text-center" 
+                                           id="pin" 
+                                           name="pin"
+                                           data-mask="pin"
+                                           maxlength="6"
+                                           placeholder="------"
+                                           required
+                                           autocomplete="off"
+                                           style="font-size: 1.5rem; letter-spacing: 0.5rem; font-weight: 600;">
+                                </div>
+                                <small class="form-text text-muted mt-2 text-center d-block">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Güvenliğiniz için PIN kodunuzu kimseyle paylaşmayınız
+                                </small>
+                            </div>
+
+                            <div class="timer-container text-center mt-4 mb-3">
+                                <div class="timer-display">
+                                    <i class="fas fa-clock me-2"></i>
+                                    <span id="timer">03:00</span>
+                                </div>
+                                <small class="text-muted d-block mt-2">
+                                    Bu işlem için kalan süre
+                                </small>
+                            </div>
+
+                            <div class="form-group mt-4">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-check me-2"></i>
+                                    Doğrula
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a href="/Login" class="text-secondary-custom" style="text-decoration: none;">
+                                    <i class="fas fa-arrow-left me-1"></i>
+                                    Geri Dön
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .pin-container {
+        background: linear-gradient(135deg, #222854 0%, #2E6DF8 100%);
+        min-height: 100vh;
+    }
+
+    .card {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .pin-input-container {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .pin-input {
+        padding: 1.5rem;
+        font-family: 'Courier New', monospace;
+    }
+
+    .timer-display {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--accent-color);
+        padding: 1rem;
+        background: rgba(46, 109, 248, 0.1);
+        border-radius: 8px;
+        display: inline-block;
+    }
+
+    .timer-display.warning {
+        color: var(--warning-color);
+        animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        let timeLeft = 180; // 3 dakika = 180 saniye
+        const timerElement = document.getElementById('timer');
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 30) {
+                timerElement.parentElement.classList.add('warning');
+            }
+            
+            if (timeLeft <= 0) {
+                showToast('Süre doldu. Lütfen tekrar deneyiniz.', 'error');
+                setTimeout(() => {
+                    window.location.href = '/Login';
+                }, 2000);
+                return;
+            }
+            
+            timeLeft--;
+        }
+        
+        // Timer'ı başlat
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+        
+        document.getElementById('pinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const pin = document.getElementById('pin').value;
+            
+            if (!validatePIN(pin)) {
+                showToast('Lütfen 6 haneli PIN kodunuzu giriniz.', 'error');
+                return;
+            }
+            
+            clearInterval(timerInterval);
+            
+            // Dashboard'a yönlendir
+            showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
+            setTimeout(() => {
+                window.location.href = '/Dashboard';
+            }, 1000);
+        });
+        
+        // PIN input'una odaklan
+        document.getElementById('pin').focus();
+    </script>
+}
+

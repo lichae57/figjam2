@@ -1,0 +1,289 @@
+@page
+@model figjam2.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="dashboard-container">
+    <!-- Hoş Geldiniz Bölümü -->
+    <div class="welcome-section mb-4 fade-in">
+        <div class="card bg-primary-custom text-white">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="mb-2">
+                            <i class="fas fa-user-circle me-2"></i>
+                            Hoş Geldiniz, Ahmet Yılmaz
+                        </h2>
+                        <p class="mb-0 opacity-90">Dijital şube deneyiminize hoş geldiniz. İşlemlerinizi kolayca yönetebilirsiniz.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <div class="balance-display">
+                            <small class="d-block mb-1">Toplam Bakiye</small>
+                            <h3 class="mb-0">₺45,230.50</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hızlı Erişim Kartları -->
+    <div class="quick-access mb-4 fade-in">
+        <h3 class="mb-3">
+            <i class="fas fa-bolt me-2 text-secondary-custom"></i>
+            Hızlı Erişim
+        </h3>
+        <div class="row g-3">
+            <div class="col-md-3 col-sm-6">
+                <a href="/Services" class="text-decoration-none">
+                    <div class="card h-100 quick-card">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper mb-3">
+                                <i class="fas fa-concierge-bell fa-3x text-secondary-custom"></i>
+                            </div>
+                            <h5>Hizmetler</h5>
+                            <p class="text-muted small mb-0">Tüm hizmetlerimize erişin</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="/CreditCalculator" class="text-decoration-none">
+                    <div class="card h-100 quick-card">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper mb-3">
+                                <i class="fas fa-calculator fa-3x text-secondary-custom"></i>
+                            </div>
+                            <h5>Kredi Hesaplama</h5>
+                            <p class="text-muted small mb-0">Kredi hesaplama aracı</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="/Reports" class="text-decoration-none">
+                    <div class="card h-100 quick-card">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper mb-3">
+                                <i class="fas fa-file-invoice fa-3x text-secondary-custom"></i>
+                            </div>
+                            <h5>Raporlar & Faturalar</h5>
+                            <p class="text-muted small mb-0">Fatura ve raporlarınız</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="/Profile" class="text-decoration-none">
+                    <div class="card h-100 quick-card">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-wrapper mb-3">
+                                <i class="fas fa-user fa-3x text-secondary-custom"></i>
+                            </div>
+                            <h5>Profil</h5>
+                            <p class="text-muted small mb-0">Profil bilgileriniz</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Son İşlemler ve Özet Bilgiler -->
+    <div class="row g-4">
+        <!-- Son İşlemler -->
+        <div class="col-lg-8 fade-in">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-history me-2"></i>
+                        Son İşlemler
+                    </h4>
+                    <a href="/Reports" class="btn btn-sm btn-outline text-white">
+                        Tümünü Gör <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="transaction-list">
+                        <div class="transaction-item d-flex justify-content-between align-items-center py-3 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="transaction-icon me-3">
+                                    <i class="fas fa-arrow-down text-success fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Maaş Yatırıldı</h6>
+                                    <small class="text-muted">15 Ocak 2025, 09:30</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="mb-0 text-success">+₺12,500.00</h6>
+                                <small class="text-muted">Bakiye: ₺45,230.50</small>
+                            </div>
+                        </div>
+                        <div class="transaction-item d-flex justify-content-between align-items-center py-3 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="transaction-icon me-3">
+                                    <i class="fas fa-arrow-up text-danger fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Elektrik Faturası</h6>
+                                    <small class="text-muted">14 Ocak 2025, 14:20</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="mb-0 text-danger">-₺245.80</h6>
+                                <small class="text-muted">Bakiye: ₺32,730.50</small>
+                            </div>
+                        </div>
+                        <div class="transaction-item d-flex justify-content-between align-items-center py-3 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="transaction-icon me-3">
+                                    <i class="fas fa-credit-card text-secondary-custom fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Kredi Kartı Ödemesi</h6>
+                                    <small class="text-muted">13 Ocak 2025, 18:45</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="mb-0 text-danger">-₺1,250.00</h6>
+                                <small class="text-muted">Bakiye: ₺32,976.30</small>
+                            </div>
+                        </div>
+                        <div class="transaction-item d-flex justify-content-between align-items-center py-3">
+                            <div class="d-flex align-items-center">
+                                <div class="transaction-icon me-3">
+                                    <i class="fas fa-arrow-down text-success fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Havale Geldi</h6>
+                                    <small class="text-muted">12 Ocak 2025, 11:15</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="mb-0 text-success">+₺5,000.00</h6>
+                                <small class="text-muted">Bakiye: ₺34,226.30</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Özet Bilgiler -->
+        <div class="col-lg-4 fade-in">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Hesap Özeti
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="summary-item mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Vadesiz Hesap</span>
+                            <strong>₺45,230.50</strong>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-secondary-custom" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="summary-item mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Kredi Kartı Limit</span>
+                            <strong>₺15,000 / ₺20,000</strong>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-warning" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Aktif Krediler</span>
+                            <strong>2</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle me-2"></i>
+                        Sık Sorulan Sorular
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <a href="/FAQ" class="btn btn-outline w-100 mb-2">
+                        <i class="fas fa-question-circle me-2"></i>
+                        SSS Sayfasına Git
+                    </a>
+                    <small class="text-muted d-block text-center">
+                        Sorularınız için yardım merkezimizi ziyaret edin
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        padding: 2rem 0;
+    }
+
+    .welcome-section .card {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        border: none;
+    }
+
+    .balance-display {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        display: inline-block;
+    }
+
+    .quick-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .quick-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .quick-card .icon-wrapper {
+        transition: transform 0.3s ease;
+    }
+
+    .quick-card:hover .icon-wrapper {
+        transform: scale(1.1);
+    }
+
+    .transaction-item {
+        transition: background-color 0.2s ease;
+    }
+
+    .transaction-item:hover {
+        background-color: var(--bg-light);
+    }
+
+    .transaction-icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(46, 109, 248, 0.1);
+        border-radius: 50%;
+    }
+
+    .summary-item {
+        padding: 0.5rem 0;
+    }
+</style>
+
