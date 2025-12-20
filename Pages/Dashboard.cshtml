@@ -82,14 +82,14 @@
                         <div class="col-md-6 d-flex align-items-center" style="background: white; padding: 3rem;">
                             <div>
                                 <h2 class="mb-3" style="color: var(--primary-color); font-weight: 700;">
-                                    <i class="fas fa-credit-card me-2 text-secondary-custom"></i>
-                                    Kredi Kartı Avantajları
+                                    <i class="fas fa-headset me-2 text-secondary-custom"></i>
+                                    Yardım ve Destek Merkezi
                                 </h2>
                                 <p class="lead mb-4" style="color: var(--text-secondary); line-height: 1.8;">
-                                    Nakit geri ödeme, puan kazanma ve özel indirimler! Kredi kartlarımız ile alışverişlerinizden daha fazla kazanın.
+                                    Size yardımcı olmak için buradayız! Sorularınız için 7/24 müşteri desteği, sık sorulan sorular ve detaylı rehberlerimiz ile yanınızdayız.
                                 </p>
                                 <a href="/Services" class="btn btn-primary-custom text-white px-4 py-3 fw-semibold" style="background-color: var(--secondary-color); border: none; border-radius: 8px;">
-                                    Keşfet <i class="fas fa-arrow-right ms-2"></i>
+                                    Destek Al <i class="fas fa-arrow-right ms-2"></i>
                                 </a>
                             </div>
                         </div>
@@ -166,15 +166,15 @@
                     </div>
                 </div>
 
-                <!-- Dijital Bankacılık -->
+                <!-- Faturalar -->
                 <div class="col-12 col-sm-6 col-lg-3 col-md-6">
                     <div class="service-card card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="service-icon mb-3" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, var(--accent-color), var(--primary-color)); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-mobile-alt fa-3x text-white"></i>
+                                <i class="fas fa-file-invoice fa-3x text-white"></i>
                             </div>
-                            <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Dijital Bankacılık</h5>
-                            <p class="text-muted mb-4">7/24 bankacılık hizmetleri</p>
+                            <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Faturalar</h5>
+                            <p class="text-muted mb-4">Faturalarınızı kolayca ödeyin ve takip edin</p>
                             <a href="/Services" class="btn btn-sm" style="background-color: var(--secondary-color); color: white; border: none;">
                                 Detaylar <i class="fas fa-arrow-right ms-1"></i>
                             </a>
@@ -400,6 +400,16 @@
     .service-card {
         transition: all 0.3s ease;
         border-radius: 16px;
+    }
+
+    .service-card .card-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-card .card-body p {
+        flex-grow: 1;
+        margin-bottom: 1rem !important;
     }
 
     .service-card:hover {
