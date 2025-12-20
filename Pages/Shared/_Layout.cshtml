@@ -41,11 +41,11 @@
             </div>
 
             <!-- Ana Navigasyon -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom shadow-sm">
                 <div class="container">
                     <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard">
-                        <i class="fas fa-university me-2 text-secondary-custom" style="font-size: 2rem;"></i>
-                        <span class="fw-bold" style="font-size: 1.5rem; color: var(--primary-color);">İnteraktif Şube</span>
+                        <i class="fas fa-university me-2 text-white" style="font-size: 2rem;"></i>
+                        <span class="fw-bold text-white" style="font-size: 1.5rem;">İnteraktif Kredi</span>
                     </a>
                     
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" 
@@ -56,28 +56,39 @@
                     <div class="collapse navbar-collapse" id="mainNavbar">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold px-3" href="#" style="color: var(--primary-color);">
+                                <a class="nav-link fw-semibold px-3 text-white" href="#">
                                     Bireysel
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold px-3" href="#" style="color: var(--primary-color);">
+                                <a class="nav-link fw-semibold px-3 text-white" href="#">
                                     Ticari
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link fw-semibold px-3" href="#" style="color: var(--primary-color);">
+                                <a class="nav-link fw-semibold px-3 text-white" href="#">
                                     Krediler
                                 </a>
                             </li>
                         </ul>
                         
-                        <div class="d-flex align-items-center">
-                            <a class="btn btn-primary-custom text-white px-4 py-2 fw-semibold" 
+                        <div class="d-flex align-items-center gap-2">
+                            <button class="btn btn-sm text-white px-2 py-2 fw-semibold" 
+                                    type="button"
+                                    style="background-color: var(--secondary-color); border: none; border-radius: 6px; font-size: 0.9rem;">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <a class="btn btn-sm text-white px-3 py-2 fw-semibold" 
                                asp-area="" asp-page="/Login" 
-                               style="background-color: var(--secondary-color); border: none; border-radius: 6px;">
-                                <i class="fas fa-sign-in-alt me-2"></i>
+                               style="background-color: var(--secondary-color); border: none; border-radius: 6px; font-size: 0.9rem;">
+                                <i class="fas fa-sign-in-alt me-1"></i>
                                 İnternet Şubesi
+                            </a>
+                            <a class="btn btn-sm text-white px-3 py-2 fw-semibold" 
+                               href="#" 
+                               style="background-color: var(--secondary-color); border: none; border-radius: 6px; font-size: 0.9rem;">
+                                <i class="fas fa-user-plus me-1"></i>
+                                Müşteri Olun
                             </a>
                         </div>
                     </div>

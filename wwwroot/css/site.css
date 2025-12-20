@@ -197,7 +197,7 @@ p {
 }
 
 .bank-header .navbar-nav .nav-link {
-  color: var(--primary-color) !important;
+  color: var(--text-light) !important;
   font-weight: 600;
   padding: 0.5rem 1rem !important;
   transition: all 0.3s ease;
@@ -210,10 +210,10 @@ p {
   border-bottom-color: var(--secondary-color);
 }
 
-.bank-header .btn-primary-custom:hover {
-  background-color: var(--accent-color) !important;
+.bank-header .btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  opacity: 0.9;
 }
 
 /* Bank Footer Styles */
