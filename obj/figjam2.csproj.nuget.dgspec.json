@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zehra\\OneDrive\\Documents\\GitHub\\figjam2\\figjam2.csproj": {}
+    "/Users/ferideikbaldurmus/dev/figjam2/figjam2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zehra\\OneDrive\\Documents\\GitHub\\figjam2\\figjam2.csproj": {
+    "/Users/ferideikbaldurmus/dev/figjam2/figjam2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zehra\\OneDrive\\Documents\\GitHub\\figjam2\\figjam2.csproj",
+        "projectUniqueName": "/Users/ferideikbaldurmus/dev/figjam2/figjam2.csproj",
         "projectName": "figjam2",
-        "projectPath": "C:\\Users\\zehra\\OneDrive\\Documents\\GitHub\\figjam2\\figjam2.csproj",
-        "packagesPath": "C:\\Users\\zehra\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zehra\\OneDrive\\Documents\\GitHub\\figjam2\\obj\\",
+        "projectPath": "/Users/ferideikbaldurmus/dev/figjam2/figjam2.csproj",
+        "packagesPath": "/Users/ferideikbaldurmus/.nuget/packages/",
+        "outputPath": "/Users/ferideikbaldurmus/dev/figjam2/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\zehra\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/ferideikbaldurmus/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "10.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -68,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.416/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -78,6 +78,11 @@
 
             <!-- Settings Content -->
             <div class="col-12 col-lg-8">
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none; margin-bottom: 20px;">
+                    <i class="fa-solid fa-circle-check me-2"></i> <strong>Harika!</strong> Bilgileriniz başarıyla kaydedildi.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
                 <!-- Profile Section -->
                 <div id="profile-section" class="settings-section fade-in">
                     <div class="card">
@@ -138,7 +143,7 @@
                                     <textarea class="form-control" rows="2" placeholder="Adresiniz">Atatürk Mahallesi, Cumhuriyet Caddesi No: 123, Kadıköy/İstanbul</textarea>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" id="btn-save" onclick="saveChanges(); return false;">
                                     <i class="fas fa-save me-2"></i>
                                     Değişiklikleri Kaydet
                                 </button>
@@ -206,7 +211,7 @@
                                     </ul>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary mt-3">
+                                <button type="submit" class="btn btn-primary mt-3" id="btn-password" onclick="changePassword(); return false;">
                                     <i class="fas fa-key me-2"></i>
                                     Şifreyi Değiştir
                                 </button>
@@ -278,7 +283,7 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-primary mt-4">
+                            <button type="button" class="btn btn-primary mt-4" id="btn-notifications" onclick="saveNotifications()">
                                 <i class="fas fa-save me-2"></i>
                                 Ayarları Kaydet
                             </button>
@@ -348,7 +353,7 @@
                                 </div>
                                 <span class="badge bg-success">Mevcut</span>
                             </div>
-                            <div class="session-item">
+                            <div class="session-item d-flex">
                                 <div class="session-icon">
                                     <i class="fas fa-mobile-alt"></i>
                                 </div>
@@ -356,7 +361,7 @@
                                     <span class="session-device">iPhone - Safari</span>
                                     <span class="session-location">İstanbul, Türkiye • 2 saat önce</span>
                                 </div>
-                                <button class="btn btn-sm btn-outline-danger">Sonlandır</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="directOpenModal(this)">Sonlandır</button>
                             </div>
                         </div>
                     </div>
@@ -404,7 +409,7 @@
                                         <h6 class="mb-1">Çerez Tercihleri</h6>
                                         <p class="text-muted mb-0 small">Çerez kullanım tercihlerinizi yönetin</p>
                                     </div>
-                                    <button class="btn btn-sm btn-outline">Yönet</button>
+                                    <button class="btn btn-sm btn-outline" id="btn-manage-cookies" onclick="manageCookies()">Yönet</button>
                                 </div>
                             </div>
 
@@ -416,7 +421,7 @@
                                     Hesap Silme
                                 </h6>
                                 <p class="mb-2">Hesabınızı silmek tüm verilerinizin kalıcı olarak silinmesine neden olur.</p>
-                                <button class="btn btn-sm btn-outline-danger">
+                                <button class="btn btn-sm btn-outline-danger" id="btn-delete-account" onclick="deleteAccount()">
                                     <i class="fas fa-trash me-2"></i>
                                     Hesabı Sil
                                 </button>
@@ -636,6 +641,87 @@
             display: none;
         }
     }
+
+    /* Custom Modal Styles */
+    .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    }
+
+    .custom-modal-content {
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 450px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    .modal-icon {
+        font-size: 4rem;
+        color: #2E6DF8;
+        margin-bottom: 20px;
+    }
+
+    .custom-modal-content h3 {
+        color: #222854;
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+
+    .custom-modal-content p {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1rem;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .btn-confirm {
+        background-color: #FF7F00;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-confirm:hover {
+        background-color: #e67300;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(255, 127, 0, 0.3);
+    }
+
+    .btn-cancel {
+        background-color: #f0f0f0;
+        color: #555;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+        background-color: #e0e0e0;
+    }
 </style>
 
 @section Scripts {
@@ -765,6 +851,260 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
+
+        function saveChanges() {
+            // 1. Butonu seç
+            var btn = document.getElementById("btn-save");
+            var originalText = btn.innerHTML;
+
+            // 2. Yükleniyor moduna al
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Kaydediliyor...';
+            btn.disabled = true;
+
+            // 3. 1.5 saniye bekle (Simülasyon)
+            setTimeout(function() {
+                // 4. Başarı mesajı göster (Bootstrap bildirim kutusu)
+                var successAlert = document.getElementById("success-alert");
+                if (successAlert) {
+                    successAlert.style.display = "block";
+                    // 5 saniye sonra otomatik kapat
+                    setTimeout(function() {
+                        successAlert.style.display = "none";
+                    }, 5000);
+                }
+
+                // 5. Butonu eski haline getir
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        function changePassword() {
+            var btn = document.getElementById("btn-password");
+            var alertBox = document.getElementById("success-alert");
+            var originalText = btn.innerHTML;
+
+            // 1. Kutudaki mesajı güncelle
+            alertBox.querySelector("strong").innerText = "Güvenlik Güncellemesi!";
+            alertBox.innerHTML = alertBox.innerHTML.replace("Bilgileriniz başarıyla kaydedildi.", "Şifreniz başarıyla değiştirildi.");
+
+            // 2. Varsa önceki mesajı gizle
+            alertBox.style.display = 'none';
+
+            // 3. Yükleniyor modu
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Güncelleniyor...';
+            btn.disabled = true;
+
+            // 4. Bekleme simülasyonu (2 saniye)
+            setTimeout(function() {
+                // Bildirimi göster
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.style.display = 'block';
+
+                // Form inputlarını temizle (Opsiyonel estetik)
+                var passwordSection = document.getElementById("password-section");
+                if (passwordSection) {
+                    var inputs = passwordSection.querySelectorAll("input[type='password']");
+                    inputs.forEach(input => input.value = "");
+                }
+
+                // Butonu eski haline getir (süre dolunca)
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+
+                // 3 saniye sonra mesajı kaybet
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+
+            }, 2000);
+        }
+
+        function saveNotifications() {
+            var btn = document.getElementById("btn-notifications");
+            var alertBox = document.getElementById("success-alert");
+            var originalText = btn.innerHTML;
+
+            // Mesaj içeriğini bildirim ayarları için özelleştir
+            alertBox.querySelector("strong").innerText = "Başarılı!";
+            alertBox.innerHTML = alertBox.innerHTML.replace(/Bilgileriniz|Şifreniz.*/, "Bildirim tercihleriniz başarıyla güncellendi.");
+
+            alertBox.style.display = 'none';
+            btn.innerHTML = '<i class="fa-solid fa-sync fa-spin"></i> Güncelleniyor...';
+            btn.disabled = true;
+
+            setTimeout(function() {
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.style.display = 'block';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+            }, 1500);
+        }
+
+        // Çerez Yönetimi Fonksiyonu
+        function manageCookies() {
+            // Modal'ı görünür yap
+            document.getElementById('cookieManagementModal').style.display = 'flex';
+            
+            // Modal içindeki "İncele" butonuna event listener ekle
+            document.getElementById('confirmCookieBtn').onclick = function() {
+                // Modalı kapat
+                document.getElementById('cookieManagementModal').style.display = 'none';
+                
+                var btn = document.getElementById("btn-manage-cookies");
+                var alertBox = document.getElementById("success-alert");
+                var originalText = btn.innerHTML;
+
+                // Butonu "İşleniyor..." moduna al (spinner ikonlu)
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+                btn.disabled = true;
+
+                setTimeout(function() {
+                    // Tepedeki bildirim kutusunu göster
+                    alertBox.className = "alert alert-info alert-dismissible fade show";
+                    alertBox.querySelector("strong").innerText = "Bilgi:";
+                    
+                    // Mesaj içeriğini güncelle
+                    var iconElement = alertBox.querySelector("i");
+                    var closeButton = alertBox.querySelector(".btn-close");
+                    alertBox.innerHTML = '';
+                    if (iconElement) {
+                        alertBox.appendChild(iconElement);
+                    }
+                    alertBox.appendChild(document.createTextNode(" Çerez tercihleriniz inceleniyor, lütfen bekleyiniz."));
+                    if (closeButton) {
+                        alertBox.appendChild(closeButton);
+                    } else {
+                        var newCloseBtn = document.createElement("button");
+                        newCloseBtn.type = "button";
+                        newCloseBtn.className = "btn-close";
+                        newCloseBtn.setAttribute("data-bs-dismiss", "alert");
+                        newCloseBtn.setAttribute("aria-label", "Close");
+                        alertBox.appendChild(newCloseBtn);
+                    }
+                    alertBox.style.display = 'block';
+                    
+                    // Butonu eski haline getir
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 1000);
+            };
+        }
+
+        // Kritik İşlem: Hesabı Sil Fonksiyonu
+        function deleteAccount() {
+            // Modern modal'ı aç
+            document.getElementById('deleteAccountModal').style.display = 'flex';
+            
+            // Modal içindeki "Evet, Hesabımı Sil" butonuna event listener ekle
+            document.getElementById('finalDeleteBtn').onclick = function() {
+                // Modalı kapat
+                document.getElementById('deleteAccountModal').style.display = 'none';
+                
+                var btn = document.getElementById("btn-delete-account");
+                var alertBox = document.getElementById("success-alert");
+
+                // Butonu "İşleniyor..." moduna al
+                btn.innerHTML = '<i class="fa-solid fa-trash-can fa-bounce"></i> İşleniyor...';
+                btn.style.opacity = "0.5";
+                btn.style.pointerEvents = "none";
+
+                setTimeout(function() {
+                    // Tepedeki alert kutusunu göster (Sarı/Warning)
+                    alertBox.querySelector("strong").innerText = "Dikkat!";
+                    
+                    // Mesaj içeriğini güncelle
+                    var iconElement = alertBox.querySelector("i");
+                    var closeButton = alertBox.querySelector(".btn-close");
+                    alertBox.innerHTML = '';
+                    if (iconElement) {
+                        alertBox.appendChild(iconElement);
+                    }
+                    alertBox.appendChild(document.createTextNode(" Hesap silme talebiniz alındı. Güvenlik gereği 24 saat içinde işleme alınacaktır."));
+                    if (closeButton) {
+                        alertBox.appendChild(closeButton);
+                    } else {
+                        var newCloseBtn = document.createElement("button");
+                        newCloseBtn.type = "button";
+                        newCloseBtn.className = "btn-close";
+                        newCloseBtn.setAttribute("data-bs-dismiss", "alert");
+                        newCloseBtn.setAttribute("aria-label", "Close");
+                        alertBox.appendChild(newCloseBtn);
+                    }
+                    alertBox.className = "alert alert-warning alert-dismissible fade show";
+                    alertBox.style.display = 'block';
+                    
+                    // Butonu "Talep Alındı" haline getir
+                    btn.innerHTML = '<i class="fa-solid fa-clock"></i> Talep Alındı';
+                }, 2000);
+            };
+        }
+
     </script>
 }
+
+<div id="finalModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:white; padding:30px; border-radius:15px; text-align:center; width:300px;">
+        <h4 style="color:#2E6DF8">Emin misiniz?</h4>
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="document.getElementById('finalModal').style.display='none'" style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;">Hayır</button>
+            <button id="confirmAction" style="flex:1; padding:10px; border-radius:8px; border:none; background:#2E6DF8; color:white;">Evet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function directOpenModal(btn) {
+    console.log("Buton tıklandı");
+    document.getElementById('finalModal').style.display = 'flex';
+    
+    document.getElementById('confirmAction').onclick = function() {
+        document.getElementById('finalModal').style.display = 'none';
+        btn.innerHTML = 'Kapatılıyor...';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+            btn.innerHTML = 'Sonlandırıldı';
+            btn.className = 'btn btn-secondary btn-sm disabled';
+            btn.closest('.d-flex').style.opacity = '0.4';
+            
+            // Tepedeki alert kutusunu bul ve göster
+            const alert = document.getElementById('success-alert');
+            if(alert) alert.style.display = 'block';
+        }, 1000);
+    };
+}
+</script>
+
+<div id="deleteAccountModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center; backdrop-filter: blur(8px);">
+    <div style="background:white; padding:40px; border-radius:24px; text-align:center; width:400px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+        <div style="width:70px; height:70px; background:#FFEBEB; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:30px; color:#DC3545;"></i>
+        </div>
+        <h3 style="color:#2E6DF8; font-weight:800;">Emin misiniz?</h3>
+        <p style="color:#666; margin:15px 0 25px;">Hesabınızı silmek tüm verilerinizin kalıcı olarak kaybolmasına neden olur. Bu işlem geri alınamaz!</p>
+        <div style="display:flex; gap:12px;">
+            <button onclick="document.getElementById('deleteAccountModal').style.display='none'" style="flex:1; padding:12px; border-radius:12px; border:1px solid #ddd; background:#f8f9fa; font-weight:600;">Vazgeç</button>
+            <button id="finalDeleteBtn" style="flex:1; padding:12px; border-radius:12px; border:none; background:#DC3545; color:white; font-weight:600;">Evet, Hesabımı Sil</button>
+        </div>
+    </div>
+</div>
+
+<div id="cookieManagementModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100000; align-items:center; justify-content:center; backdrop-filter: blur(5px);">
+    <div style="background:white; padding:35px; border-radius:20px; text-align:center; width:350px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+        <div style="width:60px; height:60px; background:#E6F7FF; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px;">
+            <i class="fa-solid fa-cookie-bite" style="font-size:25px; color:#2E6DF8;"></i>
+        </div>
+        <h4 style="color:#2E6DF8; font-weight:700;">Çerez Tercihleri</h4>
+        <p style="color:#666; font-size:14px; margin-bottom:20px;">Gizliliğiniz bizim için önemli. Çerez kullanım politikamızı yönetmek ister misiniz?</p>
+        <div style="display:flex; gap:10px;">
+            <button onclick="document.getElementById('cookieManagementModal').style.display='none'" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; background:#f8f9fa;">Kapat</button>
+            <button id="confirmCookieBtn" style="flex:1; padding:10px; border-radius:10px; border:none; background:#2E6DF8; color:white; font-weight:600;">İncele</button>
+        </div>
+    </div>
+</div>
 
