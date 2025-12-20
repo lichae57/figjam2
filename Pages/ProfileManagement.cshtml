@@ -4,8 +4,8 @@
     ViewData["Title"] = "Profil Yönetimi";
 }
 
-<div class="profile-management-container">
-    <div class="page-header mb-4 fade-in">
+<div class="profile_management_container">
+    <div class="page_header mb-4 fade-in" style="margin-left: 1cm;">
         <h1>
             <i class="fas fa-edit me-2 text-secondary-custom"></i>
             Profil Bilgilerini Güncelle
@@ -23,7 +23,8 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form id="addressForm" data-validate="true">
+                    <form id="address_form" data-validate="true">
+                        @Html.AntiForgeryToken()
                         <div class="form-group mb-3">
                             <label class="form-label" for="address">
                                 <i class="fas fa-home me-2"></i>Adres
@@ -33,7 +34,7 @@
                                       name="address" 
                                       rows="3" 
                                       placeholder="Adres bilginizi giriniz"
-                                      required>Atatürk Mahallesi, Cumhuriyet Caddesi No: 123</textarea>
+                                      required>@(HttpContext.Session.GetString("UserAddress") ?? "Atatürk Mahallesi, Cumhuriyet Caddesi No: 123")</textarea>
                         </div>
 
                         <div class="row">
@@ -43,12 +44,19 @@
                                         <i class="fas fa-city me-2"></i>İl
                                     </label>
                                     <select class="form-control" id="city" name="city" required>
+                                        @{
+                                            var currentCity = HttpContext.Session.GetString("UserCity") ?? "İstanbul";
+                                            var cityLower = currentCity.ToLower();
+                                        }
                                         <option value="">Seçiniz</option>
-                                        <option value="istanbul" selected>İstanbul</option>
-                                        <option value="ankara">Ankara</option>
-                                        <option value="izmir">İzmir</option>
-                                        <option value="antalya">Antalya</option>
-                                        <option value="bursa">Bursa</option>
+                                        @{
+                                            var cities = new[] { "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce" };
+                                            foreach (var city in cities)
+                                            {
+                                                var isSelected = cityLower == city.ToLower() || (city == "İstanbul" && string.IsNullOrEmpty(HttpContext.Session.GetString("UserCity")));
+                                                <option value="@city" selected="@(isSelected ? "selected" : null)">@city</option>
+                                            }
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -61,20 +69,20 @@
                                            class="form-control" 
                                            id="district" 
                                            name="district"
-                                           value="Kadıköy"
+                                           value="@(HttpContext.Session.GetString("UserDistrict") ?? "Kadıköy")"
                                            required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group mb-3">
-                                    <label class="form-label" for="postalCode">
+                                    <label class="form-label" for="postal_code">
                                         <i class="fas fa-mail-bulk me-2"></i>Posta Kodu
                                     </label>
                                     <input type="text" 
                                            class="form-control" 
-                                           id="postalCode" 
-                                           name="postalCode"
-                                           value="34700"
+                                           id="postal_code" 
+                                           name="postal_code"
+                                           value="@(HttpContext.Session.GetString("UserPostalCode") ?? "34700")"
                                            maxlength="5"
                                            pattern="[0-9]{5}"
                                            required>
@@ -104,7 +112,8 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form id="jobForm" data-validate="true">
+                    <form id="job_form" data-validate="true">
+                        @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group mb-3">
@@ -115,7 +124,7 @@
                                            class="form-control" 
                                            id="profession" 
                                            name="profession"
-                                           value="Yazılım Geliştirici"
+                                           value="@(HttpContext.Session.GetString("UserJob") ?? "Yazılım Geliştirici")"
                                            required>
                                 </div>
                             </div>
@@ -125,13 +134,53 @@
                                         <i class="fas fa-lira-sign me-2"></i>Gelir Aralığı
                                     </label>
                                     <select class="form-control" id="income" name="income" required>
-                                        <option value="">Seçiniz</option>
-                                        <option value="0-10000">₺0 - ₺10,000</option>
-                                        <option value="10000-15000">₺10,000 - ₺15,000</option>
-                                        <option value="15000-20000">₺15,000 - ₺20,000</option>
-                                        <option value="20000-25000">₺20,000 - ₺25,000</option>
-                                        <option value="25000-30000" selected>₺25,000 - ₺30,000</option>
-                                        <option value="30000+">₺30,000+</option>
+                                        @{
+                                            var sessionIncome = HttpContext.Session.GetString("UserIncome");
+                                            string currentIncome = "20000-30000"; // Varsayılan değer
+                                            
+                                            if (!string.IsNullOrEmpty(sessionIncome))
+                                            {
+                                                var trimmedIncome = sessionIncome.Trim();
+                                                
+                                                // Geçerli değerlerden biri mi kontrol et
+                                                if (trimmedIncome == "0-10000" || 
+                                                    trimmedIncome == "10000-20000" || 
+                                                    trimmedIncome == "20000-30000" || 
+                                                    trimmedIncome == "30000-40000" || 
+                                                    trimmedIncome == "40000-50000" || 
+                                                    trimmedIncome == "50000+")
+                                                {
+                                                    currentIncome = trimmedIncome;
+                                                }
+                                                else
+                                                {
+                                                    // Eski formatları yeni formata dönüştür
+                                                    currentIncome = trimmedIncome switch
+                                                    {
+                                                        "10000-15000" => "10000-20000",
+                                                        "15000-20000" => "10000-20000",
+                                                        "20000-25000" => "20000-30000",
+                                                        "25000-30000" => "20000-30000",
+                                                        "30000+" => "30000-40000",
+                                                        _ => trimmedIncome // Bilinmeyen değerleri olduğu gibi kullan
+                                                    };
+                                                }
+                                            }
+                                            var incomeOptions = new[]
+                                            {
+                                                new { Value = "0-10000", Display = "₺0 - ₺10 bin" },
+                                                new { Value = "10000-20000", Display = "₺10 - ₺20 bin" },
+                                                new { Value = "20000-30000", Display = "₺20 - ₺30 bin" },
+                                                new { Value = "30000-40000", Display = "₺30 - ₺40 bin" },
+                                                new { Value = "40000-50000", Display = "₺40 - ₺50 bin" },
+                                                new { Value = "50000+", Display = "₺50+" }
+                                            };
+                                            foreach (var option in incomeOptions)
+                                            {
+                                                var isSelected = currentIncome == option.Value;
+                                                <option value="@option.Value" selected="@(isSelected ? "selected" : null)">@option.Display</option>
+                                            }
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -184,11 +233,11 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="change-item mb-3">
+                    <div class="change_item mb-3">
                         <small class="text-muted">10 Ocak 2025</small>
                         <p class="mb-0"><strong>Adres güncellendi</strong></p>
                     </div>
-                    <div class="change-item">
+                    <div class="change_item">
                         <small class="text-muted">5 Ocak 2025</small>
                         <p class="mb-0"><strong>Meslek bilgisi güncellendi</strong></p>
                     </div>
@@ -199,21 +248,22 @@
 </div>
 
 <style>
-    .profile-management-container {
+    .profile_management_container {
         padding: 2rem 0;
     }
 
-    .page-header {
+    .page_header {
         border-bottom: 2px solid var(--border-color);
         padding-bottom: 1rem;
     }
 
-    .change-item {
+
+    .change_item {
         padding-bottom: 1rem;
         border-bottom: 1px solid var(--border-color);
     }
 
-    .change-item:last-child {
+    .change_item:last-child {
         border-bottom: none;
         padding-bottom: 0;
     }
@@ -221,27 +271,151 @@
 
 @section Scripts {
     <script>
-        document.getElementById('addressForm').addEventListener('submit', function(e) {
+        document.getElementById('address_form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (validateForm('addressForm')) {
-                showToast('Adres bilgileri başarıyla güncellendi!', 'success');
+            if (validateForm('address_form')) {
+                const formData = new FormData();
+                formData.append('address', document.getElementById('address').value);
+                formData.append('city', document.getElementById('city').value);
+                formData.append('district', document.getElementById('district').value);
+                formData.append('postalCode', document.getElementById('postal_code').value);
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                formData.append('__RequestVerificationToken', token);
+
+                fetch('/ProfileManagement?handler=UpdateAddress', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessMessage('Değişiklikler kaydedildi.');
                 setTimeout(() => {
                     window.location.href = '/Profile';
-                }, 1500);
+                        }, 2000);
+                    }
+                })
+                .catch(error => {
+                    showToast('Bir hata oluştu!', 'error');
+                });
             }
         });
 
-        document.getElementById('jobForm').addEventListener('submit', function(e) {
+        document.getElementById('job_form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (validateForm('jobForm')) {
-                showToast('İş bilgileri başarıyla güncellendi!', 'success');
+            if (validateForm('job_form')) {
+                const formData = new FormData();
+                const incomeValue = document.getElementById('income').value;
+                formData.append('profession', document.getElementById('profession').value);
+                formData.append('income', incomeValue);
+                
+                // Debug: income değerini kontrol et
+                console.log('Income değeri:', incomeValue);
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+                if (token) {
+                    formData.append('__RequestVerificationToken', token);
+                }
+
+                fetch('/ProfileManagement?handler=UpdateJob', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    if (data.success) {
+                        showSuccessMessage('Değişiklikler kaydedildi.');
                 setTimeout(() => {
                     window.location.href = '/Profile';
-                }, 1500);
+                        }, 2000);
+                    } else {
+                        showToast('Bir hata oluştu!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Bir hata oluştu!', 'error');
+                });
             }
         });
+
+        // Başarı mesajı göster (ortada yeşil kutucuk)
+        function showSuccessMessage(message) {
+            // Önceki mesajı kaldır
+            const existingMessage = document.getElementById('successMessageBox');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            // Yeni mesaj kutusu oluştur
+            const messageBox = document.createElement('div');
+            messageBox.id = 'successMessageBox';
+            messageBox.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #28a745;
+                color: white;
+                padding: 1.5rem 2.5rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(40, 167, 69, 0.3);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                font-size: 1.1rem;
+                font-weight: 500;
+                animation: fadeInScale 0.3s ease;
+            `;
+            messageBox.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
+                <span>${message}</span>
+            `;
+
+            document.body.appendChild(messageBox);
+
+            // 2 saniye sonra kaldır
+            setTimeout(() => {
+                messageBox.style.animation = 'fadeOutScale 0.3s ease';
+                setTimeout(() => {
+                    messageBox.remove();
+                }, 300);
+            }, 2000);
+        }
     </script>
+
+    <style>
+        @@keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @@keyframes fadeOutScale {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+    </style>
 }
 
