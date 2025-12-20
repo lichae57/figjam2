@@ -60,7 +60,7 @@
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="/Login" class="text-secondary-custom" style="text-decoration: none;">
+                                <a href="/Dashboard" class="text-secondary-custom" style="text-decoration: none;">
                                     <i class="fas fa-arrow-left me-1"></i>
                                     Geri Dön
                                 </a>
@@ -133,7 +133,7 @@
             if (timeLeft <= 0) {
                 showToast('Süre doldu. Lütfen tekrar deneyiniz.', 'error');
                 setTimeout(() => {
-                    window.location.href = '/Login';
+                    window.location.href = '/Dashboard';
                 }, 2000);
                 return;
             }
@@ -146,22 +146,19 @@
         const timerInterval = setInterval(updateTimer, 1000);
         
         document.getElementById('pinForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const pin = document.getElementById('pin').value;
             
             if (!validatePIN(pin)) {
+                e.preventDefault();
                 showToast('Lütfen 6 haneli PIN kodunuzu giriniz.', 'error');
-                return;
+                return false;
             }
             
             clearInterval(timerInterval);
             
-            // Dashboard'a yönlendir
-            showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
-            setTimeout(() => {
-                window.location.href = '/Dashboard';
-            }, 1000);
+            // Validasyon başarılı, form submit edilebilir
+            // Backend'de session'a kaydedilecek ve Dashboard'a yönlendirilecek
+            return true;
         });
         
         // PIN input'una odaklan

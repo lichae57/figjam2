@@ -20,8 +20,18 @@
                     <div class="profile-avatar mb-3">
                         <i class="fas fa-user-circle fa-5x text-secondary-custom"></i>
                     </div>
-                    <h4>Ahmet Yılmaz</h4>
-                    <p class="text-muted mb-3">Müşteri No: 12345678</p>
+                    <h4>@(HttpContext.Session.GetString("UserName") ?? "Kullanıcı")</h4>
+                    <p class="text-muted mb-3">Müşteri No: @{
+                        var identifier = HttpContext.Session.GetString("Identifier");
+                        if (!string.IsNullOrEmpty(identifier) && identifier.Length >= 8)
+                        {
+                            @identifier.Substring(0, 8)
+                        }
+                        else
+                        {
+                            @("12345678")
+                        }
+                    }</p>
                     <a href="/ProfileManagement" class="btn btn-primary w-100">
                         <i class="fas fa-edit me-2"></i>
                         Bilgileri Düzenle
@@ -99,11 +109,11 @@
                     <div class="row mb-3">
                         <div class="col-12 col-md-6">
                             <label class="form-label text-muted">E-posta</label>
-                            <p class="form-control-plaintext"><strong>ahmet.yilmaz@@email.com</strong></p>
+                            <p class="form-control-plaintext"><strong>@(HttpContext.Session.GetString("UserEmail") ?? "ahmet.yilmaz@@email.com")</strong></p>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label text-muted">Telefon</label>
-                            <p class="form-control-plaintext"><strong>5XX XXX XX XX</strong></p>
+                            <p class="form-control-plaintext"><strong>@(HttpContext.Session.GetString("UserPhone") ?? "5XX XXX XX XX")</strong></p>
                         </div>
                     </div>
 
@@ -117,22 +127,22 @@
                         <div class="col-12">
                             <label class="form-label text-muted">Adres</label>
                             <p class="form-control-plaintext">
-                                <strong>Atatürk Mahallesi, Cumhuriyet Caddesi No: 123</strong>
+                                <strong>@(HttpContext.Session.GetString("UserAddress") ?? "Atatürk Mahallesi, Cumhuriyet Caddesi No: 123")</strong>
                             </p>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label text-muted">İl</label>
-                            <p class="form-control-plaintext"><strong>İstanbul</strong></p>
+                            <p class="form-control-plaintext"><strong>@(HttpContext.Session.GetString("UserCity") ?? "İstanbul")</strong></p>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label text-muted">İlçe</label>
-                            <p class="form-control-plaintext"><strong>Kadıköy</strong></p>
+                            <p class="form-control-plaintext"><strong>@(HttpContext.Session.GetString("UserDistrict") ?? "Kadıköy")</strong></p>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label text-muted">Posta Kodu</label>
-                            <p class="form-control-plaintext"><strong>34700</strong></p>
+                            <p class="form-control-plaintext"><strong>@(HttpContext.Session.GetString("UserPostalCode") ?? "34700")</strong></p>
                         </div>
                     </div>
 
@@ -145,11 +155,11 @@
                     <div class="row mb-3">
                         <div class="col-12 col-md-6">
                             <label class="form-label text-muted">Meslek</label>
-                            <p class="form-control-plaintext"><strong>Yazılım Geliştirici</strong></p>
+                            <p class="form-control-plaintext"><strong>@(HttpContext.Session.GetString("UserJob") ?? "Yazılım Geliştirici")</strong></p>
                         </div>
                         <div class="col-12 col-md-6">
                             <label class="form-label text-muted">Gelir</label>
-                            <p class="form-control-plaintext"><strong>₺25,000 - ₺30,000</strong></p>
+                            <p class="form-control-plaintext"><strong>₺@(HttpContext.Session.GetString("UserIncome") ?? "25,000 - ₺30,000")</strong></p>
                         </div>
                     </div>
                 </div>

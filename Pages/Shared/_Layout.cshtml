@@ -14,11 +14,46 @@
     {
         <header class="bank-header">
             <nav class="navbar navbar-dark bg-primary-custom shadow-sm">
-                <div class="container">
+                <div class="container d-flex justify-content-between align-items-center">
                     <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard" style="margin-right: 0; padding-left: 0;">
                         <i class="fas fa-university me-2 text-white" style="font-size: 2rem;"></i>
                         <span class="fw-bold text-white" style="font-size: 1.5rem;">İnteraktif Şube</span>
                     </a>
+                    
+                    @if (ViewContext.HttpContext.Session.GetString("IsLoggedIn") == "true")
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="dropdown">
+                                <button class="btn btn-link text-white text-decoration-none d-flex align-items-center dropdown-toggle" 
+                                        type="button" 
+                                        id="profileDropdown" 
+                                        data-bs-toggle="dropdown" 
+                                        aria-expanded="false"
+                                        style="border: none; padding: 0.5rem 1rem;">
+                                    <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
+                                    <span class="d-none d-md-inline">@(ViewContext.HttpContext.Session.GetString("UserName") ?? "Kullanıcı")</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0; min-width: 200px;">
+                                    <li>
+                                        <a class="dropdown-item py-2 px-4" href="/Profile">
+                                            <i class="fas fa-user me-2 text-secondary-custom"></i>Profil Bilgilerim
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-4" href="/ProfileManagement">
+                                            <i class="fas fa-cog me-2 text-secondary-custom"></i>Hesap Ayarları
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-4 text-danger" href="#" onclick="logout(); return false;">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Çıkış Yap
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
                 </div>
             </nav>
         </header>
@@ -288,6 +323,29 @@
             // Her 1 saniyede bir kontrol et
             setInterval(cleanupOverlay, 1000);
         })();
+
+        // Logout fonksiyonu
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+                // Form oluştur ve submit et
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/Logout';
+                
+                // Anti-forgery token ekle (eğer varsa)
+                const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                if (token) {
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '__RequestVerificationToken';
+                    tokenInput.value = token.value;
+                    form.appendChild(tokenInput);
+                }
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
