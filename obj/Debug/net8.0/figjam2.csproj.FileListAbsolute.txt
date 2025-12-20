@@ -26,9 +26,9 @@ C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\staticwebassets.build.json.cac
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\swae.build.ex.cache
-C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.dll
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\refint\figjam2.dll
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.pdb
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.genruntimeconfig.cache
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\ref\figjam2.dll
+C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.sourcelink.json

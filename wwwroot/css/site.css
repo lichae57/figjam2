@@ -47,6 +47,17 @@ body {
   background-color: var(--bg-light);
   margin-bottom: 60px;
   line-height: 1.6;
+  position: relative;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+a {
+  position: relative;
+  z-index: 1;
 }
 
 /* Typography */
@@ -74,6 +85,8 @@ p {
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .btn-primary {
@@ -122,6 +135,8 @@ p {
   font-size: 1rem;
   transition: all 0.3s ease;
   background-color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .form-control:focus {
@@ -151,6 +166,8 @@ p {
   transition: all 0.3s ease;
   border: none;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .card:hover {
@@ -169,17 +186,72 @@ p {
   padding: 1.5rem;
 }
 
+/* Bank Header Styles */
+.bank-header .top-bar {
+  font-size: 0.875rem;
+}
+
+.bank-header .navbar {
+  padding: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bank-header .navbar-nav .nav-link {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 3px solid transparent;
+}
+
+.bank-header .navbar-nav .nav-link:hover {
+  color: var(--secondary-color) !important;
+  border-bottom-color: var(--secondary-color);
+}
+
+.bank-header .btn-primary-custom:hover {
+  background-color: var(--accent-color) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Bank Footer Styles */
+.bank-footer a:hover {
+  opacity: 1 !important;
+  color: var(--secondary-color) !important;
+  transition: all 0.3s ease;
+}
+
+.bank-footer .social-icons a:hover {
+  opacity: 1 !important;
+  transform: translateY(-3px);
+  color: var(--secondary-color) !important;
+}
+
+.bank-footer ul li {
+  transition: transform 0.2s ease;
+}
+
+.bank-footer ul li:hover {
+  transform: translateX(5px);
+}
+
 /* Navigation */
 .navbar {
   background-color: var(--primary-color) !important;
   padding: 1rem 0;
   box-shadow: var(--shadow-md);
+  position: relative;
+  z-index: 1000;
 }
 
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-light) !important;
+  position: relative;
+  z-index: 1001;
 }
 
 .navbar-nav .nav-link {
@@ -187,6 +259,8 @@ p {
   font-weight: 500;
   padding: 0.5rem 1rem !important;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1001;
 }
 
 .navbar-nav .nav-link:hover {
@@ -223,6 +297,19 @@ p {
   background-color: var(--accent-color);
 }
 
+/* Progress Bar Custom Colors */
+.progress-bar.bg-secondary-custom {
+  background-color: var(--secondary-color) !important;
+}
+
+.progress-bar.bg-primary-custom {
+  background-color: var(--primary-color) !important;
+}
+
+.progress-bar.bg-accent-custom {
+  background-color: var(--accent-color) !important;
+}
+
 /* Loading Spinner */
 .spinner {
   border: 4px solid var(--bg-light);
@@ -237,6 +324,17 @@ p {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Modal Backdrop Override - Gereksiz overlay'leri engelle */
+.modal-backdrop,
+.offcanvas-backdrop {
+  display: none !important;
+}
+
+body.modal-open {
+  overflow: auto !important;
+  padding-right: 0 !important;
 }
 
 /* Toast Notifications */

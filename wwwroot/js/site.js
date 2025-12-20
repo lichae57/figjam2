@@ -133,8 +133,25 @@ function formatDate(date) {
     }).format(new Date(date));
 }
 
+// Modal backdrop ve overlay temizleme
+function cleanupModals() {
+    // Modal backdrop'ları kaldır
+    const backdrops = document.querySelectorAll('.modal-backdrop, .offcanvas-backdrop');
+    backdrops.forEach(backdrop => backdrop.remove());
+    
+    // Body'den modal-open class'ını kaldır
+    document.body.classList.remove('modal-open');
+    
+    // Body'nin overflow ve padding stillerini sıfırla
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+}
+
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
+    // Modal backdrop temizleme
+    cleanupModals();
+    
     // TCKN inputları için maskeleme
     const tcknInputs = document.querySelectorAll('input[data-mask="tckn"]');
     tcknInputs.forEach(input => maskTCKN(input));
@@ -157,6 +174,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Sayfa görünür olduğunda da temizle
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            cleanupModals();
+        }
+    });
+    
+    // Her 2 saniyede bir kontrol et (güvenlik için)
+    setInterval(cleanupModals, 2000);
 });
 
 // Animasyonlar için Intersection Observer

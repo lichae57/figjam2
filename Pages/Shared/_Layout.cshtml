@@ -10,85 +10,262 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-    @if (ViewData["ShowNavbar"] == null || (bool)ViewData["ShowNavbar"] == true)
+    @if ((ViewData["ShowNavbar"] as bool?) ?? true)
     {
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark">
+        <header class="bank-header">
+            <!-- Üst Bar -->
+            <div class="top-bar bg-primary-custom text-white py-2">
                 <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-page="/Dashboard">
-                        <i class="fas fa-university me-2"></i>
-                        İnteraktif Şube
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <small class="d-flex align-items-center">
+                                <i class="fas fa-phone-alt me-2"></i>
+                                <span>0850 222 0 222</span>
+                                <span class="mx-3">|</span>
+                                <i class="fas fa-envelope me-2"></i>
+                                <span>destek@interaktifsube.com</span>
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <small>
+                                <a href="#" class="text-white text-decoration-none me-3">
+                                    <i class="fas fa-globe me-1"></i>TR
+                                </a>
+                                <a href="#" class="text-white text-decoration-none">
+                                    <i class="fas fa-question-circle me-1"></i>Yardım
+                                </a>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ana Navigasyon -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard">
+                        <i class="fas fa-university me-2 text-secondary-custom" style="font-size: 2rem;"></i>
+                        <span class="fw-bold" style="font-size: 1.5rem; color: var(--primary-color);">İnteraktif Şube</span>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" 
+                            aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
+
+                    <div class="collapse navbar-collapse" id="mainNavbar">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Dashboard">
-                                    <i class="fas fa-home me-1"></i>Ana Sayfa
+                                <a class="nav-link fw-semibold px-3" href="#" style="color: var(--primary-color);">
+                                    Bireysel
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Services">
-                                    <i class="fas fa-concierge-bell me-1"></i>Hizmetler
+                                <a class="nav-link fw-semibold px-3" href="#" style="color: var(--primary-color);">
+                                    Ticari
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/CreditCalculator">
-                                    <i class="fas fa-calculator me-1"></i>Kredi Hesaplama
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Reports">
-                                    <i class="fas fa-file-invoice me-1"></i>Raporlar & Faturalar
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Profile">
-                                    <i class="fas fa-user me-1"></i>Profil
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/FAQ">
-                                    <i class="fas fa-question-circle me-1"></i>SSS
+                                <a class="nav-link fw-semibold px-3" href="#" style="color: var(--primary-color);">
+                                    Krediler
                                 </a>
                             </li>
                         </ul>
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Login">
-                                    <i class="fas fa-sign-out-alt me-1"></i>Çıkış
-                                </a>
-                            </li>
-                        </ul>
+                        
+                        <div class="d-flex align-items-center">
+                            <a class="btn btn-primary-custom text-white px-4 py-2 fw-semibold" 
+                               asp-area="" asp-page="/Login" 
+                               style="background-color: var(--secondary-color); border: none; border-radius: 6px;">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                İnternet Şubesi
+                            </a>
+                        </div>
                     </div>
                 </div>
             </nav>
         </header>
     }
 
-    <main role="main" class="@(ViewData["ShowNavbar"] == null || (bool)ViewData["ShowNavbar"] == true ? "" : "full-height")">
+    <main role="main" class="@((ViewData["ShowNavbar"] as bool?) ?? true ? "" : "full-height")">
         @RenderBody()
     </main>
 
-    @if (ViewData["ShowFooter"] == null || (bool)ViewData["ShowFooter"] == true)
+    @if ((ViewData["ShowFooter"] as bool?) ?? true)
     {
-        <footer class="mt-5 py-4" style="background-color: var(--primary-color); color: var(--text-light);">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>İnteraktif Şube</h5>
-                        <p class="mb-0">Dijital bankacılık deneyiminiz için yanınızdayız.</p>
+        <footer class="bank-footer mt-5" style="background-color: var(--primary-color); color: var(--text-light);">
+            <div class="container py-5">
+                <div class="row g-4">
+                    <!-- Hakkımızda -->
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="mb-4 fw-bold">
+                            <i class="fas fa-university me-2"></i>
+                            İnteraktif Şube
+                        </h5>
+                        <p class="mb-3" style="opacity: 0.9; line-height: 1.8;">
+                            Dijital bankacılık deneyiminiz için yanınızdayız. Modern teknoloji ile güvenli ve hızlı hizmet.
+                        </p>
+                        <div class="social-icons">
+                            <a href="#" class="text-white me-3" style="font-size: 1.5rem; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="text-white me-3" style="font-size: 1.5rem; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-white me-3" style="font-size: 1.5rem; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-white me-3" style="font-size: 1.5rem; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-white" style="font-size: 1.5rem; opacity: 0.8; transition: opacity 0.3s;">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-md-6 text-md-end">
-                        <p class="mb-0">
+
+                    <!-- Hızlı Linkler -->
+                    <div class="col-lg-2 col-md-6">
+                        <h6 class="mb-4 fw-bold">Hızlı Linkler</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="/Dashboard" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Ana Sayfa
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="/Services" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Hizmetler
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="/CreditCalculator" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Kredi Hesaplama
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="/Reports" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Raporlar
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="/FAQ" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Sık Sorulan Sorular
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Kurumsal -->
+                    <div class="col-lg-2 col-md-6">
+                        <h6 class="mb-4 fw-bold">Kurumsal</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Hakkımızda
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Yatırımcı İlişkileri
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Kariyer
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Basın
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>İletişim
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Güvenlik & Destek -->
+                    <div class="col-lg-2 col-md-6">
+                        <h6 class="mb-4 fw-bold">Güvenlik & Destek</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Güvenlik
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Gizlilik Politikası
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Kullanım Koşulları
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>KVKK
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Şube & ATM
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- İletişim -->
+                    <div class="col-lg-3 col-md-6">
+                        <h6 class="mb-4 fw-bold">İletişim</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-phone-alt me-3 mt-1" style="opacity: 0.8;"></i>
+                                    <div>
+                                        <small class="d-block" style="opacity: 0.9;">Müşteri Hizmetleri</small>
+                                        <strong>0850 222 0 222</strong>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-envelope me-3 mt-1" style="opacity: 0.8;"></i>
+                                    <div>
+                                        <small class="d-block" style="opacity: 0.9;">E-posta</small>
+                                        <strong>destek@interaktifsube.com</strong>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-map-marker-alt me-3 mt-1" style="opacity: 0.8;"></i>
+                                    <div>
+                                        <small class="d-block" style="opacity: 0.9;">Adres</small>
+                                        <strong>İstanbul, Türkiye</strong>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Alt Bilgi -->
+                <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0" style="opacity: 0.8;">
                             <i class="fas fa-shield-alt me-2"></i>
                             Güvenli ve Şifrelenmiş Bağlantı
                         </p>
-                        <p class="mb-0 mt-2">
-                            &copy; 2025 - Tüm hakları saklıdır.
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p class="mb-0" style="opacity: 0.8;">
+                            &copy; 2025 İnteraktif Şube. Tüm hakları saklıdır.
                         </p>
                     </div>
                 </div>
@@ -102,6 +279,34 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // Sayfa yüklendiğinde overlay temizleme
+        (function() {
+            function cleanupOverlay() {
+                // Modal backdrop'ları kaldır
+                const backdrops = document.querySelectorAll('.modal-backdrop, .offcanvas-backdrop');
+                backdrops.forEach(backdrop => backdrop.remove());
+                
+                // Body'den modal-open class'ını kaldır
+                document.body.classList.remove('modal-open');
+                
+                // Body'nin overflow ve padding stillerini sıfırla
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            }
+            
+            // Sayfa yüklendiğinde
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', cleanupOverlay);
+            } else {
+                cleanupOverlay();
+            }
+            
+            // Window load olduğunda da temizle
+            window.addEventListener('load', cleanupOverlay);
+        })();
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
