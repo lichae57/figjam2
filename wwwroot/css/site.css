@@ -328,13 +328,32 @@ p {
 
 /* Modal Backdrop Override - Gereksiz overlay'leri engelle */
 .modal-backdrop,
-.offcanvas-backdrop {
+.offcanvas-backdrop,
+.modal-backdrop.show,
+.offcanvas-backdrop.show {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
 }
 
 body.modal-open {
   overflow: auto !important;
   padding-right: 0 !important;
+  position: static !important;
+}
+
+/* Tüm overlay'leri engelle */
+[class*="backdrop"],
+[class*="overlay"] {
+  pointer-events: none !important;
+}
+
+/* Body üzerindeki engelleyici katmanları kaldır */
+body::before,
+body::after {
+  display: none !important;
 }
 
 /* Toast Notifications */

@@ -135,9 +135,14 @@ function formatDate(date) {
 
 // Modal backdrop ve overlay temizleme
 function cleanupModals() {
-    // Modal backdrop'ları kaldır
-    const backdrops = document.querySelectorAll('.modal-backdrop, .offcanvas-backdrop');
-    backdrops.forEach(backdrop => backdrop.remove());
+    // Tüm backdrop ve overlay'leri kaldır
+    const backdrops = document.querySelectorAll('.modal-backdrop, .offcanvas-backdrop, [class*="backdrop"], [class*="overlay"]');
+    backdrops.forEach(backdrop => {
+        backdrop.remove();
+        backdrop.style.display = 'none';
+        backdrop.style.visibility = 'hidden';
+        backdrop.style.pointerEvents = 'none';
+    });
     
     // Body'den modal-open class'ını kaldır
     document.body.classList.remove('modal-open');
@@ -145,6 +150,24 @@ function cleanupModals() {
     // Body'nin overflow ve padding stillerini sıfırla
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
+    document.body.style.position = '';
+    
+    // Body üzerindeki tüm overlay stillerini kaldır
+    document.body.style.pointerEvents = '';
+    
+    // Tüm elementlerin pointer-events'ini kontrol et
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(el => {
+        const computedStyle = window.getComputedStyle(el);
+        if (computedStyle.position === 'fixed' && 
+            (computedStyle.backgroundColor === 'rgba(0, 0, 0, 0.5)' || 
+             computedStyle.backgroundColor === 'rgb(0, 0, 0)' ||
+             el.classList.contains('backdrop') ||
+             el.classList.contains('overlay'))) {
+            el.style.display = 'none';
+            el.style.pointerEvents = 'none';
+        }
+    });
 }
 
 // Sayfa yüklendiğinde

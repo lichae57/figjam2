@@ -154,13 +154,8 @@
                                 </a>
                             </li>
                             <li class="mb-2">
-                                <a href="/Reports" class="text-white text-decoration-none" style="opacity: 0.8;">
-                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Raporlar
-                                </a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="/FAQ" class="text-white text-decoration-none" style="opacity: 0.8;">
-                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Sık Sorulan Sorular
+                                <a href="/Profile" class="text-white text-decoration-none" style="opacity: 0.8;">
+                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Profil
                                 </a>
                             </li>
                         </ul>
@@ -295,9 +290,14 @@
         // Sayfa yüklendiğinde overlay temizleme
         (function() {
             function cleanupOverlay() {
-                // Modal backdrop'ları kaldır
-                const backdrops = document.querySelectorAll('.modal-backdrop, .offcanvas-backdrop');
-                backdrops.forEach(backdrop => backdrop.remove());
+                // Tüm backdrop ve overlay'leri kaldır
+                const backdrops = document.querySelectorAll('.modal-backdrop, .offcanvas-backdrop, [class*="backdrop"], [class*="overlay"]');
+                backdrops.forEach(backdrop => {
+                    backdrop.remove();
+                    backdrop.style.display = 'none';
+                    backdrop.style.visibility = 'hidden';
+                    backdrop.style.pointerEvents = 'none';
+                });
                 
                 // Body'den modal-open class'ını kaldır
                 document.body.classList.remove('modal-open');
@@ -305,6 +305,23 @@
                 // Body'nin overflow ve padding stillerini sıfırla
                 document.body.style.overflow = '';
                 document.body.style.paddingRight = '';
+                document.body.style.position = '';
+                document.body.style.pointerEvents = '';
+                
+                // Tüm fixed position overlay'leri bul ve kaldır
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    const computedStyle = window.getComputedStyle(el);
+                    if (computedStyle.position === 'fixed' && 
+                        (computedStyle.backgroundColor === 'rgba(0, 0, 0, 0.5)' || 
+                         computedStyle.backgroundColor === 'rgb(0, 0, 0)' ||
+                         el.classList.contains('backdrop') ||
+                         el.classList.contains('overlay'))) {
+                        el.style.display = 'none';
+                        el.style.pointerEvents = 'none';
+                        el.style.visibility = 'hidden';
+                    }
+                });
             }
             
             // Sayfa yüklendiğinde
@@ -316,6 +333,9 @@
             
             // Window load olduğunda da temizle
             window.addEventListener('load', cleanupOverlay);
+            
+            // Her 1 saniyede bir kontrol et
+            setInterval(cleanupOverlay, 1000);
         })();
     </script>
 
