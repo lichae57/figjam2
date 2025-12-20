@@ -1,11 +1,11 @@
+C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.exe
+C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.dll
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\appsettings.json
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.staticwebassets.runtime.json
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.staticwebassets.endpoints.json
-C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.exe
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.deps.json
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.runtimeconfig.json
-C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.dll
 C:\Users\Nihan\Documents\figjam2\bin\Debug\net8.0\figjam2.pdb
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\rpswa.dswa.cache.json
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.GeneratedMSBuildEditorConfig.editorconfig
@@ -15,6 +15,7 @@ C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.csproj.CoreCompileInpu
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.RazorAssemblyInfo.cache
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.RazorAssemblyInfo.cs
+C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.sourcelink.json
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -31,4 +32,3 @@ C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\refint\figjam2.dll
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.pdb
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.genruntimeconfig.cache
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\ref\figjam2.dll
-C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.sourcelink.json

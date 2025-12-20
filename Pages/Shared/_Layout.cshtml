@@ -13,95 +13,12 @@
     @if ((ViewData["ShowNavbar"] as bool?) ?? true)
     {
         <header class="bank-header">
-            <!-- Üst Bar -->
-            <div class="top-bar bg-primary-custom text-white py-2">
+            <nav class="navbar navbar-dark bg-primary-custom shadow-sm">
                 <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <small class="d-flex align-items-center">
-                                <i class="fas fa-phone-alt me-2"></i>
-                                <span>0850 222 0 222</span>
-                                <span class="mx-3">|</span>
-                                <i class="fas fa-envelope me-2"></i>
-                                <span>destek@interaktifsube.com</span>
-                            </small>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <small>
-                                <a href="#" class="text-white text-decoration-none me-3">
-                                    <i class="fas fa-globe me-1"></i>TR
-                                </a>
-                                <a href="#" class="text-white text-decoration-none">
-                                    <i class="fas fa-question-circle me-1"></i>Yardım
-                                </a>
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ana Navigasyon -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom shadow-sm">
-                <div class="container">
-                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard">
+                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard" style="margin-right: 0; padding-left: 0;">
                         <i class="fas fa-university me-2 text-white" style="font-size: 2rem;"></i>
-                        <span class="fw-bold text-white" style="font-size: 1.5rem;">İnteraktif Kredi</span>
+                        <span class="fw-bold text-white" style="font-size: 1.5rem;">İnteraktif Şube</span>
                     </a>
-                    
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" 
-                            aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="mainNavbar">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <!-- Bireysel Dropdown -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link fw-semibold px-3 text-white dropdown-toggle" href="#" id="bireyselDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Bireysel
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bireyselDropdown" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0;">
-                                    <li><a class="dropdown-item py-2 px-4" href="/CreditCalculator"><i class="fas fa-hand-holding-usd me-2 text-secondary-custom"></i>Krediler</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-credit-card me-2 text-secondary-custom"></i>Kartlar</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-chart-line me-2 text-secondary-custom"></i>Yatırım</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-mobile-alt me-2 text-secondary-custom"></i>Dijital Bankacılık</a></li>
-                                </ul>
-                            </li>
-                            <!-- Ticari Dropdown -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link fw-semibold px-3 text-white dropdown-toggle" href="#" id="ticariDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Ticari
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ticariDropdown" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0;">
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-piggy-bank me-2 text-secondary-custom"></i>Mevduat ve Yatırım</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/CreditCalculator"><i class="fas fa-hand-holding-usd me-2 text-secondary-custom"></i>Ticari Krediler</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-credit-card me-2 text-secondary-custom"></i>Ticari Kartlar</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-store me-2 text-secondary-custom"></i>Esnaf Bankacılığı</a></li>
-                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-cash-register me-2 text-secondary-custom"></i>POS</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        
-                        <div class="d-flex align-items-center gap-2">
-                            <button class="btn btn-sm text-white px-2 py-2 fw-semibold" 
-                                    type="button"
-                                    style="background-color: var(--secondary-color); border: none; border-radius: 6px; font-size: 0.9rem;">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <a class="btn btn-sm text-white px-3 py-2 fw-semibold" 
-                               asp-area="" asp-page="/Login" 
-                               style="background-color: var(--secondary-color); border: none; border-radius: 6px; font-size: 0.9rem;">
-                                <i class="fas fa-sign-in-alt me-1"></i>
-                                İnternet Şubesi
-                            </a>
-                            <a class="btn btn-sm text-white px-3 py-2 fw-semibold" 
-                               href="#" 
-                               style="background-color: var(--secondary-color); border: none; border-radius: 6px; font-size: 0.9rem;">
-                                <i class="fas fa-user-plus me-1"></i>
-                                Müşteri Olun
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </nav>
         </header>
@@ -114,10 +31,10 @@
     @if ((ViewData["ShowFooter"] as bool?) ?? true)
     {
         <footer class="bank-footer mt-5" style="background-color: var(--primary-color); color: var(--text-light);">
-            <div class="container py-5">
+            <div class="container py-4 py-md-5">
                 <div class="row g-4">
                     <!-- Hakkımızda -->
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-12 col-lg-3 col-md-6 text-center text-md-start">
                         <h5 class="mb-4 fw-bold">
                             <i class="fas fa-university me-2"></i>
                             İnteraktif Şube
@@ -145,7 +62,7 @@
                     </div>
 
                     <!-- Hızlı Linkler -->
-                    <div class="col-lg-2 col-md-6">
+                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start">
                         <h6 class="mb-4 fw-bold">Hızlı Linkler</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -172,7 +89,7 @@
                     </div>
 
                     <!-- Kurumsal -->
-                    <div class="col-lg-2 col-md-6">
+                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start">
                         <h6 class="mb-4 fw-bold">Kurumsal</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -204,7 +121,7 @@
                     </div>
 
                     <!-- Güvenlik & Destek -->
-                    <div class="col-lg-2 col-md-6">
+                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start">
                         <h6 class="mb-4 fw-bold">Güvenlik & Destek</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -236,7 +153,7 @@
                     </div>
 
                     <!-- İletişim -->
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-12 col-lg-3 col-md-6 text-center text-md-start">
                         <h6 class="mb-4 fw-bold">İletişim</h6>
                         <ul class="list-unstyled">
                             <li class="mb-3">
@@ -253,7 +170,7 @@
                                     <i class="fas fa-envelope me-3 mt-1" style="opacity: 0.8;"></i>
                                     <div>
                                         <small class="d-block" style="opacity: 0.9;">E-posta</small>
-                                        <strong>destek@interaktifsube.com</strong>
+                                        <strong>destek@@interaktifsube.com</strong>
                                     </div>
                                 </div>
                             </li>
@@ -273,13 +190,13 @@
                 <!-- Alt Bilgi -->
                 <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
                 <div class="row align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
                         <p class="mb-0" style="opacity: 0.8;">
                             <i class="fas fa-shield-alt me-2"></i>
                             Güvenli ve Şifrelenmiş Bağlantı
                         </p>
                     </div>
-                    <div class="col-md-6 text-md-end">
+                    <div class="col-12 col-md-6 text-center text-md-end">
                         <p class="mb-0" style="opacity: 0.8;">
                             &copy; 2025 İnteraktif Şube. Tüm hakları saklıdır.
                         </p>
