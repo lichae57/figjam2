@@ -55,20 +55,30 @@
 
                     <div class="collapse navbar-collapse" id="mainNavbar">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold px-3 text-white" href="#">
+                            <!-- Bireysel Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link fw-semibold px-3 text-white dropdown-toggle" href="#" id="bireyselDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Bireysel
                                 </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bireyselDropdown" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0;">
+                                    <li><a class="dropdown-item py-2 px-4" href="/CreditCalculator"><i class="fas fa-hand-holding-usd me-2 text-secondary-custom"></i>Krediler</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-credit-card me-2 text-secondary-custom"></i>Kartlar</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-chart-line me-2 text-secondary-custom"></i>Yatırım</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-mobile-alt me-2 text-secondary-custom"></i>Dijital Bankacılık</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold px-3 text-white" href="#">
+                            <!-- Ticari Dropdown -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link fw-semibold px-3 text-white dropdown-toggle" href="#" id="ticariDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Ticari
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-semibold px-3 text-white" href="#">
-                                    Krediler
-                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ticariDropdown" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0;">
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-piggy-bank me-2 text-secondary-custom"></i>Mevduat ve Yatırım</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/CreditCalculator"><i class="fas fa-hand-holding-usd me-2 text-secondary-custom"></i>Ticari Krediler</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-credit-card me-2 text-secondary-custom"></i>Ticari Kartlar</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-store me-2 text-secondary-custom"></i>Esnaf Bankacılığı</a></li>
+                                    <li><a class="dropdown-item py-2 px-4" href="/Services"><i class="fas fa-cash-register me-2 text-secondary-custom"></i>POS</a></li>
+                                </ul>
                             </li>
                         </ul>
                         
@@ -287,6 +297,30 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
+        // Dropdown hover functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.navbar-nav .dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+                const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                
+                // Hover aç
+                dropdown.addEventListener('mouseenter', function() {
+                    const bsDropdown = new bootstrap.Dropdown(dropdownToggle);
+                    bsDropdown.show();
+                });
+                
+                // Hover kapat (menü dışına çıkınca)
+                dropdown.addEventListener('mouseleave', function() {
+                    const bsDropdown = bootstrap.Dropdown.getInstance(dropdownToggle);
+                    if (bsDropdown) {
+                        bsDropdown.hide();
+                    }
+                });
+            });
+        });
+
         // Sayfa yüklendiğinde overlay temizleme
         (function() {
             function cleanupOverlay() {

@@ -216,6 +216,39 @@ p {
   opacity: 0.9;
 }
 
+/* Dropdown Menu Styles */
+.bank-header .dropdown-menu {
+  min-width: 220px;
+  margin-top: 0.5rem !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 0 !important;
+}
+
+.bank-header .dropdown-item {
+  padding: 0.75rem 1.5rem !important;
+  transition: all 0.2s ease;
+  color: var(--text-primary) !important;
+  font-weight: 500;
+}
+
+.bank-header .dropdown-item:hover {
+  background-color: rgba(46, 109, 248, 0.1) !important;
+  color: var(--secondary-color) !important;
+  transform: translateX(5px);
+}
+
+.bank-header .dropdown-item i {
+  width: 20px;
+  text-align: center;
+}
+
+.bank-header .dropdown-toggle::after {
+  margin-left: 0.5rem;
+  vertical-align: 0.15em;
+}
+
 /* Bank Footer Styles */
 .bank-footer a:hover {
   opacity: 1 !important;
