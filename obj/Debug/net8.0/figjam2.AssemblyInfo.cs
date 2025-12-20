@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("figjam2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+353370b8310b1ccbee6a61c37a1b629fd9ed7686")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f0ae0425a21f17e118db87d55cad5e6a59d72d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("figjam2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("figjam2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
