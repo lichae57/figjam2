@@ -1,0 +1,770 @@
+@page
+@model figjam2.Pages.SettingsModel
+@{
+    ViewData["Title"] = "Ayarlar";
+}
+
+<div class="settings-container">
+    <div class="container py-4">
+        <!-- Page Header -->
+        <div class="page-header mb-4 fade-in">
+            <h1>
+                <i class="fas fa-cog me-2 text-secondary-custom"></i>
+                Ayarlar
+            </h1>
+            <p class="text-muted">Hesap ayarlarınızı yönetin</p>
+        </div>
+
+        <div class="row">
+            <!-- Settings Menu -->
+            <div class="col-12 col-lg-4 mb-4">
+                <div class="card settings-menu fade-in">
+                    <div class="card-body p-0">
+                        <div class="settings-nav">
+                            <a href="#profile" class="settings-nav-item active" data-section="profile">
+                                <div class="nav-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Profil Düzenleme</span>
+                                    <span class="nav-desc">Kişisel bilgilerinizi güncelleyin</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#password" class="settings-nav-item" data-section="password">
+                                <div class="nav-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Şifre Değiştirme</span>
+                                    <span class="nav-desc">Hesap güvenliğinizi güncelleyin</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#notifications" class="settings-nav-item" data-section="notifications">
+                                <div class="nav-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Bildirim Ayarları</span>
+                                    <span class="nav-desc">Bildirim tercihlerinizi yönetin</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#security" class="settings-nav-item" data-section="security">
+                                <div class="nav-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Güvenlik</span>
+                                    <span class="nav-desc">İki faktörlü doğrulama ve daha fazlası</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#privacy" class="settings-nav-item" data-section="privacy">
+                                <div class="nav-icon">
+                                    <i class="fas fa-eye-slash"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Gizlilik</span>
+                                    <span class="nav-desc">Gizlilik tercihlerinizi ayarlayın</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="col-12 col-lg-8">
+                <!-- Profile Section -->
+                <div id="profile-section" class="settings-section fade-in">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-user me-2"></i>
+                                Profil Düzenleme
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="profileForm">
+                                <div class="text-center mb-4">
+                                    <div class="avatar-upload">
+                                        <div class="avatar-preview">
+                                            <i class="fas fa-user-circle fa-5x text-secondary-custom"></i>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline avatar-edit">
+                                            <i class="fas fa-camera"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Ad</label>
+                                            <input type="text" class="form-control" value="Ahmet" placeholder="Adınız">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Soyad</label>
+                                            <input type="text" class="form-control" value="Yılmaz" placeholder="Soyadınız">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">E-posta</label>
+                                    <input type="email" class="form-control" value="ahmet.yilmaz@email.com" placeholder="E-posta adresiniz">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Telefon</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+90</span>
+                                        <input type="text" class="form-control" value="532 123 45 67" placeholder="Telefon numaranız">
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Doğum Tarihi</label>
+                                    <input type="date" class="form-control" value="1985-03-15">
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Adres</label>
+                                    <textarea class="form-control" rows="2" placeholder="Adresiniz">Atatürk Mahallesi, Cumhuriyet Caddesi No: 123, Kadıköy/İstanbul</textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>
+                                    Değişiklikleri Kaydet
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Section -->
+                <div id="password-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-lock me-2"></i>
+                                Şifre Değiştirme
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="passwordForm">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Mevcut Şifre</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="currentPassword" placeholder="Mevcut şifrenizi giriniz">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="currentPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Yeni Şifre</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="newPassword" placeholder="Yeni şifrenizi giriniz">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="newPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="password-strength mt-2">
+                                        <div class="strength-bar">
+                                            <div class="strength-fill" style="width: 0%"></div>
+                                        </div>
+                                        <small class="text-muted">Şifre gücü: <span class="strength-text">-</span></small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Yeni Şifre (Tekrar)</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Yeni şifrenizi tekrar giriniz">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="confirmPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Şifre Gereksinimleri:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        <li>En az 8 karakter</li>
+                                        <li>En az bir büyük harf</li>
+                                        <li>En az bir küçük harf</li>
+                                        <li>En az bir rakam</li>
+                                        <li>En az bir özel karakter (!@@#$%^&amp;*)</li>
+                                    </ul>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary mt-3">
+                                    <i class="fas fa-key me-2"></i>
+                                    Şifreyi Değiştir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-bell me-2"></i>
+                                Bildirim Ayarları
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="notification-group mb-4">
+                                <h6 class="text-muted mb-3">E-posta Bildirimleri</h6>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">İşlem Bildirimleri</span>
+                                        <span class="notification-desc">Para transferi ve ödemeler için e-posta alın</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">Güvenlik Uyarıları</span>
+                                        <span class="notification-desc">Şüpheli aktiviteler için uyarı alın</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">Kampanya ve Fırsatlar</span>
+                                        <span class="notification-desc">Özel tekliflerden haberdar olun</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="notification-group">
+                                <h6 class="text-muted mb-3">SMS Bildirimleri</h6>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">OTP Kodları</span>
+                                        <span class="notification-desc">Giriş ve işlem onay kodları</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked disabled>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">Hesap Hareketleri</span>
+                                        <span class="notification-desc">Para giriş/çıkış bildirimleri</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary mt-4">
+                                <i class="fas fa-save me-2"></i>
+                                Ayarları Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div id="security-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Güvenlik
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="security-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">İki Faktörlü Doğrulama (2FA)</h6>
+                                        <p class="text-muted mb-0 small">Ekstra güvenlik katmanı ekleyin</p>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked id="twoFactorAuth">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="security-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Oturum Zaman Aşımı</h6>
+                                        <p class="text-muted mb-0 small">Hareketsizlik durumunda oturumu kapat</p>
+                                    </div>
+                                    <select class="form-select" style="width: auto;">
+                                        <option value="5">5 dakika</option>
+                                        <option value="10">10 dakika</option>
+                                        <option value="15" selected>15 dakika</option>
+                                        <option value="30">30 dakika</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="security-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Giriş Bildirimleri</h6>
+                                        <p class="text-muted mb-0 small">Yeni cihazdan giriş yapıldığında bildir</p>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h6 class="mb-3">Aktif Oturumlar</h6>
+                            <div class="session-item">
+                                <div class="session-icon">
+                                    <i class="fas fa-desktop"></i>
+                                </div>
+                                <div class="session-info">
+                                    <span class="session-device">Windows PC - Chrome</span>
+                                    <span class="session-location">İstanbul, Türkiye • Şu an aktif</span>
+                                </div>
+                                <span class="badge bg-success">Mevcut</span>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="session-info">
+                                    <span class="session-device">iPhone - Safari</span>
+                                    <span class="session-location">İstanbul, Türkiye • 2 saat önce</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger">Sonlandır</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Section -->
+                <div id="privacy-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-eye-slash me-2"></i>
+                                Gizlilik
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="privacy-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Profil Görünürlüğü</h6>
+                                        <p class="text-muted mb-0 small">Profilinizi kimlerin görebileceğini belirleyin</p>
+                                    </div>
+                                    <select class="form-select" style="width: auto;">
+                                        <option value="public">Herkese Açık</option>
+                                        <option value="contacts" selected>Sadece Kişiler</option>
+                                        <option value="private">Gizli</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="privacy-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Arama Sonuçlarında Görün</h6>
+                                        <p class="text-muted mb-0 small">Diğer kullanıcılar sizi bulabilsin</p>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="privacy-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Çerez Tercihleri</h6>
+                                        <p class="text-muted mb-0 small">Çerez kullanım tercihlerinizi yönetin</p>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline">Yönet</button>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="alert alert-warning">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Hesap Silme
+                                </h6>
+                                <p class="mb-2">Hesabınızı silmek tüm verilerinizin kalıcı olarak silinmesine neden olur.</p>
+                                <button class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash me-2"></i>
+                                    Hesabı Sil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .settings-container {
+        min-height: calc(100vh - 200px);
+    }
+
+    .page-header {
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+
+    .settings-menu {
+        overflow: hidden;
+    }
+
+    .settings-nav {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .settings-nav-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .settings-nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .settings-nav-item:hover {
+        background: var(--bg-light);
+    }
+
+    .settings-nav-item.active {
+        background: linear-gradient(90deg, rgba(46, 109, 248, 0.1), transparent);
+        border-left: 4px solid var(--secondary-color);
+    }
+
+    .nav-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: var(--bg-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+    }
+
+    .settings-nav-item.active .nav-icon {
+        background: var(--secondary-color);
+        color: white;
+    }
+
+    .nav-content {
+        flex: 1;
+    }
+
+    .nav-title {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .nav-desc {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+
+    .nav-arrow {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+    }
+
+    .avatar-upload {
+        position: relative;
+        display: inline-block;
+    }
+
+    .avatar-preview {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--bg-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .avatar-edit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .password-strength {
+        margin-top: 0.5rem;
+    }
+
+    .strength-bar {
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .strength-fill {
+        height: 100%;
+        background: var(--error-color);
+        transition: all 0.3s ease;
+    }
+
+    .notification-item, .security-item, .privacy-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: 10px;
+        margin-bottom: 0.75rem;
+    }
+
+    .notification-info {
+        flex: 1;
+    }
+
+    .notification-title {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .notification-desc {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .session-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: 10px;
+        margin-bottom: 0.75rem;
+    }
+
+    .session-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: var(--secondary-color);
+        font-size: 1.25rem;
+    }
+
+    .session-info {
+        flex: 1;
+    }
+
+    .session-device {
+        display: block;
+        font-weight: 600;
+    }
+
+    .session-location {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@media (max-width: 992px) {
+        .settings-nav-item {
+            padding: 0.875rem 1rem;
+        }
+
+        .nav-desc {
+            display: none;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Settings navigation
+        const navItems = document.querySelectorAll('.settings-nav-item');
+        const sections = document.querySelectorAll('.settings-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show corresponding section
+                const sectionId = this.dataset.section + '-section';
+                sections.forEach(section => {
+                    if (section.id === sectionId) {
+                        section.classList.remove('d-none');
+                    } else {
+                        section.classList.add('d-none');
+                    }
+                });
+            });
+        });
+
+        // Password visibility toggle
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Password strength checker
+        const newPasswordInput = document.getElementById('newPassword');
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                let strengthText = 'Çok Zayıf';
+                let color = 'var(--error-color)';
+
+                if (password.length >= 8) strength++;
+                if (/[a-z]/.test(password)) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+                const fillWidth = (strength / 5) * 100;
+
+                if (strength >= 5) {
+                    strengthText = 'Çok Güçlü';
+                    color = 'var(--success-color)';
+                } else if (strength >= 4) {
+                    strengthText = 'Güçlü';
+                    color = '#28a745';
+                } else if (strength >= 3) {
+                    strengthText = 'Orta';
+                    color = 'var(--warning-color)';
+                } else if (strength >= 2) {
+                    strengthText = 'Zayıf';
+                    color = '#fd7e14';
+                }
+
+                document.querySelector('.strength-fill').style.width = fillWidth + '%';
+                document.querySelector('.strength-fill').style.background = color;
+                document.querySelector('.strength-text').textContent = strengthText;
+            });
+        }
+
+        // Form submissions
+        document.getElementById('profileForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('Profil bilgileri güncellendi!', 'success');
+        });
+
+        document.getElementById('passwordForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (newPass !== confirmPass) {
+                showToast('Şifreler eşleşmiyor!', 'error');
+                return;
+            }
+
+            showToast('Şifreniz başarıyla değiştirildi!', 'success');
+        });
+
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-circle text-danger'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+}
+

@@ -1,0 +1,978 @@
+@page
+@model figjam2.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Üye Ol";
+    ViewData["ShowNavbar"] = false;
+    ViewData["ShowFooter"] = false;
+}
+
+<div class="register-page">
+    <!-- Animated Background -->
+    <div class="register-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100 py-5">
+            <div class="col-12 col-md-10 col-lg-6 col-xl-5">
+                
+                <!-- Logo & Back Link -->
+                <div class="text-center mb-4 fade-in">
+                    <a href="/Login" class="d-inline-flex align-items-center text-white text-decoration-none mb-4" style="font-size: 0.9rem; opacity: 0.8;">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Giriş Sayfasına Dön
+                    </a>
+                    <div class="d-inline-flex align-items-center justify-content-center">
+                        <div class="logo-container-small me-2">
+                            <i class="fas fa-user-plus" style="font-size: 1.25rem; color: white;"></i>
+                        </div>
+                        <h1 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">Üye Ol</h1>
+                    </div>
+                    <p class="text-white-50 mt-1 mb-0" style="font-size: 0.85rem;">İnteraktif Şube ailesine katılın</p>
+                </div>
+
+                <!-- Register Card -->
+                <div class="register-card fade-in">
+                    <div class="card-inner">
+                        <!-- Progress Steps -->
+                        <div class="progress-steps mb-4">
+                            <div class="step active" data-step="1">
+                                <div class="step-circle">1</div>
+                                <span class="step-label">Kişisel Bilgiler</span>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="2">
+                                <div class="step-circle">2</div>
+                                <span class="step-label">İletişim</span>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step" data-step="3">
+                                <div class="step-circle">3</div>
+                                <span class="step-label">Doğrulama</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Personal Info -->
+                        <div id="regStep1">
+                            <form id="step1Form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="firstName">
+                                                <i class="fas fa-user me-2 text-secondary-custom"></i>Ad
+                                            </label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Adınız" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="lastName">
+                                                <i class="fas fa-user me-2 text-secondary-custom"></i>Soyad
+                                            </label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Soyadınız" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="regTcNumber">
+                                        <i class="fas fa-id-card me-2 text-secondary-custom"></i>TC Kimlik Numarası
+                                    </label>
+                                    <input type="text" class="form-control" id="regTcNumber" name="tcNumber" maxlength="11" placeholder="11 haneli TC Kimlik numaranız" inputmode="numeric" required>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="birthDate">
+                                        <i class="fas fa-calendar me-2 text-secondary-custom"></i>Doğum Tarihi
+                                    </label>
+                                    <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 mt-3">
+                                    Devam Et
+                                    <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Step 2: Contact Info -->
+                        <div id="regStep2" class="d-none">
+                            <form id="step2Form">
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="regPhone">
+                                        <i class="fas fa-mobile-alt me-2 text-secondary-custom"></i>Telefon Numarası
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <img src="https://flagcdn.com/w20/tr.png" alt="TR" class="me-1"> +90
+                                        </span>
+                                        <input type="text" class="form-control" id="regPhone" name="phone" maxlength="10" placeholder="5XX XXX XX XX" inputmode="numeric" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="regEmail">
+                                        <i class="fas fa-envelope me-2 text-secondary-custom"></i>E-posta Adresi
+                                    </label>
+                                    <input type="email" class="form-control" id="regEmail" name="email" placeholder="ornek@email.com" required>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label" for="regAddress">
+                                        <i class="fas fa-map-marker-alt me-2 text-secondary-custom"></i>Adres
+                                    </label>
+                                    <textarea class="form-control" id="regAddress" name="address" rows="2" placeholder="Açık adresiniz"></textarea>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="regCity">
+                                                <i class="fas fa-city me-2 text-secondary-custom"></i>İl
+                                            </label>
+                                            <select class="form-control" id="regCity" name="city">
+                                                <option value="">Seçiniz</option>
+                                                <option value="istanbul">İstanbul</option>
+                                                <option value="ankara">Ankara</option>
+                                                <option value="izmir">İzmir</option>
+                                                <option value="bursa">Bursa</option>
+                                                <option value="antalya">Antalya</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" for="regDistrict">
+                                                <i class="fas fa-map me-2 text-secondary-custom"></i>İlçe
+                                            </label>
+                                            <input type="text" class="form-control" id="regDistrict" name="district" placeholder="İlçe">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-3">
+                                    <button type="button" class="btn btn-outline flex-grow-1" id="backToRegStep1">
+                                        <i class="fas fa-arrow-left me-2"></i>Geri
+                                    </button>
+                                    <button type="submit" class="btn btn-primary flex-grow-1">
+                                        Devam Et
+                                        <i class="fas fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Step 3: Verification -->
+                        <div id="regStep3" class="d-none">
+                            <form id="step3Form">
+                                <div class="text-center mb-4">
+                                    <div class="verification-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h5 class="mt-3">Telefon Doğrulama</h5>
+                                    <p class="text-muted" id="regSentToText">+90 5** *** **45 numarasına kod gönderildi</p>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label text-center d-block" for="regOtpCode">
+                                        <i class="fas fa-key me-2 text-secondary-custom"></i>6 Haneli Doğrulama Kodu
+                                    </label>
+                                    <div class="otp-input-container">
+                                        <input type="text" class="otp-input reg-otp" maxlength="1" data-index="0" inputmode="numeric">
+                                        <input type="text" class="otp-input reg-otp" maxlength="1" data-index="1" inputmode="numeric">
+                                        <input type="text" class="otp-input reg-otp" maxlength="1" data-index="2" inputmode="numeric">
+                                        <span class="otp-separator">-</span>
+                                        <input type="text" class="otp-input reg-otp" maxlength="1" data-index="3" inputmode="numeric">
+                                        <input type="text" class="otp-input reg-otp" maxlength="1" data-index="4" inputmode="numeric">
+                                        <input type="text" class="otp-input reg-otp" maxlength="1" data-index="5" inputmode="numeric">
+                                    </div>
+                                    <input type="hidden" id="regOtpCode" name="otpCode">
+                                </div>
+
+                                <div class="timer-container text-center mb-4">
+                                    <div class="timer-badge">
+                                        <i class="fas fa-clock me-2"></i>
+                                        <span id="regOtpTimer">02:00</span>
+                                    </div>
+                                </div>
+
+                                <!-- Agreements -->
+                                <div class="agreements-section mb-4">
+                                    <div class="form-check mb-3 agreement-check">
+                                        <input class="form-check-input" type="checkbox" id="termsCheck" name="termsCheck">
+                                        <label class="form-check-label" for="termsCheck">
+                                            <a href="#" class="text-secondary-custom fw-bold">Kullanım Koşulları</a>'nı okudum ve kabul ediyorum.
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3 agreement-check">
+                                        <input class="form-check-input" type="checkbox" id="privacyCheck" name="privacyCheck">
+                                        <label class="form-check-label" for="privacyCheck">
+                                            <a href="#" class="text-secondary-custom fw-bold">Gizlilik Politikası</a>'nı okudum ve kabul ediyorum.
+                                        </label>
+                                    </div>
+                                    <div class="form-check agreement-check kvkk-highlight">
+                                        <input class="form-check-input" type="checkbox" id="regKvkkCheck" name="kvkkCheck">
+                                        <label class="form-check-label" for="regKvkkCheck">
+                                            <a href="#" class="text-secondary-custom fw-bold" data-bs-toggle="modal" data-bs-target="#regKvkkModal">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-3">
+                                    <button type="button" class="btn btn-outline flex-grow-1" id="backToRegStep2">
+                                        <i class="fas fa-arrow-left me-2"></i>Geri
+                                    </button>
+                                    <button type="submit" class="btn btn-success flex-grow-1" id="registerBtn" disabled>
+                                        <i class="fas fa-check-circle me-2"></i>Üye Ol
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="divider my-4">
+                            <span>veya</span>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">Zaten hesabınız var mı?</p>
+                            <a href="/Login" class="login-link">
+                                Giriş Yap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Notice -->
+                <div class="text-center mt-4 fade-in">
+                    <p class="text-white-50" style="font-size: 0.85rem;">
+                        <i class="fas fa-lock me-2"></i>
+                        Bilgileriniz güvenle saklanmaktadır
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KVKK Modal -->
+<div class="modal fade" id="regKvkkModal" tabindex="-1" aria-labelledby="regKvkkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--primary-color); color: white;">
+                <h5 class="modal-title" id="regKvkkModalLabel">
+                    <i class="fas fa-file-alt me-2"></i>KVKK Aydınlatma Metni
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                <h6>1. Veri Sorumlusu</h6>
+                <p>İnteraktif Şube A.Ş. ("Banka") olarak kişisel verilerinizin güvenliği hususuna azami hassasiyet göstermekteyiz.</p>
+                
+                <h6>2. Kişisel Verilerin Toplanması ve İşlenme Amaçları</h6>
+                <p>Kişisel verileriniz; bankacılık hizmetlerinin sunulması, yasal yükümlülüklerin yerine getirilmesi, güvenlik ve dolandırıcılık önleme faaliyetleri kapsamında işlenmektedir.</p>
+                
+                <h6>3. Kişisel Verilerin Aktarılması</h6>
+                <p>Toplanan kişisel verileriniz; Bankacılık Düzenleme ve Denetleme Kurumu, Türkiye Cumhuriyet Merkez Bankası ve ilgili diğer kamu kurumlarına yasal zorunluluklar çerçevesinde aktarılabilmektedir.</p>
+                
+                <h6>4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi</h6>
+                <p>Kişisel verileriniz, elektronik ortamda internet bankacılığı, mobil bankacılık uygulamaları aracılığıyla toplanmaktadır.</p>
+                
+                <h6>5. Kişisel Veri Sahibinin Hakları</h6>
+                <p>KVKK'nın 11. maddesi uyarınca; kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme haklarına sahipsiniz.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="regAcceptKvkk">
+                    <i class="fas fa-check me-2"></i>Okudum, Kabul Ediyorum
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .register-page {
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .register-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(160deg, #0f0c29 0%, #222854 40%, #24243e 100%);
+        z-index: -1;
+    }
+
+    .gradient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.35;
+        animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+        width: 500px;
+        height: 500px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        top: -150px;
+        left: -150px;
+        animation-delay: 0s;
+    }
+
+    .orb-2 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #2E6DF8, #00d4ff);
+        bottom: -100px;
+        right: -100px;
+        animation-delay: -7s;
+    }
+
+    .orb-3 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        top: 60%;
+        left: 20%;
+        animation-delay: -14s;
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(50px, -50px) rotate(5deg); }
+        50% { transform: translate(-30px, 30px) rotate(-5deg); }
+        75% { transform: translate(30px, 50px) rotate(3deg); }
+    }
+
+    .floating-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .shape {
+        position: absolute;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        animation: floatShape 25s linear infinite;
+    }
+
+    .shape-1 {
+        width: 80px;
+        height: 80px;
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        top: 20%;
+        right: 10%;
+        animation-delay: 0s;
+    }
+
+    .shape-2 {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        bottom: 30%;
+        left: 5%;
+        animation-delay: -8s;
+    }
+
+    .shape-3 {
+        width: 100px;
+        height: 100px;
+        border-radius: 20%;
+        top: 60%;
+        right: 20%;
+        animation-delay: -16s;
+    }
+
+    @@keyframes floatShape {
+        0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+        50% { transform: translateY(-30px) rotate(180deg); opacity: 0.6; }
+    }
+
+    .logo-container {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--secondary-color), #764ba2);
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(46, 109, 248, 0.3);
+    }
+
+    .logo-container-small {
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(135deg, var(--secondary-color), #764ba2);
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(46, 109, 248, 0.3);
+    }
+
+    .register-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 24px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+    }
+
+    .card-inner {
+        padding: 2.5rem;
+    }
+
+    /* Progress Steps */
+    .progress-steps {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg-light);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid var(--border-color);
+    }
+
+    .step.active .step-circle,
+    .step.completed .step-circle {
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        color: white;
+        border-color: var(--secondary-color);
+        box-shadow: 0 4px 15px rgba(46, 109, 248, 0.3);
+    }
+
+    .step.completed .step-circle {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border-color: #28a745;
+    }
+
+    .step-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+        white-space: nowrap;
+    }
+
+    .step.active .step-label {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+
+    .step-line {
+        width: 60px;
+        height: 3px;
+        background: var(--border-color);
+        margin: 0 0.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .step-line.active {
+        background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    }
+
+    .form-control {
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(46, 109, 248, 0.1);
+    }
+
+    .input-group-text {
+        background: var(--bg-light);
+        border: 2px solid var(--border-color);
+        border-right: none;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .input-group .form-control {
+        border-left: none;
+        border-radius: 0 10px 10px 0;
+    }
+
+    .verification-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        animation: pulse-success 2s ease-in-out infinite;
+    }
+
+    @@keyframes pulse-success {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4); }
+        50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(40, 167, 69, 0); }
+    }
+
+    .otp-input-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .otp-input {
+        width: 48px;
+        height: 56px;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 700;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .otp-input:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(46, 109, 248, 0.15);
+        outline: none;
+    }
+
+    .otp-separator {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        margin: 0 4px;
+    }
+
+    .timer-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1.25rem;
+        background: rgba(46, 109, 248, 0.1);
+        border-radius: 25px;
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+
+    .agreements-section {
+        background: var(--bg-light);
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+
+    .agreement-check {
+        padding: 0.5rem 0;
+    }
+
+    .kvkk-highlight {
+        background: rgba(46, 109, 248, 0.05);
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        border: 1px solid rgba(46, 109, 248, 0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.875rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.35);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.875rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-success:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.35);
+    }
+
+    .btn-success:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 2px solid var(--border-color);
+        color: var(--text-secondary);
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.875rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+        border-color: var(--secondary-color);
+        color: var(--secondary-color);
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: var(--text-secondary);
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .divider span {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+    }
+
+    .login-link {
+        display: inline-block;
+        margin-top: 0.5rem;
+        color: var(--secondary-color);
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .login-link:hover {
+        color: var(--accent-color);
+        border-bottom-color: var(--accent-color);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @@media (max-width: 576px) {
+        .card-inner {
+            padding: 1.5rem;
+        }
+
+        .progress-steps {
+            transform: scale(0.85);
+        }
+
+        .step-label {
+            font-size: 0.65rem;
+        }
+
+        .step-line {
+            width: 40px;
+        }
+
+        .otp-input {
+            width: 40px;
+            height: 48px;
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Step Navigation
+        const steps = document.querySelectorAll('.step');
+        const stepLines = document.querySelectorAll('.step-line');
+        let currentStep = 1;
+
+        function updateStepUI(step) {
+            steps.forEach((s, index) => {
+                if (index + 1 < step) {
+                    s.classList.add('completed');
+                    s.classList.remove('active');
+                } else if (index + 1 === step) {
+                    s.classList.add('active');
+                    s.classList.remove('completed');
+                } else {
+                    s.classList.remove('active', 'completed');
+                }
+            });
+
+            stepLines.forEach((line, index) => {
+                if (index + 1 < step) {
+                    line.classList.add('active');
+                } else {
+                    line.classList.remove('active');
+                }
+            });
+        }
+
+        // Step 1 Form
+        document.getElementById('step1Form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const tcNumber = document.getElementById('regTcNumber').value.trim();
+            const birthDate = document.getElementById('birthDate').value;
+
+            if (!firstName || !lastName) {
+                showToast('Lütfen ad ve soyad giriniz.', 'error');
+                return;
+            }
+
+            if (!/^\d{11}$/.test(tcNumber)) {
+                showToast('Lütfen geçerli bir TC Kimlik numarası giriniz.', 'error');
+                return;
+            }
+
+            if (!birthDate) {
+                showToast('Lütfen doğum tarihinizi giriniz.', 'error');
+                return;
+            }
+
+            currentStep = 2;
+            updateStepUI(currentStep);
+            document.getElementById('regStep1').classList.add('d-none');
+            document.getElementById('regStep2').classList.remove('d-none');
+        });
+
+        // Back to Step 1
+        document.getElementById('backToRegStep1').addEventListener('click', function() {
+            currentStep = 1;
+            updateStepUI(currentStep);
+            document.getElementById('regStep2').classList.add('d-none');
+            document.getElementById('regStep1').classList.remove('d-none');
+        });
+
+        // Step 2 Form
+        document.getElementById('step2Form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+
+            if (!/^\d{10}$/.test(phone)) {
+                showToast('Lütfen geçerli bir telefon numarası giriniz.', 'error');
+                return;
+            }
+
+            if (!email || !email.includes('@@')) {
+                showToast('Lütfen geçerli bir e-posta adresi giriniz.', 'error');
+                return;
+            }
+
+            currentStep = 3;
+            updateStepUI(currentStep);
+            document.getElementById('regStep2').classList.add('d-none');
+            document.getElementById('regStep3').classList.remove('d-none');
+
+            // Update sent to text
+            const maskedPhone = '5** *** **' + phone.slice(-2);
+            document.getElementById('regSentToText').textContent = `+90 ${maskedPhone} numarasına kod gönderildi`;
+
+            // Start timer
+            startRegOtpTimer();
+
+            // Focus first OTP input
+            document.querySelector('.reg-otp').focus();
+        });
+
+        // Back to Step 2
+        document.getElementById('backToRegStep2').addEventListener('click', function() {
+            currentStep = 2;
+            updateStepUI(currentStep);
+            document.getElementById('regStep3').classList.add('d-none');
+            document.getElementById('regStep2').classList.remove('d-none');
+        });
+
+        // OTP Input handling
+        const regOtpInputs = document.querySelectorAll('.reg-otp');
+        
+        regOtpInputs.forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                e.target.value = value;
+
+                if (value && index < regOtpInputs.length - 1) {
+                    regOtpInputs[index + 1].focus();
+                }
+
+                // Combine OTP
+                let otp = '';
+                regOtpInputs.forEach(inp => otp += inp.value);
+                document.getElementById('regOtpCode').value = otp;
+
+                checkRegisterButton();
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    regOtpInputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
+                
+                pastedData.split('').forEach((char, i) => {
+                    if (regOtpInputs[i]) {
+                        regOtpInputs[i].value = char;
+                    }
+                });
+
+                document.getElementById('regOtpCode').value = pastedData;
+                checkRegisterButton();
+            });
+        });
+
+        // Checkboxes
+        document.querySelectorAll('.agreement-check input').forEach(check => {
+            check.addEventListener('change', checkRegisterButton);
+        });
+
+        document.getElementById('regAcceptKvkk').addEventListener('click', function() {
+            document.getElementById('regKvkkCheck').checked = true;
+            checkRegisterButton();
+        });
+
+        function checkRegisterButton() {
+            const otp = document.getElementById('regOtpCode').value;
+            const termsChecked = document.getElementById('termsCheck').checked;
+            const privacyChecked = document.getElementById('privacyCheck').checked;
+            const kvkkChecked = document.getElementById('regKvkkCheck').checked;
+
+            document.getElementById('registerBtn').disabled = 
+                !(otp.length === 6 && termsChecked && privacyChecked && kvkkChecked);
+        }
+
+        // OTP Timer
+        let regTimerInterval;
+        function startRegOtpTimer() {
+            let timeLeft = 120;
+            const timerElement = document.getElementById('regOtpTimer');
+            const timerBadge = document.querySelector('.timer-badge');
+
+            clearInterval(regTimerInterval);
+
+            regTimerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(regTimerInterval);
+                    timerElement.textContent = '00:00';
+                }
+
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Register Form Submit
+        document.getElementById('step3Form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const otp = document.getElementById('regOtpCode').value;
+            const termsChecked = document.getElementById('termsCheck').checked;
+            const privacyChecked = document.getElementById('privacyCheck').checked;
+            const kvkkChecked = document.getElementById('regKvkkCheck').checked;
+
+            if (otp.length !== 6) {
+                showToast('Lütfen 6 haneli doğrulama kodunu giriniz.', 'error');
+                return;
+            }
+
+            if (!termsChecked || !privacyChecked || !kvkkChecked) {
+                showToast('Lütfen tüm sözleşmeleri onaylayınız.', 'error');
+                return;
+            }
+
+            // Show loading
+            const btn = document.getElementById('registerBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Kayıt Yapılıyor...';
+            btn.disabled = true;
+
+            // Simulate registration
+            setTimeout(() => {
+                showToast('Üyelik başarıyla tamamlandı!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/Login';
+                }, 1500);
+            }, 2000);
+        });
+
+        // Toast function
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-circle text-danger'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+}
+

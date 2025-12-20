@@ -1,0 +1,823 @@
+@page
+@model figjam2.Pages.LoginModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    ViewData["ShowNavbar"] = false;
+    ViewData["ShowFooter"] = false;
+}
+
+<div class="login-page">
+    <!-- Animated Background -->
+    <div class="login-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-12 col-md-10 col-lg-5 col-xl-4">
+                
+                <!-- Logo & Title -->
+                <div class="text-center mb-3 fade-in">
+                    <div class="d-inline-flex align-items-center justify-content-center">
+                        <div class="logo-container-small me-2">
+                            <i class="fas fa-university" style="font-size: 1.25rem; color: white;"></i>
+                        </div>
+                        <h1 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">İnteraktif Şube</h1>
+                    </div>
+                    <p class="text-white-50 mt-1 mb-0" style="font-size: 0.85rem;">Dijital Bankacılık Platformu</p>
+                </div>
+
+                <!-- Login Card -->
+                <div class="login-card fade-in">
+                    <div class="card-inner">
+                        <h2 class="text-center mb-1" style="font-size: 1.35rem; color: var(--primary-color);">
+                            <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
+                        </h2>
+                        <p class="text-center text-muted mb-3" style="font-size: 0.9rem;">Hesabınıza güvenli erişim</p>
+
+                        <!-- Step 1: Identifier Input -->
+                        <div id="step1">
+                            <form id="identifierForm">
+                                <!-- Login Type Toggle -->
+                                <div class="login-type-toggle mb-3">
+                                    <div class="toggle-container">
+                                        <button type="button" class="toggle-btn active" data-type="tc">
+                                            <i class="fas fa-id-card me-2"></i>TC Kimlik No
+                                        </button>
+                                        <button type="button" class="toggle-btn" data-type="phone">
+                                            <i class="fas fa-mobile-alt me-2"></i>Telefon No
+                                        </button>
+                                        <div class="toggle-slider"></div>
+                                    </div>
+                                </div>
+
+                                <!-- TC Kimlik Input -->
+                                <div class="form-group mb-3" id="tcInputGroup">
+                                    <label class="form-label" for="tcNumber">
+                                        <i class="fas fa-id-card me-2 text-secondary-custom"></i>TC Kimlik Numarası
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control form-control-lg" 
+                                           id="tcNumber" 
+                                           name="tcNumber"
+                                           maxlength="11"
+                                           placeholder="_ _ _ _ _ _ _ _ _ _ _"
+                                           inputmode="numeric"
+                                           autocomplete="off">
+                                    <small class="text-muted mt-1 d-block">11 haneli TC Kimlik numaranızı giriniz</small>
+                                </div>
+
+                                <!-- Phone Input (Hidden by default) -->
+                                <div class="form-group mb-3 d-none" id="phoneInputGroup">
+                                    <label class="form-label" for="phoneNumber">
+                                        <i class="fas fa-mobile-alt me-2 text-secondary-custom"></i>Telefon Numarası
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="background: var(--bg-light); border: 2px solid var(--border-color); border-right: none;">
+                                            <img src="https://flagcdn.com/w20/tr.png" alt="TR" class="me-1"> +90
+                                        </span>
+                                        <input type="text" 
+                                               class="form-control form-control-lg" 
+                                               id="phoneNumber" 
+                                               name="phoneNumber"
+                                               maxlength="10"
+                                               placeholder="5XX XXX XX XX"
+                                               inputmode="numeric"
+                                               autocomplete="off"
+                                               style="border-left: none;">
+                                    </div>
+                                    <small class="text-muted mt-1 d-block">Kayıtlı telefon numaranızı giriniz</small>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 mb-2" id="sendOtpBtn">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    OTP Kodu Gönder
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Step 2: OTP Verification -->
+                        <div id="step2" class="d-none">
+                            <form id="otpForm">
+                                <div class="text-center mb-4">
+                                    <div class="otp-sent-icon">
+                                        <i class="fas fa-sms"></i>
+                                    </div>
+                                    <h5 class="mt-3">OTP Kodu Gönderildi</h5>
+                                    <p class="text-muted" id="sentToText">**** **** **45 numaralı telefona gönderildi</p>
+                                    <p class="text-info small"><i class="fas fa-info-circle me-1"></i>Test için OTP kodu: <strong>123456</strong></p>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label text-center d-block" for="otpCode">
+                                        <i class="fas fa-key me-2 text-secondary-custom"></i>6 Haneli OTP Kodu
+                                    </label>
+                                    <div class="otp-input-container">
+                                        <input type="text" class="otp-input" maxlength="1" data-index="0" inputmode="numeric">
+                                        <input type="text" class="otp-input" maxlength="1" data-index="1" inputmode="numeric">
+                                        <input type="text" class="otp-input" maxlength="1" data-index="2" inputmode="numeric">
+                                        <span class="otp-separator">-</span>
+                                        <input type="text" class="otp-input" maxlength="1" data-index="3" inputmode="numeric">
+                                        <input type="text" class="otp-input" maxlength="1" data-index="4" inputmode="numeric">
+                                        <input type="text" class="otp-input" maxlength="1" data-index="5" inputmode="numeric">
+                                    </div>
+                                    <input type="hidden" id="otpCode" name="otpCode">
+                                </div>
+
+                                <div class="timer-container text-center mb-4">
+                                    <div class="timer-badge">
+                                        <i class="fas fa-clock me-2"></i>
+                                        <span id="otpTimer">02:00</span>
+                                    </div>
+                                    <button type="button" class="btn btn-link text-secondary-custom mt-2 d-none" id="resendOtpBtn">
+                                        <i class="fas fa-redo me-1"></i>Tekrar Gönder
+                                    </button>
+                                </div>
+
+                                <!-- KVKK Checkbox -->
+                                <div class="form-check mb-4 kvkk-check">
+                                    <input class="form-check-input" type="checkbox" id="kvkkCheck" name="kvkkCheck">
+                                    <label class="form-check-label" for="kvkkCheck">
+                                        <a href="#" class="kvkk-link" data-bs-toggle="modal" data-bs-target="#kvkkModal">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" id="loginBtn" disabled>
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Giriş Yap
+                                </button>
+
+                                <button type="button" class="btn btn-link w-100 text-muted" id="backToStep1">
+                                    <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="divider my-3">
+                            <span>veya</span>
+                        </div>
+
+                        <!-- Register Link -->
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">Henüz hesabınız yok mu?</p>
+                            <a href="/Register" class="register-link">
+                                Üye Ol
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Notice -->
+                <div class="text-center mt-3 fade-in">
+                    <p class="text-white-50 mb-0" style="font-size: 0.8rem;">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        256-bit SSL ile güvenli bağlantı
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KVKK Modal -->
+<div class="modal fade" id="kvkkModal" tabindex="-1" aria-labelledby="kvkkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header" style="background: var(--primary-color); color: white;">
+                <h5 class="modal-title" id="kvkkModalLabel">
+                    <i class="fas fa-file-alt me-2"></i>KVKK Aydınlatma Metni
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                <h6>1. Veri Sorumlusu</h6>
+                <p>İnteraktif Şube A.Ş. ("Banka") olarak kişisel verilerinizin güvenliği hususuna azami hassasiyet göstermekteyiz.</p>
+                
+                <h6>2. Kişisel Verilerin Toplanması ve İşlenme Amaçları</h6>
+                <p>Kişisel verileriniz; bankacılık hizmetlerinin sunulması, yasal yükümlülüklerin yerine getirilmesi, güvenlik ve dolandırıcılık önleme faaliyetleri kapsamında işlenmektedir.</p>
+                
+                <h6>3. Kişisel Verilerin Aktarılması</h6>
+                <p>Toplanan kişisel verileriniz; Bankacılık Düzenleme ve Denetleme Kurumu, Türkiye Cumhuriyet Merkez Bankası ve ilgili diğer kamu kurumlarına yasal zorunluluklar çerçevesinde aktarılabilmektedir.</p>
+                
+                <h6>4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi</h6>
+                <p>Kişisel verileriniz, elektronik ortamda internet bankacılığı, mobil bankacılık uygulamaları aracılığıyla toplanmaktadır.</p>
+                
+                <h6>5. Kişisel Veri Sahibinin Hakları</h6>
+                <p>KVKK'nın 11. maddesi uyarınca; kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme haklarına sahipsiniz.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="acceptKvkk">
+                    <i class="fas fa-check me-2"></i>Okudum, Kabul Ediyorum
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .login-page {
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a1f4e 0%, #222854 30%, #2E6DF8 70%, #0056B3 100%);
+        z-index: -1;
+    }
+
+    .gradient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        animation: float 15s ease-in-out infinite;
+    }
+
+    .orb-1 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #2E6DF8, #00d4ff);
+        top: -100px;
+        right: -100px;
+        animation-delay: 0s;
+    }
+
+    .orb-2 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #ff6b6b, #feca57);
+        bottom: -50px;
+        left: -50px;
+        animation-delay: -5s;
+    }
+
+    .orb-3 {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #5f27cd, #2E6DF8);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: -10s;
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(30px, -30px) scale(1.05); }
+        50% { transform: translate(-20px, 20px) scale(0.95); }
+        75% { transform: translate(20px, 30px) scale(1.02); }
+    }
+
+    .logo-container {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .logo-container-small {
+        width: 42px;
+        height: 42px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+    }
+
+    .card-inner {
+        padding: 1.75rem;
+    }
+
+    .login-type-toggle {
+        position: relative;
+    }
+
+    .toggle-container {
+        display: flex;
+        background: var(--bg-light);
+        border-radius: 12px;
+        padding: 4px;
+        position: relative;
+    }
+
+    .toggle-btn {
+        flex: 1;
+        padding: 0.6rem 0.85rem;
+        border: none;
+        background: transparent;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+        border-radius: 8px;
+    }
+
+    .toggle-btn.active {
+        color: white;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: calc(50% - 4px);
+        height: calc(100% - 8px);
+        background: var(--secondary-color);
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        z-index: 1;
+    }
+
+    .toggle-btn[data-type="phone"].active ~ .toggle-slider {
+        transform: translateX(100%);
+    }
+
+    .form-control-lg {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+    }
+
+    .form-control-lg:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(46, 109, 248, 0.15);
+    }
+
+    .input-group-text {
+        border-radius: 12px 0 0 12px;
+        font-weight: 500;
+    }
+
+    .otp-sent-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--secondary-color), #00d4ff);
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        color: white;
+        animation: pulse-icon 2s ease-in-out infinite;
+    }
+
+    @@keyframes pulse-icon {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 109, 248, 0.4); }
+        50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(46, 109, 248, 0); }
+    }
+
+    .otp-input-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .otp-input {
+        width: 50px;
+        height: 60px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .otp-input:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(46, 109, 248, 0.15);
+        outline: none;
+    }
+
+    .otp-separator {
+        font-size: 1.5rem;
+        color: var(--text-secondary);
+        margin: 0 4px;
+    }
+
+    .timer-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1.25rem;
+        background: rgba(46, 109, 248, 0.1);
+        border-radius: 25px;
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
+
+    .timer-badge.warning {
+        background: rgba(255, 193, 7, 0.15);
+        color: #e67e00;
+        animation: shake 0.5s ease-in-out infinite;
+    }
+
+    @@keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-2px); }
+        75% { transform: translateX(2px); }
+    }
+
+    .kvkk-check {
+        background: var(--bg-light);
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .kvkk-check:has(.form-check-input:checked) {
+        border-color: var(--success-color);
+        background: rgba(40, 167, 69, 0.05);
+    }
+
+    .kvkk-link {
+        color: var(--secondary-color);
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.8rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(46, 109, 248, 0.35);
+    }
+
+    .btn-primary:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: var(--text-secondary);
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .divider span {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+    }
+
+    .register-link {
+        display: inline-block;
+        margin-top: 0.5rem;
+        color: var(--secondary-color);
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .register-link:hover {
+        color: var(--accent-color);
+        border-bottom-color: var(--accent-color);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @@media (max-width: 576px) {
+        .card-inner {
+            padding: 1.5rem;
+        }
+
+        .otp-input {
+            width: 42px;
+            height: 52px;
+            font-size: 1.25rem;
+        }
+
+        .toggle-btn {
+            padding: 0.6rem 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .toggle-btn i {
+            display: none;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Toggle between TC and Phone
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        const tcInputGroup = document.getElementById('tcInputGroup');
+        const phoneInputGroup = document.getElementById('phoneInputGroup');
+        const toggleSlider = document.querySelector('.toggle-slider');
+
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                if (this.dataset.type === 'phone') {
+                    tcInputGroup.classList.add('d-none');
+                    phoneInputGroup.classList.remove('d-none');
+                    toggleSlider.style.transform = 'translateX(100%)';
+                } else {
+                    tcInputGroup.classList.remove('d-none');
+                    phoneInputGroup.classList.add('d-none');
+                    toggleSlider.style.transform = 'translateX(0)';
+                }
+            });
+        });
+
+        // Step 1: Send OTP
+        document.getElementById('identifierForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const activeType = document.querySelector('.toggle-btn.active').dataset.type;
+            let identifier = '';
+            
+            if (activeType === 'tc') {
+                identifier = document.getElementById('tcNumber').value;
+                if (!/^\d{11}$/.test(identifier)) {
+                    showToast('Lütfen geçerli bir TC Kimlik numarası giriniz.', 'error');
+                    return;
+                }
+            } else {
+                identifier = document.getElementById('phoneNumber').value;
+                if (!/^\d{10}$/.test(identifier)) {
+                    showToast('Lütfen geçerli bir telefon numarası giriniz.', 'error');
+                    return;
+                }
+            }
+
+            // Show loading
+            const btn = document.getElementById('sendOtpBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Gönderiliyor...';
+            btn.disabled = true;
+
+            // Simulate OTP sending
+            setTimeout(() => {
+                document.getElementById('step1').classList.add('d-none');
+                document.getElementById('step2').classList.remove('d-none');
+                
+                // Update sent to text
+                const maskedId = activeType === 'tc' 
+                    ? '*'.repeat(7) + identifier.slice(-4)
+                    : '**** *** ' + identifier.slice(-2);
+                document.getElementById('sentToText').textContent = 
+                    activeType === 'tc' 
+                        ? `${maskedId} TC Kimlik numarasına kayıtlı telefona gönderildi`
+                        : `+90 ${maskedId} numaralı telefona gönderildi`;
+
+                // Start timer
+                startOtpTimer();
+                
+                // Focus first OTP input
+                document.querySelector('.otp-input').focus();
+
+                btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>OTP Kodu Gönder';
+                btn.disabled = false;
+            }, 1500);
+        });
+
+        // OTP Input handling
+        const otpInputs = document.querySelectorAll('.otp-input');
+        
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                e.target.value = value;
+
+                if (value && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+
+                // Combine OTP
+                let otp = '';
+                otpInputs.forEach(inp => otp += inp.value);
+                document.getElementById('otpCode').value = otp;
+
+                // Enable login button if OTP is complete and KVKK is checked
+                checkLoginButton();
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
+                
+                pastedData.split('').forEach((char, i) => {
+                    if (otpInputs[i]) {
+                        otpInputs[i].value = char;
+                    }
+                });
+
+                document.getElementById('otpCode').value = pastedData;
+                checkLoginButton();
+
+                if (pastedData.length === 6) {
+                    otpInputs[5].focus();
+                }
+            });
+        });
+
+        // KVKK Checkbox
+        document.getElementById('kvkkCheck').addEventListener('change', checkLoginButton);
+        document.getElementById('acceptKvkk').addEventListener('click', function() {
+            document.getElementById('kvkkCheck').checked = true;
+            checkLoginButton();
+        });
+
+        function checkLoginButton() {
+            const otp = document.getElementById('otpCode').value;
+            const kvkkChecked = document.getElementById('kvkkCheck').checked;
+            document.getElementById('loginBtn').disabled = !(otp.length === 6 && kvkkChecked);
+        }
+
+        // OTP Timer
+        let timerInterval;
+        function startOtpTimer() {
+            let timeLeft = 120; // 2 minutes
+            const timerElement = document.getElementById('otpTimer');
+            const resendBtn = document.getElementById('resendOtpBtn');
+            const timerBadge = document.querySelector('.timer-badge');
+
+            clearInterval(timerInterval);
+            resendBtn.classList.add('d-none');
+            timerBadge.classList.remove('warning');
+
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 30) {
+                    timerBadge.classList.add('warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    resendBtn.classList.remove('d-none');
+                    timerElement.textContent = '00:00';
+                }
+
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Resend OTP
+        document.getElementById('resendOtpBtn').addEventListener('click', function() {
+            // Clear inputs
+            otpInputs.forEach(input => input.value = '');
+            document.getElementById('otpCode').value = '';
+            checkLoginButton();
+            
+            showToast('Yeni OTP kodu gönderildi.', 'success');
+            startOtpTimer();
+            otpInputs[0].focus();
+        });
+
+        // Back to Step 1
+        document.getElementById('backToStep1').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            document.getElementById('step2').classList.add('d-none');
+            document.getElementById('step1').classList.remove('d-none');
+            
+            // Clear OTP inputs
+            otpInputs.forEach(input => input.value = '');
+            document.getElementById('otpCode').value = '';
+            document.getElementById('kvkkCheck').checked = false;
+            checkLoginButton();
+        });
+
+        // Login Form Submit
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const otp = document.getElementById('otpCode').value;
+            if (otp.length !== 6) {
+                showToast('Lütfen 6 haneli OTP kodunu giriniz.', 'error');
+                return;
+            }
+
+            // Check if OTP is correct (123456)
+            if (otp !== '123456') {
+                showToast('Hatalı OTP kodu! Doğru kod: 123456', 'error');
+                return;
+            }
+
+            if (!document.getElementById('kvkkCheck').checked) {
+                showToast('KVKK metnini onaylamanız gerekmektedir.', 'error');
+                return;
+            }
+
+            // Show loading
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Giriş Yapılıyor...';
+            btn.disabled = true;
+
+            // Submit form to server for session handling
+            fetch('/Login?handler=Login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    '__RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || '',
+                    'otpCode': otp
+                })
+            }).then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    window.location.href = '/Dashboard';
+                }
+            }).catch(() => {
+                window.location.href = '/Dashboard';
+            });
+        });
+
+        // Toast function
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-circle text-danger'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+}
+
