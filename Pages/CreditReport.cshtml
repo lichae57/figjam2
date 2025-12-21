@@ -574,10 +574,10 @@
         });
 
         // Ödeme formu
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             goToStep(3);
-            startAnalysis();
+            await startAnalysis();
         });
 
         function goToStep(step) {
@@ -592,24 +592,64 @@
             document.getElementById('step' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function startAnalysis() {
+        async function startAnalysis() {
             let progress = 0;
             const progressBar = document.getElementById('analysisProgress');
             const progressText = document.getElementById('progressText');
             
-            const interval = setInterval(function() {
-                progress += 2;
-                if (progress <= 100) {
-                    progressBar.style.width = progress + '%';
-                    progressBar.setAttribute('aria-valuenow', progress);
-                    progressText.textContent = progress + '%';
-                } else {
-                    clearInterval(interval);
-                    setTimeout(function() {
-                        goToStep(4);
-                    }, 500);
+            try {
+                // Rapor listesini getir
+                const reportListResponse = await fetch('/CreditReport?handler=ReportList');
+                const reportListResult = await reportListResponse.json();
+                
+                if (!reportListResult.success) {
+                    alert('Rapor listesi alınamadı: ' + (reportListResult.error || 'Bilinmeyen hata'));
+                    goToStep(2);
+                    return;
                 }
-            }, 100);
+
+                // Progress animasyonu
+                const interval = setInterval(function() {
+                    progress += 2;
+                    if (progress <= 100) {
+                        progressBar.style.width = progress + '%';
+                        progressBar.setAttribute('aria-valuenow', progress);
+                        progressText.textContent = progress + '%';
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 100);
+
+                // İlk raporun detayını getir (eğer varsa)
+                let reportDetail = null;
+                if (reportListResult.data && Array.isArray(reportListResult.data) && reportListResult.data.length > 0) {
+                    const firstReport = reportListResult.data[0];
+                    const reportId = firstReport.id || firstReport.reportId || firstReport.report_id;
+                    
+                    if (reportId) {
+                        const reportDetailResponse = await fetch(`/CreditReport?handler=ReportDetail&reportId=${reportId}`);
+                        const reportDetailResult = await reportDetailResponse.json();
+                        
+                        if (reportDetailResult.success) {
+                            reportDetail = reportDetailResult.data;
+                        }
+                    }
+                }
+
+                // Progress tamamlanana kadar bekle
+                await new Promise(resolve => setTimeout(resolve, 5100));
+
+                // Rapor detayını session'a kaydet
+                if (reportDetail) {
+                    sessionStorage.setItem('reportDetail', JSON.stringify(reportDetail));
+                }
+
+                goToStep(4);
+            } catch (error) {
+                console.error('Analysis Error:', error);
+                alert('Analiz sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+                goToStep(2);
+            }
         }
     </script>
 }

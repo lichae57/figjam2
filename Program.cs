@@ -10,6 +10,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+// Add HttpClient for API calls
+builder.Services.AddHttpClient<figjam2.Services.ApiClient>();
+builder.Services.AddScoped<figjam2.Services.ApiClient>();
+
 // Add Cookie Authentication
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>

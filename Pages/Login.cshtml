@@ -32,28 +32,15 @@
                         <div id="step1Header">
                             <h2 class="text-center mb-1" style="font-size: 1.35rem; color: var(--primary-color);">
                                 <i class="fas fa-sign-in-alt me-2"></i>Giriş Yap
-                            </h2>
+                        </h2>
                             <p class="text-center text-muted mb-3" style="font-size: 0.9rem;">Hesabınıza güvenli erişim</p>
                         </div>
 
                         <!-- Step 1: Identifier Input -->
                         <div id="step1">
                             <form id="identifierForm">
-                                <!-- Login Type Toggle -->
-                                <div class="login-type-toggle mb-3">
-                                    <div class="toggle-container">
-                                        <button type="button" class="toggle-btn active" data-type="tc">
-                                            <i class="fas fa-id-card me-2"></i>TC Kimlik No
-                                        </button>
-                                        <button type="button" class="toggle-btn" data-type="phone">
-                                            <i class="fas fa-mobile-alt me-2"></i>Telefon No
-                                        </button>
-                                        <div class="toggle-slider"></div>
-                                    </div>
-                                </div>
-
                                 <!-- TC Kimlik Input -->
-                                <div class="form-group mb-3" id="tcInputGroup">
+                                <div class="form-group mb-3">
                                     <label class="form-label" for="tcNumber">
                                         <i class="fas fa-id-card me-2 text-secondary-custom"></i>TC Kimlik Numarası
                                     </label>
@@ -64,12 +51,13 @@
                                            maxlength="11"
                                            placeholder="_ _ _ _ _ _ _ _ _ _ _"
                                            inputmode="numeric"
-                                           autocomplete="off">
+                                           autocomplete="off"
+                                           required>
                                     <small class="text-muted mt-1 d-block">11 haneli TC Kimlik numaranızı giriniz</small>
                                 </div>
 
-                                <!-- Phone Input (Hidden by default) -->
-                                <div class="form-group mb-3 d-none" id="phoneInputGroup">
+                                <!-- Phone Input -->
+                                <div class="form-group mb-3">
                                     <label class="form-label" for="phoneNumber">
                                         <i class="fas fa-mobile-alt me-2 text-secondary-custom"></i>Telefon Numarası
                                     </label>
@@ -85,7 +73,8 @@
                                                placeholder="5XX XXX XX XX"
                                                inputmode="numeric"
                                                autocomplete="off"
-                                               style="border-left: none;">
+                                               style="border-left: none;"
+                                               required>
                                     </div>
                                     <small class="text-muted mt-1 d-block">Kayıtlı telefon numaranızı giriniz</small>
                                 </div>
@@ -122,7 +111,7 @@
                                         <input type="text" class="otp-input" maxlength="1" data-index="5" inputmode="numeric">
                                     </div>
                                     <input type="hidden" id="otpCode" name="otpCode">
-                                </div>
+                            </div>
 
                                 <div class="timer-container text-center mb-4">
                                     <div class="timer-badge">
@@ -132,9 +121,9 @@
                                     <div class="mt-2">
                                         <button type="button" class="btn btn-link text-secondary-custom d-none" id="resendOtpBtn">
                                             <i class="fas fa-redo me-1"></i>SMS Gelmedi mi? Tekrar Gönder
-                                        </button>
+                                </button>
                                     </div>
-                                </div>
+                            </div>
 
                                 <!-- KVKK Checkbox -->
                                 <div class="form-check mb-4 kvkk-check">
@@ -144,7 +133,7 @@
                                             <a href="#" class="kvkk-link" data-bs-toggle="modal" data-bs-target="#kvkkModal">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
                                         </label>
                                     </div>
-                                </div>
+                            </div>
 
                                 <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" id="loginBtn" disabled>
                                     <i class="fas fa-sign-in-alt me-2"></i>
@@ -154,7 +143,7 @@
                                 <button type="button" class="btn btn-link w-100 text-muted" id="backToStep1">
                                     <i class="fas fa-arrow-left me-2"></i>Geri Dön
                                 </button>
-                            </form>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -551,48 +540,23 @@
 
 @section Scripts {
     <script>
-        // Toggle between TC and Phone
-        const toggleBtns = document.querySelectorAll('.toggle-btn');
-        const tcInputGroup = document.getElementById('tcInputGroup');
-        const phoneInputGroup = document.getElementById('phoneInputGroup');
-        const toggleSlider = document.querySelector('.toggle-slider');
-
-        toggleBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                toggleBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-
-                if (this.dataset.type === 'phone') {
-                    tcInputGroup.classList.add('d-none');
-                    phoneInputGroup.classList.remove('d-none');
-                    toggleSlider.style.transform = 'translateX(100%)';
-                } else {
-                    tcInputGroup.classList.remove('d-none');
-                    phoneInputGroup.classList.add('d-none');
-                    toggleSlider.style.transform = 'translateX(0)';
-                }
-            });
-        });
-
         // Step 1: Send OTP
-        document.getElementById('identifierForm').addEventListener('submit', function(e) {
+        document.getElementById('identifierForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const activeType = document.querySelector('.toggle-btn.active').dataset.type;
-            let identifier = '';
+            // Her iki alanı da al
+            const tcNumber = document.getElementById('tcNumber').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
             
-            if (activeType === 'tc') {
-                identifier = document.getElementById('tcNumber').value;
-                if (!/^\d{11}$/.test(identifier)) {
-                    showToast('Lütfen geçerli bir telefon numarası/tckn giriniz.', 'error');
-                    return;
-                }
-            } else {
-                identifier = document.getElementById('phoneNumber').value;
-                if (!/^\d{10}$/.test(identifier)) {
-                    showToast('Lütfen geçerli bir telefon numarası/tckn giriniz.', 'error');
-                    return;
-                }
+            // Validasyon
+            if (!/^\d{11}$/.test(tcNumber)) {
+                showToast('Lütfen geçerli bir TC Kimlik numarası giriniz (11 hane).', 'error');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phoneNumber)) {
+                showToast('Lütfen geçerli bir telefon numarası giriniz (10 hane).', 'error');
+                return;
             }
 
             // Show loading
@@ -600,19 +564,92 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Gönderiliyor...';
             btn.disabled = true;
 
-            // Simulate OTP sending
-            setTimeout(() => {
+            try {
+                // TCKN/GSM Doğrulama - Her ikisini de gönder
+                const formData = new FormData();
+                formData.append('Tckn', tcNumber);
+                formData.append('Gsm', phoneNumber);
+
+                const verifyResponse = await fetch('/Login?handler=VerifyTcknGsm', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    }
+                });
+
+                const verifyResult = await verifyResponse.json();
+
+                if (!verifyResult.success) {
+                    showToast(verifyResult.error || 'Doğrulama başarısız', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                // GSM numarasını belirle (telefon numarası direkt kullanılır)
+                const gsmNumber = phoneNumber;
+
+                // OTP Üret
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>OTP Üretiliyor...';
+                const generateOtpResponse = await fetch('/Login?handler=GenerateOtp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ gsm: phoneNumber })
+                });
+
+                const generateOtpResult = await generateOtpResponse.json();
+
+                if (!generateOtpResult.success) {
+                    showToast(generateOtpResult.error || 'OTP üretilemedi', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                // OTP SMS Gönder
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>SMS Gönderiliyor...';
+                const sendSmsResponse = await fetch('/Login?handler=SendOtpSms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ gsm: phoneNumber })
+                });
+
+                const sendSmsResult = await sendSmsResponse.json();
+
+                if (!sendSmsResult.success) {
+                    showToast(sendSmsResult.error || 'SMS gönderilemedi', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                // KVKK Metni Getir
+                const kvkkResponse = await fetch('/Login?handler=KvkkText&id=2');
+                const kvkkResult = await kvkkResponse.json();
+
+                if (kvkkResult.success && kvkkResult.data) {
+                    // KVKK modal içeriğini güncelle
+                    const modalBody = document.querySelector('#kvkkModal .modal-body');
+                    if (modalBody && typeof kvkkResult.data === 'string') {
+                        modalBody.innerHTML = kvkkResult.data;
+                    }
+                }
+
+                // Step 2'ye geç
                 document.getElementById('step1').classList.add('d-none');
                 document.getElementById('step1Header').classList.add('d-none');
                 document.getElementById('step2').classList.remove('d-none');
                 
                 // Update sent to text with last 4 digits
-                const lastFour = identifier.slice(-4);
-                if (activeType === 'tc') {
-                    document.getElementById('sentToText').innerHTML = `TC Kimlik numaranızın son 4 hanesi: <strong>${lastFour}</strong>`;
-                } else {
-                    document.getElementById('sentToText').innerHTML = `Telefon numaranızın son 4 hanesi: <strong>${lastFour}</strong>`;
-                }
+                const phoneLastFour = phoneNumber.slice(-4);
+                document.getElementById('sentToText').innerHTML = `Telefon numaranızın son 4 hanesi: <strong>${phoneLastFour}</strong>`;
 
                 // Start timer
                 startOtpTimer();
@@ -620,9 +657,15 @@
                 // Focus first OTP input
                 document.querySelector('.otp-input').focus();
 
+                showToast('SMS kodu gönderildi!', 'success');
                 btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                 btn.disabled = false;
-            }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+                btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                btn.disabled = false;
+            }
         });
 
         // OTP Input handling
@@ -716,7 +759,7 @@
         }
 
         // Resend OTP
-        document.getElementById('resendOtpBtn').addEventListener('click', function() {
+        document.getElementById('resendOtpBtn').addEventListener('click', async function() {
             // Clear inputs
             otpInputs.forEach(input => input.value = '');
             document.getElementById('otpCode').value = '';
@@ -730,15 +773,66 @@
             const originalHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Gönderiliyor...';
             btn.disabled = true;
-            
-            // Simulate sending
-            setTimeout(() => {
+
+            try {
+                const phoneNumber = document.getElementById('phoneNumber').value.trim();
+                
+                if (!/^\d{10}$/.test(phoneNumber)) {
+                    showToast('Lütfen geçerli bir telefon numarası giriniz.', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
+                
+                // OTP Üret
+                const generateOtpResponse = await fetch('/Login?handler=GenerateOtp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ gsm: phoneNumber })
+                });
+
+                const generateOtpResult = await generateOtpResponse.json();
+
+                if (!generateOtpResult.success) {
+                    showToast(generateOtpResult.error || 'OTP üretilemedi', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
+
+                // OTP SMS Gönder
+                const sendSmsResponse = await fetch('/Login?handler=SendOtpSms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ gsm: phoneNumber })
+                });
+
+                const sendSmsResult = await sendSmsResponse.json();
+
+                if (!sendSmsResult.success) {
+                    showToast(sendSmsResult.error || 'SMS gönderilemedi', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
+
                 showToast('Yeni SMS kodu gönderildi.', 'success');
                 startOtpTimer();
                 otpInputs[0].focus();
                 btn.innerHTML = originalHtml;
                 btn.disabled = false;
-            }, 1000);
+            } catch (error) {
+                console.error('Resend OTP Error:', error);
+                showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
         });
 
         // Back to Step 1
@@ -754,6 +848,10 @@
             document.getElementById('kvkkCheck').checked = false;
             checkLoginButton();
             
+            // TCKN ve telefon numarası alanlarını temizleme (kullanıcı tekrar girmesin diye)
+            // document.getElementById('tcNumber').value = '';
+            // document.getElementById('phoneNumber').value = '';
+            
             // Hatalı giriş sayacını sıfırla
             failedAttempts = 0;
         });
@@ -765,7 +863,7 @@
         // Login Form Submit
         document.getElementById('otpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
             const otp = document.getElementById('otpCode').value;
             if (otp.length !== 6) {
                 showToast('Lütfen 6 haneli SMS kodunu giriniz.', 'error');
@@ -777,75 +875,110 @@
                 return;
             }
 
-            // Check if OTP is correct (123456)
-            if (otp !== '123456') {
-                failedAttempts++;
-                const remainingAttempts = MAX_FAILED_ATTEMPTS - failedAttempts;
-                
-                if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
-                    // 3 kere hatalı giriş - uyarı göster ve TCKN sayfasına yönlendir
-                    showToast('3 kez hatalı giriş yaptınız. Güvenlik nedeniyle TC Kimlik numarası giriş sayfasına yönlendiriliyorsunuz.', 'error');
-                    
-                    setTimeout(() => {
-                        // OTP alanlarını temizle
+            // KVKK Onay
+            (async () => {
+                try {
+                    const kvkkFormData = new FormData();
+                    kvkkFormData.append('KvkkAccepted', 'true');
+
+                    const kvkkResponse = await fetch('/Login?handler=KvkkOnay', {
+                        method: 'POST',
+                        body: kvkkFormData,
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                        }
+                    });
+
+                    const kvkkResult = await kvkkResponse.json();
+                    if (!kvkkResult.success) {
+                        showToast('KVKK onayı başarısız. Lütfen tekrar deneyin.', 'error');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('KVKK Onay Error:', error);
+                    // KVKK onayı başarısız olsa bile devam et
+                }
+
+                // OTP Doğrulama
+                const btn = document.getElementById('loginBtn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Giriş Yapılıyor...';
+                btn.disabled = true;
+
+                try {
+                    const tcNumber = document.getElementById('tcNumber').value.trim();
+                    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+
+                    const formData = new FormData();
+                    formData.append('OtpCode', otp);
+                    formData.append('Gsm', phoneNumber);
+
+                    const verifyResponse = await fetch('/Login?handler=VerifyOtp', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                        }
+                    });
+
+                    const verifyResult = await verifyResponse.json();
+
+                    if (!verifyResult.success) {
+                        failedAttempts++;
+                        const remainingAttempts = MAX_FAILED_ATTEMPTS - failedAttempts;
+                        
+                        if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+                            showToast('3 kez hatalı giriş yaptınız. Güvenlik nedeniyle TC Kimlik numarası giriş sayfasına yönlendiriliyorsunuz.', 'error');
+                            
+                            setTimeout(() => {
+                                otpInputs.forEach(input => input.value = '');
+                                document.getElementById('otpCode').value = '';
+                                document.getElementById('kvkkCheck').checked = false;
+                                checkLoginButton();
+                                
+                                clearInterval(timerInterval);
+                                document.getElementById('step2').classList.add('d-none');
+                                document.getElementById('step1').classList.remove('d-none');
+                                document.getElementById('step1Header').classList.remove('d-none');
+                                
+                                document.getElementById('tcNumber').value = '';
+                                document.getElementById('phoneNumber').value = '';
+                                document.getElementById('tcNumber').focus();
+                                
+                                failedAttempts = 0;
+                            }, 2000);
+                            return;
+                        }
+                        
+                        showToast(verifyResult.error || `Hatalı kod. Kalan deneme hakkı: ${remainingAttempts}`, 'error');
+                        
                         otpInputs.forEach(input => input.value = '');
                         document.getElementById('otpCode').value = '';
-                        document.getElementById('kvkkCheck').checked = false;
                         checkLoginButton();
+                        otpInputs[0].focus();
                         
-                        // Step 1'e dön
-                        clearInterval(timerInterval);
-                        document.getElementById('step2').classList.add('d-none');
-                        document.getElementById('step1').classList.remove('d-none');
-                        document.getElementById('step1Header').classList.remove('d-none');
-                        
-                        // TCKN alanını temizle ve odakla
-                        document.getElementById('tcNumber').value = '';
-                        document.getElementById('phoneNumber').value = '';
-                        document.getElementById('tcNumber').focus();
-                        
-                        // Sayaçları sıfırla
-                        failedAttempts = 0;
-                    }, 2000);
-                    return;
-                } else {
-                    showToast(`Hatalı SMS kodu! Kalan deneme hakkınız: ${remainingAttempts}`, 'error');
-                    // OTP alanlarını temizle
-                    otpInputs.forEach(input => input.value = '');
-                    document.getElementById('otpCode').value = '';
-                    checkLoginButton();
-                    otpInputs[0].focus();
-                    return;
-                }
+                        btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
+                        btn.disabled = false;
+                return;
             }
-
-            // Başarılı giriş - sayaçları sıfırla
-            failedAttempts = 0;
-
-            // Show loading
-            const btn = document.getElementById('loginBtn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Giriş Yapılıyor...';
-            btn.disabled = true;
-
-            // Submit form to server for session handling
-            fetch('/Login?handler=Login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    '__RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || '',
-                    'otpCode': otp
-                })
-            }).then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else {
-                    window.location.href = '/Dashboard';
+            
+                    // Success - Redirect
+                    failedAttempts = 0;
+                    showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
+                    
+                    setTimeout(() => {
+                        if (verifyResult.redirect) {
+                            window.location.replace(verifyResult.redirect);
+                        } else {
+                            window.location.replace('/Dashboard');
+                        }
+                    }, 1000);
+                } catch (error) {
+                    console.error('Login Error:', error);
+                    showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
+                    btn.disabled = false;
                 }
-            }).catch(() => {
-                window.location.href = '/Dashboard';
-            });
+            })();
         });
 
         // Toast function
