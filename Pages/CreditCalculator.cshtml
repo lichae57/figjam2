@@ -14,10 +14,10 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-8 fade-in">
+        <div class="col-12 col-lg-6 offset-lg-1 fade-in">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="mb-0">
+                    <h4 class="mb-0 text-white">
                         <i class="fas fa-info-circle me-2"></i>
                         Kredi Bilgileri
                     </h4>
@@ -100,7 +100,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-4 fade-in">
+        <div class="col-12 col-lg-3 me-lg-3 fade-in">
             <div class="card sticky-top" style="top: 20px;">
                 <div class="card-header bg-secondary-custom text-white">
                     <h4 class="mb-0">
@@ -108,11 +108,11 @@
                         Hesaplama Sonucu
                     </h4>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-3">
                     <div id="resultContainer" class="text-center">
                         <div class="result-placeholder">
-                            <i class="fas fa-calculator fa-4x text-muted mb-3"></i>
-                            <p class="text-muted">Bilgileri doldurup hesapla butonuna tıklayın</p>
+                            <i class="fas fa-calculator fa-3x text-muted mb-2"></i>
+                            <p class="text-muted small">Bilgileri doldurup hesapla butonuna tıklayın</p>
                         </div>
                     </div>
                 </div>
@@ -123,12 +123,12 @@
     <!-- Kredi Önerileri -->
     <div class="row mt-5 fade-in">
         <div class="col-12">
-            <h3 class="mb-4">
+            <h3 class="mb-4 suggestions-header">
                 <i class="fas fa-lightbulb me-2 text-secondary-custom"></i>
                 Size Özel Kredi Önerileri
             </h3>
-            <div class="row g-3">
-                <div class="col-md-4">
+            <div class="row g-3 suggestions-row">
+                <div class="col-md-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="text-secondary-custom">
@@ -141,11 +141,11 @@
                                 <li><i class="fas fa-check text-success me-2"></i>240 aya kadar vade</li>
                                 <li><i class="fas fa-check text-success me-2"></i>Hızlı onay</li>
                             </ul>
-                            <button class="btn btn-primary w-100">Başvur</button>
+                            <button class="btn btn-primary w-100" onclick="openApplicationPage('housing')">Başvur</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="text-secondary-custom">
@@ -158,11 +158,11 @@
                                 <li><i class="fas fa-check text-success me-2"></i>60 aya kadar vade</li>
                                 <li><i class="fas fa-check text-success me-2"></i>Anında onay</li>
                             </ul>
-                            <button class="btn btn-primary w-100">Başvur</button>
+                            <button class="btn btn-primary w-100" onclick="openApplicationPage('vehicle')">Başvur</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="text-secondary-custom">
@@ -175,7 +175,7 @@
                                 <li><i class="fas fa-check text-success me-2"></i>36 aya kadar vade</li>
                                 <li><i class="fas fa-check text-success me-2"></i>Kolay başvuru</li>
                             </ul>
-                            <button class="btn btn-primary w-100">Başvur</button>
+                            <button class="btn btn-primary w-100" onclick="openApplicationPage('consumer')">Başvur</button>
                         </div>
                     </div>
                 </div>
@@ -192,14 +192,15 @@
     .page-header {
         border-bottom: 2px solid var(--border-color);
         padding-bottom: 1rem;
+        padding-left: 5rem;
     }
 
     .result-placeholder {
-        padding: 2rem 0;
+        padding: 1rem 0;
     }
 
     .result-item {
-        padding: 1rem 0;
+        padding: 0.75rem 0;
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -217,6 +218,28 @@
         font-size: 1.5rem;
         font-weight: 700;
         color: var(--accent-color);
+    }
+
+    .col-lg-3 .card-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .col-lg-3 .card-header h4 {
+        font-size: 1.1rem;
+    }
+
+    .card-header h4 {
+        padding-left: 0.5rem;
+    }
+
+    .suggestions-header {
+        padding-left: 5rem;
+        font-size: 1.5rem;
+    }
+
+    .suggestions-row {
+        padding-left: 5rem;
+        padding-right: 5rem;
     }
 </style>
 
@@ -268,6 +291,17 @@
             
             showToast('Hesaplama tamamlandı!', 'success');
         });
+
+        function openApplicationPage(creditType) {
+            const pages = {
+                'housing': '/CreditApplication?type=housing',
+                'vehicle': '/CreditApplication?type=vehicle',
+                'consumer': '/CreditApplication?type=consumer'
+            };
+            
+            const url = pages[creditType] || '/CreditApplication';
+            window.location.href = url;
+        }
     </script>
 }
 

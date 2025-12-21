@@ -32,40 +32,8 @@ C:/Users/Nihan/Documents/figjam2/obj/Debug/net8.0/refint/figjam2.dll
 C:/Users/Nihan/Documents/figjam2/obj/Debug/net8.0/figjam2.pdb
 C:/Users/Nihan/Documents/figjam2/obj/Debug/net8.0/figjam2.genruntimeconfig.cache
 C:/Users/Nihan/Documents/figjam2/obj/Debug/net8.0/ref/figjam2.dll
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/appsettings.Development.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/appsettings.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.staticwebassets.runtime.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.staticwebassets.endpoints.json
 C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.exe
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.deps.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.runtimeconfig.json
 C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.dll
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/bin/Debug/net8.0/figjam2.pdb
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/rpswa.dswa.cache.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.GeneratedMSBuildEditorConfig.editorconfig
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.AssemblyInfoInputs.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.AssemblyInfo.cs
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.csproj.CoreCompileInputs.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.MvcApplicationPartsAssemblyInfo.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.RazorAssemblyInfo.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.RazorAssemblyInfo.cs
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.sourcelink.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/rjimswa.dswa.cache.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/rjsmrazor.dswa.cache.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/rjsmcshtml.dswa.cache.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/scopedcss/bundle/figjam2.styles.css
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/scopedcss/projectbundle/figjam2.bundle.scp.css
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/staticwebassets.build.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/staticwebassets.build.json.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/staticwebassets.development.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/staticwebassets.build.endpoints.json
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/swae.build.ex.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.dll
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/refint/figjam2.dll
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.pdb
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/figjam2.genruntimeconfig.cache
-C:/Users/zehra/OneDrive/Documents/GitHub/figjam2/obj/Debug/net8.0/ref/figjam2.dll
 /Users/esrademirkale/dev/figjam2/obj/Debug/net8.0/figjam2.dll
 /Users/esrademirkale/dev/figjam2/obj/Debug/net8.0/refint/figjam2.dll
 /Users/esrademirkale/dev/figjam2/obj/Debug/net8.0/figjam2.pdb
@@ -131,3 +99,45 @@ C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\refint\figjam2.dll
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.pdb
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\figjam2.genruntimeconfig.cache
 C:\Users\Nihan\Documents\figjam2\obj\Debug\net8.0\ref\figjam2.dll
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.exe
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.dll
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\appsettings.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\WebSube-API\.eslintrc.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\WebSube-API\package-lock.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\WebSube-API\package.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\WebSube-API\tsconfig.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\__MACOSX\WebSube-API\._.eslintrc.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\__MACOSX\WebSube-API\._package-lock.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\__MACOSX\WebSube-API\._package.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\WebSube-API (1)\__MACOSX\WebSube-API\._tsconfig.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.staticwebassets.runtime.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.staticwebassets.endpoints.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.deps.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.runtimeconfig.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\bin\Debug\net8.0\figjam2.pdb
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.AssemblyInfoInputs.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.AssemblyInfo.cs
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.csproj.CoreCompileInputs.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.RazorAssemblyInfo.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.RazorAssemblyInfo.cs
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.sourcelink.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\scopedcss\bundle\figjam2.styles.css
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\scopedcss\projectbundle\figjam2.bundle.scp.css
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\swae.build.ex.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.dll
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\refint\figjam2.dll
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.pdb
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\figjam2.genruntimeconfig.cache
+C:\Users\zehra\OneDrive\Documents\GitHub\figjam2\obj\Debug\net8.0\ref\figjam2.dll
