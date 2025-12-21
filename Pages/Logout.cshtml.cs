@@ -10,8 +10,8 @@ namespace figjam2.Pages
             // Session'ı temizle
             HttpContext.Session.Clear();
             
-            // Giriş sayfasına yönlendir
-            return RedirectToPage("/Login");
+            // Ana sayfaya (Landing Page) yönlendir
+            return RedirectToPage("/Index");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace figjam2.Pages
 
         public void OnGet()
         {
-
+            // Ana sayfa her zaman gösterilir, otomatik yönlendirme yok
         }
     }
 }

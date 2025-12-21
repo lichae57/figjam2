@@ -28,7 +28,7 @@ namespace figjam2.Pages
         {
             // Set session as logged in
             HttpContext.Session.SetString("IsLoggedIn", "true");
-            HttpContext.Session.SetString("UserName", "Kullanıcı");
+            HttpContext.Session.SetString("UserName", "Ahmet Yılmaz");
             HttpContext.Session.SetString("Identifier", Identifier ?? "");
 
             return RedirectToPage("/Dashboard");

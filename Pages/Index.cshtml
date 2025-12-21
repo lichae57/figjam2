@@ -4,6 +4,628 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-@{
-    Response.Redirect("/Login");
-}
+<div class="dashboard-container">
+    <!-- Özel Fırsatlar Carousel -->
+    <div class="opportunities-carousel mb-4 fade-in">
+        <div id="opportunitiesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#opportunitiesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#opportunitiesCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#opportunitiesCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner rounded-4" style="overflow: hidden; box-shadow: var(--shadow-lg);">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <div class="carousel-image-container" style="height: 550px; background: linear-gradient(135deg, #2E6DF8 0%, #0056B3 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                <img src="~/img/woman.png" alt="Özel Kredi Fırsatları" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center" style="background: white; padding: 3rem;">
+                            <div>
+                                <h2 class="mb-3" style="color: var(--primary-color); font-weight: 700;">
+                                    <i class="fas fa-percent me-2 text-secondary-custom"></i>
+                                    Özel Kredi Fırsatları
+                                </h2>
+                                <p class="lead mb-4" style="color: var(--text-secondary); line-height: 1.8;">
+                                    Size özel hazırladığımız kredi fırsatları ile hayallerinizi gerçekleştirin. Düşük faiz oranları ve esnek ödeme seçenekleri sizi bekliyor.
+                                </p>
+                                <a href="/CreditCalculator" class="btn btn-primary-custom text-white px-4 py-3 fw-semibold" style="background-color: var(--secondary-color); border: none; border-radius: 12px;">
+                                    Hemen Başvurun <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <div class="carousel-image-container" style="height: 550px; background: linear-gradient(135deg, #0056B3 0%, #222854 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                <img src="~/img/adam.png" alt="Tasarruf Hesapları" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center" style="background: white; padding: 3rem;">
+                            <div>
+                                <h2 class="mb-3" style="color: var(--primary-color); font-weight: 700;">
+                                    <i class="fas fa-piggy-bank me-2 text-secondary-custom"></i>
+                                    Tasarruf Hesapları
+                                </h2>
+                                <p class="lead mb-4" style="color: var(--text-secondary); line-height: 1.8;">
+                                    Paranızı değerlendirin! Yüksek faiz oranlı tasarruf hesaplarımız ile geleceğinize yatırım yapın. Güvenli ve karlı birikim seçenekleri.
+                                </p>
+                                <a href="/Services" class="btn btn-primary-custom text-white px-4 py-3 fw-semibold" style="background-color: var(--secondary-color); border: none; border-radius: 12px;">
+                                    Detayları Gör <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <div class="carousel-image-container" style="height: 550px; background: linear-gradient(135deg, #222854 0%, #2E6DF8 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                <img src="~/img/adam2.png" alt="Yardım ve Destek Merkezi" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center" style="background: white; padding: 3rem;">
+                            <div>
+                                <h2 class="mb-3" style="color: var(--primary-color); font-weight: 700;">
+                                    <i class="fas fa-headset me-2 text-secondary-custom"></i>
+                                    Yardım ve Destek Merkezi
+                                </h2>
+                                <p class="lead mb-4" style="color: var(--text-secondary); line-height: 1.8;">
+                                    Size yardımcı olmak için buradayız! Sorularınız için 7/24 müşteri desteği, sık sorulan sorular ve detaylı rehberlerimiz ile yanınızdayız.
+                                </p>
+                                <a href="/Services" class="btn btn-primary-custom text-white px-4 py-3 fw-semibold" style="background-color: var(--secondary-color); border: none; border-radius: 12px;">
+                                    Destek Al <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#opportunitiesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Önceki</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#opportunitiesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Sonraki</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hizmetler ve Özellikler Bölümü -->
+    <div class="services-section mt-5 fade-in" style="margin-top: 5rem !important;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3" style="color: var(--primary-color);">
+                    Size Özel Hizmetlerimiz
+                </h2>
+                <p class="lead text-muted">İhtiyaçlarınıza uygun finansal çözümler</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <!-- Kredi Hizmetleri -->
+                <div class="col-12 col-sm-6 col-lg-3 col-md-6">
+                    <div class="service-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, var(--secondary-color), var(--accent-color)); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-hand-holding-usd fa-3x text-white"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Kredi Çözümleri</h5>
+                            <p class="text-muted mb-4">İhtiyaç, konut, taşıt kredisi ve daha fazlası</p>
+                            <a href="/CreditCalculator" class="btn btn-sm" style="background-color: var(--secondary-color); color: white; border: none; border-radius: 12px;">
+                                Detaylar <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasarruf Hesapları -->
+                <div class="col-12 col-sm-6 col-lg-3 col-md-6">
+                    <div class="service-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, var(--accent-color), var(--primary-color)); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-piggy-bank fa-3x text-white"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Tasarruf Hesapları</h5>
+                            <p class="text-muted mb-4">Paranızı güvenle değerlendirin</p>
+                            <a href="/Services" class="btn btn-sm" style="background-color: var(--secondary-color); color: white; border: none; border-radius: 12px;">
+                                Detaylar <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yatırım Ürünleri -->
+                <div class="col-12 col-sm-6 col-lg-3 col-md-6">
+                    <div class="service-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, var(--secondary-color), var(--accent-color)); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-line fa-3x text-white"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Yatırım Ürünleri</h5>
+                            <p class="text-muted mb-4">Geleceğinize yatırım yapın</p>
+                            <a href="/Services" class="btn btn-sm" style="background-color: var(--secondary-color); color: white; border: none; border-radius: 12px;">
+                                Detaylar <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Faturalar -->
+                <div class="col-12 col-sm-6 col-lg-3 col-md-6">
+                    <div class="service-card card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3" style="width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, var(--accent-color), var(--primary-color)); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-file-invoice fa-3x text-white"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3" style="color: var(--primary-color);">Faturalar</h5>
+                            <p class="text-muted mb-4">Faturalarınızı kolayca ödeyin ve takip edin</p>
+                            <a href="/Services" class="btn btn-sm" style="background-color: var(--secondary-color); color: white; border: none; border-radius: 12px;">
+                                Detaylar <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Özellikler Bölümü -->
+            <div class="features-section bg-light rounded-4 p-4 p-md-5 mt-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-lg-6">
+                        <h3 class="fw-bold mb-4" style="color: var(--primary-color);">
+                            Neden İnteraktif Kredi?
+                        </h3>
+                        <div class="feature-list">
+                            <div class="feature-item d-flex mb-4">
+                                <div class="feature-icon me-3" style="width: 50px; height: 50px; background: var(--secondary-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-shield-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1" style="color: var(--primary-color);">Güvenli İşlemler</h6>
+                                    <p class="text-muted mb-0">256-bit SSL şifreleme ile güvenli bankacılık</p>
+                                </div>
+                            </div>
+                            <div class="feature-item d-flex mb-4">
+                                <div class="feature-icon me-3" style="width: 50px; height: 50px; background: var(--secondary-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-clock text-white"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1" style="color: var(--primary-color);">7/24 Hizmet</h6>
+                                    <p class="text-muted mb-0">İstediğiniz zaman, istediğiniz yerden işlem yapın</p>
+                                </div>
+                            </div>
+                            <div class="feature-item d-flex">
+                                <div class="feature-icon me-3" style="width: 50px; height: 50px; background: var(--secondary-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-headset text-white"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1" style="color: var(--primary-color);">Müşteri Desteği</h6>
+                                    <p class="text-muted mb-0">Uzman ekibimiz size yardımcı olmaya hazır</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="stats-grid">
+                            <div class="row g-3">
+                                <div class="col-6 col-sm-6">
+                                    <div class="stat-card bg-white rounded-3 p-4 text-center shadow-sm">
+                                        <h2 class="fw-bold mb-2" style="color: var(--secondary-color);">2M+</h2>
+                                        <p class="text-muted mb-0 small">Aktif Müşteri</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-card bg-white rounded-3 p-4 text-center shadow-sm">
+                                        <h2 class="fw-bold mb-2" style="color: var(--secondary-color);">₺50B+</h2>
+                                        <p class="text-muted mb-0 small">Kredi Portföyü</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-card bg-white rounded-3 p-4 text-center shadow-sm">
+                                        <h2 class="fw-bold mb-2" style="color: var(--secondary-color);">500+</h2>
+                                        <p class="text-muted mb-0 small">Şube</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-card bg-white rounded-3 p-4 text-center shadow-sm">
+                                        <h2 class="fw-bold mb-2" style="color: var(--secondary-color);">%99.9</h2>
+                                        <p class="text-muted mb-0 small">Memnuniyet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seçenekler -->
+    <div class="options-section mt-5 fade-in">
+        <div class="container">
+            <h2 class="options-title text-center mb-5">
+                <span class="title-bold">Krediye ulaşmanı sağlayacak seçeneklerle</span>
+                <span class="title-light">her zaman yanındayız!</span>
+            </h2>
+            <div class="options-grid">
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="option-label light-bg">Kredi Güven Raporu</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="option-label light-bg">VIP Kredi Danışmanlığı</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="option-label light-bg">Borç Kapatma Kredisi</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="option-label light-bg">Yapılandırma</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="option-label">%0 Faizli Fırsatlar</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="option-label">Kredi Kartı</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="option-label">Kredi Hesaplama</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="option-label">İhtiyaç Kredisi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sık Sorulan Sorular -->
+    <div class="faq-section mt-5 fade-in">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3" style="color: var(--primary-color);">
+                    <i class="fas fa-question-circle me-2 text-secondary-custom"></i>
+                    Sık Sorulan Sorular
+                </h2>
+                <p class="lead text-muted">Kullanıcılarımızın en çok merak ettiği sorular</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-6">
+                    <div class="faq-card">
+                        <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false">
+                            <div class="faq-question-text">
+                                Kredi başvurusu ne kadar sürede sonuçlanır?
+                            </div>
+                            <i class="fas fa-chevron-down faq-arrow"></i>
+                        </div>
+                        <div id="faq1" class="collapse">
+                            <div class="faq-answer">
+                                <p>Kredi başvurularınız genellikle 1-3 iş günü içinde değerlendirilir. Gerekli belgelerin eksiksiz olması durumunda onay süreci daha hızlı ilerler. Başvuru durumunuzu online olarak takip edebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="faq-card">
+                        <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false">
+                            <div class="faq-question-text">
+                                Kredi hesaplama aracı ne kadar doğru sonuç verir?
+                            </div>
+                            <i class="fas fa-chevron-down faq-arrow"></i>
+                        </div>
+                        <div id="faq2" class="collapse">
+                            <div class="faq-answer">
+                                <p>Kredi hesaplama aracımız gerçek faiz oranları ve güncel kredi koşullarına göre çalışır. Hesapladığınız tutarlar yaklaşık değerlerdir ve kesin tutar için başvuru yapmanız gerekmektedir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="faq-card">
+                        <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false">
+                            <div class="faq-question-text">
+                                Kredi Güven Raporu ücretsiz mi?
+                            </div>
+                            <i class="fas fa-chevron-down faq-arrow"></i>
+                        </div>
+                        <div id="faq3" class="collapse">
+                            <div class="faq-answer">
+                                <p>Kredi Güven Raporu hizmetimiz ücretlidir. Ancak raporunuzu aldıktan sonra kredi başvurunuz onaylanırsa, rapor ücreti kredi tutarından düşülür. Detaylı bilgi için müşteri temsilcilerimizle iletişime geçebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="faq-card">
+                        <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false">
+                            <div class="faq-question-text">
+                                Online başvuru yapabilir miyim?
+                            </div>
+                            <i class="fas fa-chevron-down faq-arrow"></i>
+                        </div>
+                        <div id="faq4" class="collapse">
+                            <div class="faq-answer">
+                                <p>Evet, tüm kredi başvurularınızı online olarak yapabilirsiniz. Başvuru formunu doldurduktan sonra gerekli belgeleri yükleyebilir ve başvuru durumunuzu takip edebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        padding: 2rem 0;
+    }
+
+    .opportunities-carousel .carousel-item {
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .opportunities-carousel .carousel-control-prev,
+    .opportunities-carousel .carousel-control-next {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+
+    .opportunities-carousel .carousel-control-prev {
+        left: 20px;
+    }
+
+    .opportunities-carousel .carousel-control-next {
+        right: 20px;
+    }
+
+    .opportunities-carousel .carousel-control-prev:hover,
+    .opportunities-carousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: var(--secondary-color);
+    }
+
+    .opportunities-carousel .carousel-control-prev-icon,
+    .opportunities-carousel .carousel-control-next-icon {
+        filter: invert(1);
+        width: 20px;
+        height: 20px;
+    }
+
+    .opportunities-carousel .carousel-indicators {
+        bottom: 20px;
+    }
+
+    .opportunities-carousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 2px solid white;
+    }
+
+    .opportunities-carousel .carousel-indicators button.active {
+        background-color: var(--secondary-color);
+    }
+
+    .service-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .service-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+        transform: scale(1.1);
+    }
+
+    .feature-item {
+        transition: transform 0.2s ease;
+    }
+
+    .feature-item:hover {
+        transform: translateX(5px);
+    }
+
+    .stat-card {
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md) !important;
+    }
+
+    .faq-section {
+        padding: 4rem 0;
+        background: var(--bg-light);
+    }
+
+    .faq-card {
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+
+    .faq-card:hover {
+        border-color: var(--secondary-color);
+        box-shadow: 0 4px 15px rgba(46, 109, 248, 0.1);
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .faq-question:hover {
+        background: rgba(46, 109, 248, 0.05);
+    }
+
+    .faq-question[aria-expanded="true"] {
+        background: rgba(46, 109, 248, 0.1);
+    }
+
+    .faq-question[aria-expanded="true"] .faq-arrow {
+        transform: rotate(180deg);
+    }
+
+    .faq-arrow {
+        color: var(--secondary-color);
+        transition: transform 0.3s ease;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+        margin-left: 1rem;
+    }
+
+    .faq-question-text {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.05rem;
+        line-height: 1.5;
+        flex: 1;
+        margin: 0;
+    }
+
+    .faq-answer {
+        padding: 1.5rem;
+        background: var(--bg-light);
+        color: var(--text-secondary);
+        line-height: 1.8;
+    }
+
+    .options-section {
+        padding: 4rem 0;
+    }
+
+    .options-title {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .title-bold {
+        color: var(--primary-color);
+        font-weight: 700;
+        display: block;
+    }
+
+    .title-light {
+        color: var(--text-secondary);
+        font-weight: 400;
+        display: block;
+    }
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .option-box {
+        background: white;
+        border: 2px solid var(--secondary-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .option-box:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--accent-color);
+    }
+
+    .option-icon-circle {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .option-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+    }
+
+    .option-label.light-bg {
+        color: var(--text-secondary);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-in;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
