@@ -1,0 +1,205 @@
+@page "/InvestmentProducts"
+@model figjam2.Pages.InvestmentProductsModel
+@{
+    ViewData["Title"] = "Yatırım Ürünleri";
+}
+
+<div class="service-detail-container">
+    <div class="page-header mb-5 fade-in">
+        <div class="d-flex align-items-center mb-3">
+            <div class="service-header-icon me-3">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div>
+                <h1 class="mb-2">Yatırım Ürünleri</h1>
+                <p class="text-muted mb-0">Döviz, altın, hisse senedi ve daha fazla yatırım seçeneği ile geleceğinizi güvence altına alın</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Döviz -->
+        <div class="col-12 col-lg-4 fade-in">
+            <div class="card h-100 feature-card">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h4 class="mb-3">Döviz İşlemleri</h4>
+                    <p class="text-muted mb-4">USD, EUR ve diğer döviz kurları ile yatırım yapın.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Anlık döviz kurları</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Düşük komisyon</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Online alım-satım</li>
+                    </ul>
+                    <a href="/Dashboard" class="btn btn-primary w-100">
+                        <i class="fas fa-chart-line me-2"></i>Döviz İşlemi Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Altın -->
+        <div class="col-12 col-lg-4 fade-in">
+            <div class="card h-100 feature-card">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h4 class="mb-3">Altın Yatırımı</h4>
+                    <p class="text-muted mb-4">Gram altın, çeyrek altın ve külçe altın yatırım seçenekleri.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Güvenli yatırım</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Anlık fiyat takibi</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Kolay alım-satım</li>
+                    </ul>
+                    <a href="/Dashboard" class="btn btn-primary w-100">
+                        <i class="fas fa-gem me-2"></i>Altın Al/Sat
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hisse Senedi -->
+        <div class="col-12 col-lg-4 fade-in">
+            <div class="card h-100 feature-card">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4 class="mb-3">Hisse Senedi</h4>
+                    <p class="text-muted mb-4">Borsa İstanbul'da işlem gören hisse senetlerine yatırım yapın.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Canlı borsa verileri</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Portföy takibi</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Uzman analizler</li>
+                    </ul>
+                    <a href="/Dashboard" class="btn btn-primary w-100">
+                        <i class="fas fa-briefcase me-2"></i>Portföy Oluştur
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yatırım Avantajları -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-5">
+                    <h3 class="mb-4 text-center">
+                        <i class="fas fa-trophy me-2 text-secondary-custom"></i>
+                        Yatırım Avantajları
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-badge me-3">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                                <div>
+                                    <h5>Düşük Komisyon</h5>
+                                    <p class="text-muted mb-0">Rekabetçi komisyon oranları ile yatırım yapın.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-badge me-3">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <h5>Uzman Danışmanlık</h5>
+                                    <p class="text-muted mb-0">Yatırım uzmanlarımızdan profesyonel destek alın.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-badge me-3">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div>
+                                    <h5>Mobil Yatırım</h5>
+                                    <p class="text-muted mb-0">Mobil uygulama ile her yerden yatırım yapın.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="feature-badge me-3">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div>
+                                    <h5>Güvenli Platform</h5>
+                                    <p class="text-muted mb-0">Yatırımlarınız güvenli platformumuzda korunur.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .service-detail-container {
+        padding: 2rem 0;
+    }
+
+    .page-header {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .service-header-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: var(--shadow-md);
+    }
+
+    .feature-card {
+        transition: all 0.3s ease;
+        border-radius: 16px;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-badge {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+</style>
+
