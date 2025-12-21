@@ -6,135 +6,279 @@
 }
 
 <div class="dashboard-container">
-    <!-- Karşılama ve Kredi Skoru Bölümü -->
-    <div class="welcome-section mb-5 fade-in" style="background: linear-gradient(135deg, #2E6DF8 0%, #0056B3 100%); border-radius: 20px; padding: 3rem; color: white; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(46, 109, 248, 0.2);">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h1 class="display-5 fw-bold mb-3">Hoş geldin, @userName</h1>
-                    <p class="lead mb-4" style="opacity: 0.9;">Finansal özetin aşağıda</p>
-                </div>
-                <div class="col-md-6 text-center">
-                    <div class="credit-score-gauge" style="position: relative; width: 250px; height: 250px; margin: 0 auto;">
-                        <svg width="250" height="250" viewBox="0 0 250 250" style="transform: rotate(-90deg);">
-                            <circle cx="125" cy="125" r="100" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="15"/>
-                            <circle cx="125" cy="125" r="100" fill="none" stroke="white" stroke-width="15" 
-                                    stroke-dasharray="@(2 * Math.PI * 100)" 
-                                    stroke-dashoffset="@(2 * Math.PI * 100 * (1 - 0.72))" 
-                                    stroke-linecap="round"/>
-                        </svg>
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                            <div style="font-size: 3.5rem; font-weight: 800; line-height: 1;">720</div>
-                            <div style="font-size: 1.1rem; opacity: 0.9; margin-top: 0.5rem;">İnteraktif Kredi Skoru</div>
+    <div class="container py-4">
+        <!-- 1. KREDİ GÜVEN RAPORU & SKOR (Merkezi Modül) -->
+        <div class="credit-report-section mb-5 fade-in">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="credit-report-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 3rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1);">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-6 text-center text-md-start mb-4 mb-md-0">
+                                <h2 class="fw-bold mb-3" style="color: #2E6DF8;">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    Kredi Güven Raporu
+                                </h2>
+                                <p class="text-muted mb-4">Finansal sağlığınızın güvenilir göstergesi</p>
+                                
+                                <!-- Motive Edici Geri Bildirim -->
+                                <div class="feedback-badge mb-4" style="display: inline-block; background: linear-gradient(135deg, #E6F7FF 0%, #D1ECF1 100%); padding: 1rem 1.5rem; border-radius: 12px; border-left: 4px solid #28a745;">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="fas fa-check-circle" style="color: #28a745; font-size: 1.5rem;"></i>
+                                        <div>
+                                            <div class="fw-bold" style="color: #2E6DF8;">Skorun Çok İyi!</div>
+                                            <div class="small text-muted">Finansal durumunuz güçlü görünüyor</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="/CreditReport" class="btn btn-primary-custom" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.75rem 2rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-file-alt"></i>
+                                    Detaylı Rapor Al
+                                </a>
+                            </div>
+                            
+                            <div class="col-12 col-md-6 text-center">
+                                <!-- İnteraktif Kredi Skoru Gauge Chart -->
+                                <div class="credit-score-gauge" style="position: relative; width: 280px; height: 280px; margin: 0 auto;">
+                                    <svg width="280" height="280" viewBox="0 0 280 280" style="transform: rotate(-90deg);">
+                                        <circle cx="140" cy="140" r="110" fill="none" stroke="#E6F7FF" stroke-width="18"/>
+                                        <circle cx="140" cy="140" r="110" fill="none" stroke="#2E6DF8" stroke-width="18" 
+                                                stroke-dasharray="@(2 * Math.PI * 110)" 
+                                                stroke-dashoffset="@(2 * Math.PI * 110 * (1 - 0.72))" 
+                                                stroke-linecap="round" class="gauge-fill"/>
+                                    </svg>
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                                        <div style="font-size: 4rem; font-weight: 800; line-height: 1; color: #2E6DF8;">720</div>
+                                        <div style="font-size: 1.2rem; color: #6c757d; margin-top: 0.5rem; font-weight: 500;">İnteraktif Kredi Skoru</div>
+                                        <div style="font-size: 0.9rem; color: #6c757d; margin-top: 0.25rem;">/ 1000</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Finansal Özet Kartları -->
-    <div class="financial-summary mb-5 fade-in">
-        <div class="container">
-            <div class="row g-4">
-                <!-- Aktif Borçlarım -->
-                <div class="col-md-4">
-                    <div class="summary-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s ease;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 50px; height: 50px; background: #E6F7FF; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                <i class="fas fa-file-invoice-dollar" style="font-size: 1.5rem; color: #2E6DF8;"></i>
-                            </div>
-                            <h5 class="fw-bold mb-0" style="color: #2E6DF8;">Aktif Borçlarım</h5>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small">İhtiyaç Kredisi</span>
-                                <span class="fw-bold" style="color: #2E6DF8;">₺45.000</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small">Kredi Kartı</span>
-                                <span class="fw-bold" style="color: #2E6DF8;">₺12.500</span>
-                            </div>
-                            <hr class="my-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold">Toplam</span>
-                                <span class="fw-bold fs-5" style="color: #2E6DF8;">₺57.500</span>
-                            </div>
-                        </div>
-                        <a href="/CreditReport" class="btn btn-sm w-100" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.5rem; text-decoration: none; transition: all 0.3s ease;">
-                            Detayları Gör <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
-                    </div>
-                </div>
+        <div class="row g-4">
+            <!-- 2. DİVİZYON VE LİMİT YÖNETİMİ -->
+            <div class="col-12 col-lg-8">
+                <div class="limit-management-section fade-in">
+                    <div class="limit-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1);">
+                        <h3 class="fw-bold mb-4" style="color: #2E6DF8;">
+                            <i class="fas fa-wallet me-2"></i>
+                            Kullanılabilir Limitlerim
+                        </h3>
 
-                <!-- Limitlerim -->
-                <div class="col-md-4">
-                    <div class="summary-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s ease;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 50px; height: 50px; background: #E6F7FF; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                <i class="fas fa-credit-card" style="font-size: 1.5rem; color: #2E6DF8;"></i>
-                            </div>
-                            <h5 class="fw-bold mb-0" style="color: #2E6DF8;">Limitlerim</h5>
-                        </div>
-                        <div class="mb-3">
+                        <!-- Kredi Kartı Limiti -->
+                        <div class="limit-item mb-4 pb-4" style="border-bottom: 1px solid #E6F7FF;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small">Kredi Kartı Limiti</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-credit-card" style="color: #2E6DF8; font-size: 1.2rem;"></i>
+                                    <span class="fw-semibold" style="color: #333;">Kredi Kartı Limiti</span>
+                                </div>
                                 <span class="fw-bold" style="color: #2E6DF8;">₺50.000</span>
                             </div>
+                            <div class="progress mb-2" style="height: 12px; border-radius: 12px; background: #E6F7FF;">
+                                <div class="progress-bar" style="background: linear-gradient(90deg, #2E6DF8 0%, #0056B3 100%); width: 25%; border-radius: 12px; transition: width 0.6s ease;"></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-muted small">Kullanılabilir: <strong style="color: #28a745;">₺37.500</strong></span>
+                                <span class="text-muted small">Kullanım: <strong style="color: #2E6DF8;">%25</strong></span>
+                            </div>
+                            <a href="/CreditApplication" class="btn btn-sm btn-outline-primary-custom" style="border: 1px solid #2E6DF8; color: #2E6DF8; background: transparent; border-radius: 12px; padding: 0.5rem 1.5rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="fas fa-arrow-up me-1"></i>
+                                Limit Artış Talebi
+                            </a>
+                        </div>
+
+                        <!-- Ek Hesap -->
+                        <div class="limit-item mb-4 pb-4" style="border-bottom: 1px solid #E6F7FF;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small">Kullanılabilir Limit</span>
-                                <span class="fw-bold" style="color: #28a745;">₺37.500</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-plus-circle" style="color: #2E6DF8; font-size: 1.2rem;"></i>
+                                    <span class="fw-semibold" style="color: #333;">Ek Hesap</span>
+                                </div>
+                                <span class="fw-bold" style="color: #2E6DF8;">₺30.000</span>
                             </div>
-                            <div class="progress mb-2" style="height: 8px; border-radius: 10px; background: #E6F7FF;">
-                                <div class="progress-bar" style="background: #2E6DF8; width: 25%; border-radius: 10px;"></div>
+                            <div class="progress mb-2" style="height: 12px; border-radius: 12px; background: #E6F7FF;">
+                                <div class="progress-bar" style="background: linear-gradient(90deg, #2E6DF8 0%, #0056B3 100%); width: 40%; border-radius: 12px; transition: width 0.6s ease;"></div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted small">Kullanım Oranı</span>
-                                <span class="fw-bold small" style="color: #2E6DF8;">%25</span>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-muted small">Kullanılabilir: <strong style="color: #28a745;">₺18.000</strong></span>
+                                <span class="text-muted small">Kullanım: <strong style="color: #2E6DF8;">%40</strong></span>
+                            </div>
+                            <a href="/CreditApplication" class="btn btn-sm btn-outline-primary-custom" style="border: 1px solid #2E6DF8; color: #2E6DF8; background: transparent; border-radius: 12px; padding: 0.5rem 1.5rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="fas fa-arrow-up me-1"></i>
+                                Limit Artış Talebi
+                            </a>
+                        </div>
+
+                        <!-- Taksitli Nakit Avans -->
+                        <div class="limit-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fas fa-money-bill-wave" style="color: #2E6DF8; font-size: 1.2rem;"></i>
+                                    <span class="fw-semibold" style="color: #333;">Taksitli Nakit Avans</span>
+                                </div>
+                                <span class="fw-bold" style="color: #2E6DF8;">₺25.000</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 12px; border-radius: 12px; background: #E6F7FF;">
+                                <div class="progress-bar" style="background: linear-gradient(90deg, #2E6DF8 0%, #0056B3 100%); width: 15%; border-radius: 12px; transition: width 0.6s ease;"></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-muted small">Kullanılabilir: <strong style="color: #28a745;">₺21.250</strong></span>
+                                <span class="text-muted small">Kullanım: <strong style="color: #2E6DF8;">%15</strong></span>
+                            </div>
+                            <a href="/CreditApplication" class="btn btn-sm btn-outline-primary-custom" style="border: 1px solid #2E6DF8; color: #2E6DF8; background: transparent; border-radius: 12px; padding: 0.5rem 1.5rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="fas fa-arrow-up me-1"></i>
+                                Limit Artış Talebi
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. AKSIYON GEÇMİŞİ (Timeline) -->
+            <div class="col-12 col-lg-4">
+                <div class="action-history-section fade-in">
+                    <div class="history-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1); height: 100%;">
+                        <h3 class="fw-bold mb-4" style="color: #2E6DF8;">
+                            <i class="fas fa-history me-2"></i>
+                            Son Finansal İşlemleriniz
+                        </h3>
+
+                        <div class="timeline" style="max-height: 500px; overflow-y: auto;">
+                            <!-- Sistem Etkileşimi -->
+                            <div class="timeline-item mb-3 pb-3" style="border-left: 3px solid #E6F7FF; padding-left: 1rem; position: relative;">
+                                <div class="timeline-dot" style="position: absolute; left: -8px; top: 0.25rem; width: 14px; height: 14px; background: #2E6DF8; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #E6F7FF;"></div>
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-user-edit" style="color: #2E6DF8; margin-top: 0.25rem;"></i>
+                                    <div style="flex: 1;">
+                                        <div class="fw-semibold small" style="color: #333;">Hesap Bilgileri Güncellendi</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">14 Ocak 2025, 16:30</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Finansal İşlem -->
+                            <div class="timeline-item mb-3 pb-3" style="border-left: 3px solid #E6F7FF; padding-left: 1rem; position: relative;">
+                                <div class="timeline-dot" style="position: absolute; left: -8px; top: 0.25rem; width: 14px; height: 14px; background: #DC3545; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #E6F7FF;"></div>
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-credit-card" style="color: #DC3545; margin-top: 0.25rem;"></i>
+                                    <div style="flex: 1;">
+                                        <div class="fw-semibold small" style="color: #333;">Kart Harcaması</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">12 Ocak 2025, 14:20</div>
+                                        <div class="fw-bold text-danger mt-1">-₺850</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sistem Etkileşimi -->
+                            <div class="timeline-item mb-3 pb-3" style="border-left: 3px solid #E6F7FF; padding-left: 1rem; position: relative;">
+                                <div class="timeline-dot" style="position: absolute; left: -8px; top: 0.25rem; width: 14px; height: 14px; background: #28a745; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #E6F7FF;"></div>
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-chart-line" style="color: #28a745; margin-top: 0.25rem;"></i>
+                                    <div style="flex: 1;">
+                                        <div class="fw-semibold small" style="color: #333;">Yeni Limit Tanımlandı</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">10 Ocak 2025, 10:15</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Finansal İşlem -->
+                            <div class="timeline-item mb-3 pb-3" style="border-left: 3px solid #E6F7FF; padding-left: 1rem; position: relative;">
+                                <div class="timeline-dot" style="position: absolute; left: -8px; top: 0.25rem; width: 14px; height: 14px; background: #DC3545; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #E6F7FF;"></div>
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-file-invoice-dollar" style="color: #DC3545; margin-top: 0.25rem;"></i>
+                                    <div style="flex: 1;">
+                                        <div class="fw-semibold small" style="color: #333;">Kredi Ödemesi</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">8 Ocak 2025, 09:00</div>
+                                        <div class="fw-bold text-danger mt-1">-₺2.500</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Finansal İşlem -->
+                            <div class="timeline-item mb-3 pb-3" style="border-left: 3px solid #E6F7FF; padding-left: 1rem; position: relative;">
+                                <div class="timeline-dot" style="position: absolute; left: -8px; top: 0.25rem; width: 14px; height: 14px; background: #28a745; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #E6F7FF;"></div>
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-exchange-alt" style="color: #28a745; margin-top: 0.25rem;"></i>
+                                    <div style="flex: 1;">
+                                        <div class="fw-semibold small" style="color: #333;">Para Transferi</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">5 Ocak 2025, 11:45</div>
+                                        <div class="fw-bold text-success mt-1">+₺5.000</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <a href="/CreditApplication" class="btn btn-sm w-100" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.5rem; text-decoration: none; transition: all 0.3s ease;">
-                            Limit Artır <i class="fas fa-arrow-up ms-2"></i>
+
+                        <a href="/AccountOperations" class="btn btn-sm w-100 mt-3" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.75rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <i class="fas fa-list"></i>
+                            Tüm İşlemleri Görüntüle
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Son İşlemler -->
-                <div class="col-md-4">
-                    <div class="summary-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s ease;">
-                        <div class="d-flex align-items-center mb-3">
-                            <div style="width: 50px; height: 50px; background: #E6F7FF; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                <i class="fas fa-history" style="font-size: 1.5rem; color: #2E6DF8;"></i>
+        <!-- 3. HIZLI ERİŞİM VE HİZMETLER (Bento Grid) -->
+        <div class="quick-access-section mt-5 fade-in">
+            <h3 class="fw-bold mb-4" style="color: #2E6DF8;">
+                <i class="fas fa-bolt me-2"></i>
+                Hızlı Erişim ve Hizmetler
+            </h3>
+            <div class="row g-4">
+                <!-- Kredi Hesaplama -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/CreditCalculator" class="service-card-link" style="text-decoration: none; display: block;">
+                        <div class="service-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(46, 109, 248, 0.05); height: 100%;">
+                            <div class="service-icon mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #E6F7FF 0%, #D1ECF1 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <i class="fas fa-calculator" style="font-size: 2rem; color: #2E6DF8;"></i>
                             </div>
-                            <h5 class="fw-bold mb-0" style="color: #2E6DF8;">Son İşlemler</h5>
+                            <h5 class="fw-bold mb-2" style="color: #2E6DF8;">Kredi Hesaplama</h5>
+                            <p class="text-muted small mb-0">Kredi tutarınızı hesaplayın</p>
                         </div>
-                        <div class="mb-3" style="max-height: 200px; overflow-y: auto;">
-                            <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #E6F7FF;">
-                                <div>
-                                    <div class="fw-bold small" style="color: #333;">Kredi Ödemesi</div>
-                                    <div class="text-muted" style="font-size: 0.75rem;">15 Ocak 2025</div>
-                                </div>
-                                <span class="fw-bold text-danger">-₺2.500</span>
+                    </a>
+                </div>
+
+                <!-- Faturalar & Ödemeler -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/CreditReport" class="service-card-link" style="text-decoration: none; display: block;">
+                        <div class="service-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(46, 109, 248, 0.05); height: 100%;">
+                            <div class="service-icon mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #E6F7FF 0%, #D1ECF1 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <i class="fas fa-file-invoice" style="font-size: 2rem; color: #2E6DF8;"></i>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #E6F7FF;">
-                                <div>
-                                    <div class="fw-bold small" style="color: #333;">Kart Harcaması</div>
-                                    <div class="text-muted" style="font-size: 0.75rem;">12 Ocak 2025</div>
-                                </div>
-                                <span class="fw-bold text-danger">-₺850</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="fw-bold small" style="color: #333;">Para Transferi</div>
-                                    <div class="text-muted" style="font-size: 0.75rem;">10 Ocak 2025</div>
-                                </div>
-                                <span class="fw-bold text-success">+₺5.000</span>
-                            </div>
+                            <h5 class="fw-bold mb-2" style="color: #2E6DF8;">Faturalar & Ödemeler</h5>
+                            <p class="text-muted small mb-0">Faturalarınızı görüntüleyin</p>
                         </div>
-                        <a href="/AccountOperations" class="btn btn-sm w-100" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.5rem; text-decoration: none; transition: all 0.3s ease;">
-                            Tümünü Gör <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
-                    </div>
+                    </a>
+                </div>
+
+                <!-- Sık Sorulan Sorular -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/CustomerService" class="service-card-link" style="text-decoration: none; display: block;">
+                        <div class="service-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(46, 109, 248, 0.05); height: 100%;">
+                            <div class="service-icon mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #E6F7FF 0%, #D1ECF1 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <i class="fas fa-question-circle" style="font-size: 2rem; color: #2E6DF8;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2" style="color: #2E6DF8;">Sık Sorulan Sorular</h5>
+                            <p class="text-muted small mb-0">Yardım ve destek</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Döküm Al -->
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <a href="/CreditReport" class="service-card-link" style="text-decoration: none; display: block;">
+                        <div class="service-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(46, 109, 248, 0.05); height: 100%;">
+                            <div class="service-icon mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #E6F7FF 0%, #D1ECF1 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <i class="fas fa-download" style="font-size: 2rem; color: #2E6DF8;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2" style="color: #2E6DF8;">Döküm Al</h5>
+                            <p class="text-muted small mb-0">Hesap özeti indir</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -144,31 +288,13 @@
 <style>
     .dashboard-container {
         padding: 2rem 0;
-        background-color: var(--bg-light);
+        background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
         min-height: calc(100vh - 200px);
     }
 
-    .welcome-section {
+    /* Animasyonlar */
+    .fade-in {
         animation: fadeInUp 0.6s ease-out;
-    }
-
-    .financial-summary {
-        animation: fadeInUp 0.8s ease-out;
-    }
-
-    .summary-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(46, 109, 248, 0.15) !important;
-        border-color: #2E6DF8 !important;
-    }
-
-    .summary-card a:hover {
-        background-color: #0056B3 !important;
-        transform: scale(1.02);
-    }
-
-    .credit-score-gauge {
-        animation: scaleIn 0.8s ease-out;
     }
 
     @@keyframes fadeInUp {
@@ -182,42 +308,140 @@
         }
     }
 
-    @@keyframes scaleIn {
-        from {
-            opacity: 0;
-            transform: scale(0.8);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
+    /* Kredi Güven Raporu Kartı */
+    .credit-report-card {
+        transition: all 0.3s ease;
     }
 
-    .fade-in {
-        animation: fadeIn 0.6s ease-in;
+    .credit-report-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(46, 109, 248, 0.15) !important;
     }
 
-    @@keyframes fadeIn {
-        from {
-            opacity: 0;
+    .gauge-fill {
+        transition: stroke-dashoffset 1s ease-out;
+    }
+
+    /* Limit Yönetimi */
+    .limit-card {
+        transition: all 0.3s ease;
+    }
+
+    .limit-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.12) !important;
+    }
+
+    .btn-outline-primary-custom:hover {
+        background-color: #2E6DF8 !important;
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(46, 109, 248, 0.2);
+    }
+
+    .btn-outline-primary-custom:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(46, 109, 248, 0.15);
+    }
+
+    /* Aksiyon Geçmişi */
+    .history-card {
+        transition: all 0.3s ease;
+    }
+
+    .history-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.12) !important;
+    }
+
+    .timeline::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .timeline::-webkit-scrollbar-track {
+        background: #F5F7FA;
+        border-radius: 10px;
+    }
+
+    .timeline::-webkit-scrollbar-thumb {
+        background: #E6F7FF;
+        border-radius: 10px;
+    }
+
+    .timeline::-webkit-scrollbar-thumb:hover {
+        background: #2E6DF8;
+    }
+
+    /* Hızlı Erişim Kartları */
+    .service-card {
+        cursor: pointer;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        border-color: #2E6DF8 !important;
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.15) !important;
+    }
+
+    .service-card:hover .service-icon {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #2E6DF8 0%, #0056B3 100%) !important;
+    }
+
+    .service-card:hover .service-icon i {
+        color: white !important;
+    }
+
+    .service-icon {
+        transition: all 0.3s ease;
+    }
+
+    /* Buton Hover Efektleri */
+    .btn-primary-custom:hover {
+        background-color: #0056B3 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(46, 109, 248, 0.3);
+    }
+
+    .btn-primary-custom:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(46, 109, 248, 0.2);
+    }
+
+    /* Disabled State */
+    .btn:disabled,
+    .btn.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .credit-report-card {
+            padding: 2rem !important;
         }
-        to {
-            opacity: 1;
+
+        .credit-score-gauge {
+            width: 220px !important;
+            height: 220px !important;
         }
     }
 
     @@media (max-width: 768px) {
-        .welcome-section {
-            padding: 2rem 1rem !important;
+        .dashboard-container {
+            padding: 1rem 0;
+        }
+
+        .credit-report-card,
+        .limit-card,
+        .history-card {
+            padding: 1.5rem !important;
         }
 
         .credit-score-gauge {
             width: 200px !important;
             height: 200px !important;
-        }
-
-        .summary-card {
-            margin-bottom: 1.5rem;
         }
     }
 </style>
