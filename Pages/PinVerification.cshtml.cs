@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace figjam2.Pages
 {
@@ -15,7 +18,7 @@ namespace figjam2.Pages
             return Page();
         }
 
-        public IActionResult OnPost(string pin)
+        public async Task<IActionResult> OnPost(string pin)
         {
             if (string.IsNullOrEmpty(pin) || pin.Length != 6)
             {
@@ -26,6 +29,7 @@ namespace figjam2.Pages
             HttpContext.Session.SetString("IsLoggedIn", "true");
             
             // Kullanıcı bilgilerini session'a kaydet (örnek veri)
+            var identifier = HttpContext.Session.GetString("Identifier") ?? "";
             HttpContext.Session.SetString("UserName", "Ahmet Yılmaz");
             HttpContext.Session.SetString("UserEmail", "ahmet.yilmaz@email.com");
             HttpContext.Session.SetString("UserPhone", "5551234567");
@@ -35,6 +39,24 @@ namespace figjam2.Pages
             HttpContext.Session.SetString("UserCity", "İstanbul");
             HttpContext.Session.SetString("UserDistrict", "Kadıköy");
             HttpContext.Session.SetString("UserPostalCode", "34700");
+
+            // Create claims for cookie authentication
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, "Ahmet Yılmaz"),
+                new Claim(ClaimTypes.NameIdentifier, identifier),
+                new Claim("IsLoggedIn", "true")
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                new ClaimsPrincipal(claimsIdentity), authProperties);
 
             // Dashboard'a yönlendir
             return RedirectToPage("/Dashboard");

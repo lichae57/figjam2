@@ -15,57 +15,29 @@
         <header class="bank-header">
             <nav class="navbar navbar-light bg-white shadow-sm">
                 <div class="container d-flex justify-content-between align-items-center">
-                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="@(ViewContext.HttpContext.Session.GetString("IsLoggedIn") == "true" ? "/Dashboard" : "/Index")" style="margin-right: 0; padding-left: 0; background: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none;">
+                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="@(User.Identity?.IsAuthenticated == true ? "/Dashboard" : "/Index")" style="margin-right: 0; padding-left: 0; background: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none;">
                         <img src="~/img/logo.png" alt="Interaktif Kredi" style="height: 55px; width: auto;" />
                     </a>
                     
-                    @if (ViewContext.HttpContext.Session.GetString("IsLoggedIn") == "true")
+                    @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <div class="d-flex align-items-center gap-4">
-                            <!-- Header Navigation Menüleri -->
-                            <nav class="d-none d-lg-flex align-items-center gap-3">
-                                <a href="/CreditReport" class="nav-link-custom" style="color: #2E6DF8; text-decoration: none; font-weight: 500; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 12px; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-file-alt"></i>
-                                    <span>Rapor Detayları</span>
-                                </a>
-                                <a href="/CustomerService" class="nav-link-custom" style="color: #2E6DF8; text-decoration: none; font-weight: 500; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 12px; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-headset"></i>
-                                    <span>Yardım ve Destek Merkezi</span>
-                                </a>
-                                <a href="/Settings" class="nav-link-custom" style="color: #2E6DF8; text-decoration: none; font-weight: 500; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 12px; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-user-cog"></i>
-                                    <span>Profil ve Hesap Ayarları</span>
-                                </a>
-                            </nav>
-
-                            <!-- Arama Çubuğu -->
-                            <div class="search-container" style="position: relative;">
-                                <i class="fas fa-search" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #2E6DF8; font-size: 0.9rem; pointer-events: none; z-index: 1;"></i>
-                                <input type="text" 
-                                       class="form-control" 
-                                       placeholder="Ara..." 
-                                       style="width: 250px; padding-left: 2.5rem; padding-right: 0.75rem; padding-top: 0.5rem; padding-bottom: 0.5rem; background-color: #F5F7FA; border: 1px solid #E6F7FF; border-radius: 12px; color: #333; font-size: 0.9rem; height: auto; transition: all 0.3s ease;">
-                            </div>
-
-                            <!-- Bildirim İkonu -->
-                            <div class="notification-icon-container" style="position: relative; cursor: pointer;">
-                                <i class="fas fa-bell" style="font-size: 1.3rem; color: #2E6DF8; padding: 0.5rem; transition: all 0.3s ease;"></i>
-                                <span class="notification-badge" style="position: absolute; top: 0.25rem; right: 0.25rem; width: 8px; height: 8px; background-color: #DC3545; border-radius: 50%; border: 2px solid white; display: block;"></span>
-                            </div>
-
+                        <!-- Giriş Yapmış Kullanıcılar İçin Header -->
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="/CreditReport" class="btn" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 12px; padding: 0.5rem 1.5rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                                Kredi Raporları
+                            </a>
+                            <a href="/CustomerService" class="btn" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 12px; padding: 0.5rem 1.5rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease;">
+                                Yardım ve Destek Merkezi
+                            </a>
                             <!-- Profil Dropdown -->
                             <div class="dropdown">
-                                <button class="btn btn-link text-decoration-none d-flex align-items-center dropdown-toggle" 
+                                <button class="btn dropdown-toggle" 
                                         type="button" 
                                         id="profileDropdown" 
                                         data-bs-toggle="dropdown" 
                                         aria-expanded="false"
-                                        style="border: none; padding: 0.25rem 0.5rem; color: #2E6DF8; gap: 0.75rem;">
-                                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #2E6DF8 0%, #0056B3 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid #E6F7FF;">
-                                        <img src="~/img/profile-placeholder.png" alt="Profil" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <i class="fas fa-user" style="display: none; color: white; font-size: 1rem;"></i>
-                                    </div>
-                                    <span class="d-none d-md-inline fw-semibold" style="color: #2E6DF8; font-size: 0.95rem;">@(ViewContext.HttpContext.Session.GetString("UserName") ?? "Ahmet Yılmaz")</span>
+                                        style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 12px; padding: 0.5rem 1.5rem; font-weight: 600;">
+                                    Profil
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="margin-top: 0.5rem; border: 1px solid #E6F7FF; box-shadow: 0 8px 24px rgba(46, 109, 248, 0.15); border-radius: 12px; padding: 1rem 0; min-width: 280px;">
                                     <!-- Kullanıcı Özeti -->
@@ -77,18 +49,31 @@
                                                     <i class="fas fa-user" style="display: none; color: white; font-size: 1.2rem;"></i>
                                                 </div>
                                                 <div style="flex: 1; min-width: 0;">
-                                                    <div class="fw-bold" style="color: #2E6DF8; font-size: 0.95rem; margin-bottom: 0.25rem;">@(ViewContext.HttpContext.Session.GetString("UserName") ?? "Ahmet Yılmaz")</div>
-                                                    <div class="text-muted" style="font-size: 0.8rem; word-break: break-word;">@(ViewContext.HttpContext.Session.GetString("Identifier") ?? "ahmet.yilmaz@example.com")</div>
+                                                    <div class="fw-bold" style="color: #2E6DF8; font-size: 0.95rem; margin-bottom: 0.25rem;">@(ViewContext.HttpContext.Session.GetString("UserName") ?? User.Identity?.Name ?? "Ahmet Yılmaz")</div>
+                                                    <div class="text-muted" style="font-size: 0.8rem; word-break: break-word;">@(ViewContext.HttpContext.Session.GetString("Identifier") ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "ahmet.yilmaz@example.com")</div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </li>
+                                    <li><hr class="dropdown-divider my-2" style="margin: 0.5rem 0; border-color: #E6F7FF;"></li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3" href="/Profile" style="transition: all 0.2s ease; display: flex; align-items: center; gap: 0.5rem; color: #333;">
+                                            <i class="fas fa-user"></i>
+                                            <span>Profil Detayları</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item py-2 px-3" href="/Settings" style="transition: all 0.2s ease; display: flex; align-items: center; gap: 0.5rem; color: #333;">
+                                            <i class="fas fa-cog"></i>
+                                            <span>Ayarlar</span>
+                                        </a>
                                     </li>
                                     <li><hr class="dropdown-divider my-2" style="margin: 0.5rem 0; border-color: #E6F7FF;"></li>
                                     <!-- Güvenli Çıkış -->
                                     <li>
                                         <a class="dropdown-item py-2 px-3 text-danger fw-semibold" href="#" onclick="logout(); return false;" style="transition: all 0.2s ease; display: flex; align-items: center; gap: 0.5rem;">
                                             <i class="fas fa-sign-out-alt"></i>
-                                            <span>Güvenli Çıkış Yap</span>
+                                            <span>Oturumu Kapat</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -114,7 +99,14 @@
         @RenderBody()
     </main>
 
-    @if ((ViewData["ShowFooter"] as bool?) ?? true && ViewContext.HttpContext.Session.GetString("IsLoggedIn") != "true")
+    @{
+        var currentPagePath = ViewContext.RouteData.Values["page"]?.ToString() ?? "";
+        var requestPath = ViewContext.HttpContext.Request.Path.Value?.ToLower() ?? "";
+        var isIndexPage = currentPagePath == "/Index" || currentPagePath == "/" || currentPagePath == "" || requestPath == "/" || requestPath == "/index";
+        var showFooter = isIndexPage && ((ViewData["ShowFooter"] as bool?) ?? true);
+    }
+    
+    @if (showFooter)
     {
         <footer class="bank-footer mt-5" style="background-color: var(--primary-color); color: var(--text-light);">
             <div class="container py-4 py-md-5">
@@ -479,6 +471,22 @@
             background-color: var(--primary-color);
             box-shadow: 0 4px 8px rgba(34, 40, 84, 0.2);
             transform: translateY(-2px);
+        }
+
+        /* Dashboard Header Butonları */
+        .dropdown-toggle.btn:hover {
+            background-color: #2E6DF8 !important;
+            color: white !important;
+            border-color: #2E6DF8 !important;
+        }
+
+        .btn[href="/CreditReport"]:hover,
+        .btn[href="/CustomerService"]:hover {
+            background-color: #2E6DF8 !important;
+            color: white !important;
+            border-color: #2E6DF8 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 109, 248, 0.3);
         }
 
         /* Responsive */
