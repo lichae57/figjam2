@@ -12,30 +12,21 @@
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-        </div>
     </div>
 
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100 py-5">
             <div class="col-12 col-md-10 col-lg-6 col-xl-5">
                 
-                <!-- Logo & Back Link -->
-                <div class="text-center mb-4 fade-in">
-                    <a href="/Login" class="d-inline-flex align-items-center text-white text-decoration-none mb-4" style="font-size: 0.9rem; opacity: 0.8;">
-                        <i class="fas fa-arrow-left me-2"></i>
-                        Giriş Sayfasına Dön
-                    </a>
+                <!-- Logo & Title -->
+                <div class="text-center mb-3 fade-in" style="margin-top: 4rem;">
                     <div class="d-inline-flex align-items-center justify-content-center">
                         <div class="logo-container-small me-2">
-                            <i class="fas fa-user-plus" style="font-size: 1.25rem; color: white;"></i>
+                            <i class="fas fa-university" style="font-size: 1.25rem; color: white;"></i>
                         </div>
-                        <h1 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">Üye Ol</h1>
+                        <h1 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">İnteraktif Şube</h1>
                     </div>
-                    <p class="text-white-50 mt-1 mb-0" style="font-size: 0.85rem;">İnteraktif Şube ailesine katılın</p>
+                    <p class="text-white-50 mt-1 mb-0" style="font-size: 0.85rem;">Dijital Bankacılık Platformu</p>
                 </div>
 
                 <!-- Register Card -->
@@ -217,7 +208,7 @@
                                             <a href="#" class="text-secondary-custom fw-bold">Gizlilik Politikası</a>'nı okudum ve kabul ediyorum.
                                         </label>
                                     </div>
-                                    <div class="form-check agreement-check kvkk-highlight">
+                                    <div class="form-check mb-3 agreement-check">
                                         <input class="form-check-input" type="checkbox" id="regKvkkCheck" name="kvkkCheck">
                                         <label class="form-check-label" for="regKvkkCheck">
                                             <a href="#" class="text-secondary-custom fw-bold" data-bs-toggle="modal" data-bs-target="#regKvkkModal">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
@@ -311,95 +302,51 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(160deg, #0f0c29 0%, #222854 40%, #24243e 100%);
+        background: linear-gradient(135deg, #1a1f4e 0%, #222854 30%, #2E6DF8 70%, #0056B3 100%);
         z-index: -1;
     }
 
     .gradient-orb {
         position: absolute;
         border-radius: 50%;
-        filter: blur(100px);
-        opacity: 0.35;
-        animation: float 20s ease-in-out infinite;
+        filter: blur(80px);
+        opacity: 0.4;
+        animation: float 15s ease-in-out infinite;
     }
 
     .orb-1 {
-        width: 500px;
-        height: 500px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        top: -150px;
-        left: -150px;
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #2E6DF8, #00d4ff);
+        top: -100px;
+        right: -100px;
         animation-delay: 0s;
     }
 
     .orb-2 {
-        width: 400px;
-        height: 400px;
-        background: linear-gradient(135deg, #2E6DF8, #00d4ff);
-        bottom: -100px;
-        right: -100px;
-        animation-delay: -7s;
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #ff6b6b, #feca57);
+        bottom: -50px;
+        left: -50px;
+        animation-delay: -5s;
     }
 
     .orb-3 {
-        width: 300px;
-        height: 300px;
-        background: linear-gradient(135deg, #f093fb, #f5576c);
-        top: 60%;
-        left: 20%;
-        animation-delay: -14s;
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #5f27cd, #2E6DF8);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: -10s;
     }
 
     @@keyframes float {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25% { transform: translate(50px, -50px) rotate(5deg); }
-        50% { transform: translate(-30px, 30px) rotate(-5deg); }
-        75% { transform: translate(30px, 50px) rotate(3deg); }
-    }
-
-    .floating-shapes {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .shape {
-        position: absolute;
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        animation: floatShape 25s linear infinite;
-    }
-
-    .shape-1 {
-        width: 80px;
-        height: 80px;
-        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        top: 20%;
-        right: 10%;
-        animation-delay: 0s;
-    }
-
-    .shape-2 {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        bottom: 30%;
-        left: 5%;
-        animation-delay: -8s;
-    }
-
-    .shape-3 {
-        width: 100px;
-        height: 100px;
-        border-radius: 20%;
-        top: 60%;
-        right: 20%;
-        animation-delay: -16s;
-    }
-
-    @@keyframes floatShape {
-        0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-        50% { transform: translateY(-30px) rotate(180deg); opacity: 0.6; }
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(30px, -30px) scale(1.05); }
+        50% { transform: translate(-20px, 20px) scale(0.95); }
+        75% { transform: translate(20px, 30px) scale(1.02); }
     }
 
     .logo-container {
@@ -416,18 +363,20 @@
     .logo-container-small {
         width: 42px;
         height: 42px;
-        background: linear-gradient(135deg, var(--secondary-color), #764ba2);
+        background: rgba(255, 255, 255, 0.15);
         border-radius: 10px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 5px 15px rgba(46, 109, 248, 0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .register-card {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 24px;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(20px);
         overflow: hidden;
     }
 
@@ -592,14 +541,20 @@
 
     .agreement-check {
         padding: 0.5rem 0;
+        display: flex;
+        align-items: flex-start;
     }
 
-    .kvkk-highlight {
-        background: rgba(46, 109, 248, 0.05);
-        padding: 0.75rem;
-        border-radius: 8px;
-        margin-top: 0.5rem;
-        border: 1px solid rgba(46, 109, 248, 0.2);
+    .agreement-check .form-check-input {
+        margin-top: 0.25rem;
+        flex-shrink: 0;
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    .agreement-check .form-check-label {
+        margin-left: 0.5rem;
+        line-height: 1.5;
     }
 
     .btn-primary {

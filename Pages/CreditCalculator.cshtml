@@ -14,14 +14,8 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-8 fade-in">
+        <div class="col-12 col-lg-10 col-xl-8 mx-auto fade-in">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Kredi Bilgileri
-                    </h4>
-                </div>
                 <div class="card-body p-4">
                     <form id="creditForm">
                         <div class="row g-3">
@@ -98,21 +92,72 @@
                     </form>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-lg-4 fade-in">
-            <div class="card sticky-top" style="top: 20px;">
-                <div class="card-header bg-secondary-custom text-white">
-                    <h4 class="mb-0">
-                        <i class="fas fa-chart-pie me-2"></i>
-                        Hesaplama Sonucu
-                    </h4>
-                </div>
+            <!-- Hesaplama Sonuçları -->
+            <div id="calculationResult" class="card mt-4 fade-in" style="display: none;">
                 <div class="card-body p-4">
-                    <div id="resultContainer" class="text-center">
-                        <div class="result-placeholder">
-                            <i class="fas fa-calculator fa-4x text-muted mb-3"></i>
-                            <p class="text-muted">Bilgileri doldurup hesapla butonuna tıklayın</p>
+                    <h3 class="mb-4 text-center" style="color: var(--primary-color);">
+                        <i class="fas fa-chart-pie me-2 text-secondary-custom"></i>
+                        Hesaplama Sonuçları
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-lira-sign"></i>
+                                </div>
+                                <div class="result-label">Aylık Ödeme</div>
+                                <div class="result-value" id="monthlyPayment">-</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="result-label">Toplam Ödeme</div>
+                                <div class="result-value" id="totalPayment">-</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                                <div class="result-label">Toplam Faiz</div>
+                                <div class="result-value" id="totalInterest">-</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="result-label">Vade</div>
+                                <div class="result-value" id="resultTerm">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="result-summary">
+                                    <strong>Kredi Tutarı:</strong>
+                                    <span id="resultAmount" class="ms-2">-</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="result-summary">
+                                    <strong>Faiz Oranı:</strong>
+                                    <span id="resultRate" class="ms-2">-</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="result-summary">
+                                    <strong>Kredi Türü:</strong>
+                                    <span id="resultType" class="ms-2">-</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,64 +165,161 @@
         </div>
     </div>
 
-    <!-- Kredi Önerileri -->
-    <div class="row mt-5 fade-in">
-        <div class="col-12">
-            <h3 class="mb-4">
-                <i class="fas fa-lightbulb me-2 text-secondary-custom"></i>
-                Size Özel Kredi Önerileri
-            </h3>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-secondary-custom">
-                                <i class="fas fa-home me-2"></i>
-                                Konut Kredisi
-                            </h5>
-                            <p class="mb-2">Düşük faiz oranı ile ev sahibi olun</p>
-                            <ul class="list-unstyled mb-3">
-                                <li><i class="fas fa-check text-success me-2"></i>%1.89 faiz oranı</li>
-                                <li><i class="fas fa-check text-success me-2"></i>240 aya kadar vade</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Hızlı onay</li>
-                            </ul>
-                            <button class="btn btn-primary w-100">Başvur</button>
+    <!-- Kredi Güven Raporu -->
+    <div class="credit-report-section mt-5 fade-in">
+        <div class="container">
+            <!-- Kredi Güven Raporu Nedir -->
+            <div class="report-intro-section mb-5">
+                <h2 class="section-title text-center mb-4">
+                    <span class="title-light-blue">Kredi Güven Raporu</span>
+                    <span class="title-dark-blue">nedir?</span>
+                </h2>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10">
+                        <p class="intro-description text-center mb-5">
+                            Kredi Güven Raporu, kredi başvurularınızın onaylanma ihtimalini artırmayı hedefleyen, finansal durumunuzu kapsamlı bir şekilde analiz eden bir araçtır. Bu rapor, bankaların kredi verme kriterlerini ve finansal geçmişinizi değerlendirerek, krediye ulaşmanız için gerekli adımları ve stratejileri belirler.
+                        </p>
+                        <div class="text-center mt-4">
+                            <a href="/CreditReport" class="btn btn-primary btn-lg px-5 py-3">
+                                <i class="fas fa-file-alt me-2"></i>
+                                Hemen Rapor Oluştur
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-secondary-custom">
-                                <i class="fas fa-car me-2"></i>
-                                Taşıt Kredisi
-                            </h5>
-                            <p class="mb-2">Araç alımında özel kampanya</p>
-                            <ul class="list-unstyled mb-3">
-                                <li><i class="fas fa-check text-success me-2"></i>%2.19 faiz oranı</li>
-                                <li><i class="fas fa-check text-success me-2"></i>60 aya kadar vade</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Anında onay</li>
-                            </ul>
-                            <button class="btn btn-primary w-100">Başvur</button>
+                <h3 class="section-subtitle text-center mb-4">Kredi Güven Raporu'nun özellikleri</h3>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h5 class="feature-card-title">Kredi Profili Analizi</h5>
+                            <p class="feature-card-text">Finansal durumunuz, geliriniz, mevcut borçlarınız ve ödeme alışkanlıklarınız gibi veriler analiz edilerek, bankaların gözünde nasıl bir müşteri profiline sahip olduğunuz belirlenir.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h5 class="feature-card-title">Yapay Zeka Destekli Değerlendirme</h5>
+                            <p class="feature-card-text">Gelişmiş yapay zeka teknolojisi kullanılarak, sizinle benzer finansal geçmişe sahip kişilerin kredi edinme süreçleri incelenir ve size özel kredi edinme stratejileri oluşturulur.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h5 class="feature-card-title">Kredi Onay İhtimali ve Banka Önerileri</h5>
+                            <p class="feature-card-text">Gelişmiş yapay zeka teknolojisi ile sizinle benzer finansal geçmişe sahip kişilerin kredi edinme süreçleri analiz edilir ve size özel kredi stratejileri oluşturulur.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon-wrapper">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h5 class="feature-card-title">Uzman Desteği ile Kredi Danışmanlığı</h5>
+                            <p class="feature-card-text">Raporunuzu aldıktan sonra, kredi uzmanlarımız sizinle iletişime geçerek finansal durumunuzu değerlendirir ve krediye ulaşmanız için yapmanız gerekenleri detaylı bir şekilde açıklar.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-secondary-custom">
-                                <i class="fas fa-shopping-cart me-2"></i>
-                                İhtiyaç Kredisi
-                            </h5>
-                            <p class="mb-2">Günlük ihtiyaçlarınız için</p>
-                            <ul class="list-unstyled mb-3">
-                                <li><i class="fas fa-check text-success me-2"></i>%2.49 faiz oranı</li>
-                                <li><i class="fas fa-check text-success me-2"></i>36 aya kadar vade</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Kolay başvuru</li>
-                            </ul>
-                            <button class="btn btn-primary w-100">Başvur</button>
+            </div>
+
+            <!-- Nasıl Çalışır -->
+            <div class="how-it-works-section mt-5 mb-5">
+                <h2 class="section-title text-center mb-5">
+                    <span class="title-light-blue">Kredi Güven Raporu</span>
+                    <span class="title-dark-blue">nasıl çalışır?</span>
+                </h2>
+                <div class="steps-container">
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-user-plus"></i>
                         </div>
+                        <p class="step-text">Bilgilerini gir ve ödemeni tamamla</p>
                     </div>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <p class="step-text">Yapay zeka analizini başlat</p>
+                    </div>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <p class="step-text">Sonuçları gör ve kredi uzmanıyla görüş</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Seçenekler -->
+    <div class="options-section mt-2 fade-in">
+        <div class="container">
+            <h2 class="options-title text-center mb-5">
+                <span class="title-bold">Krediye ulaşmanı sağlayacak seçeneklerle</span>
+                <span class="title-light">her zaman yanındayız!</span>
+            </h2>
+            <div class="options-grid">
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="option-label light-bg">Kredi Güven Raporu</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="option-label light-bg">VIP Kredi Danışmanlığı</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="option-label light-bg">Borç Kapatma Kredisi</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="option-label light-bg">Yapılandırma</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="option-label">%0 Faizli Fırsatlar</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="option-label">Kredi Kartı</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="option-label">Kredi Hesaplama</div>
+                </div>
+                <div class="option-box">
+                    <div class="option-icon-circle">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="option-label">İhtiyaç Kredisi</div>
                 </div>
             </div>
         </div>
@@ -187,36 +329,448 @@
 <style>
     .calculator-container {
         padding: 2rem 0;
+        margin: -1cm 5cm 0 5cm;
     }
 
     .page-header {
         border-bottom: 2px solid var(--border-color);
         padding-bottom: 1rem;
+        margin-top: 1cm;
     }
 
-    .result-placeholder {
-        padding: 2rem 0;
+    /* Kredi Güven Raporu Bölümü */
+    .credit-report-section {
+        padding: 4rem 0;
+        background: var(--bg-light);
     }
 
-    .result-item {
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--border-color);
+    .section-title {
+        font-size: 2.25rem;
+        line-height: 1.3;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
     }
 
-    .result-item:last-child {
-        border-bottom: none;
+    .title-light-blue {
+        color: var(--secondary-color);
+        font-weight: 400;
+    }
+
+    .title-dark-blue {
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+
+    .intro-description {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .section-subtitle {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-top: 3rem;
+    }
+
+    .feature-card {
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 2rem 1.5rem;
+        height: 100%;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        border-color: var(--secondary-color);
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .feature-icon-wrapper {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, rgba(46, 109, 248, 0.1), rgba(46, 109, 248, 0.05));
+        border: 2px solid var(--secondary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-color);
+        font-size: 1.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon-wrapper {
+        background: var(--secondary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .feature-card-title {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        min-height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .feature-card-text {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    /* Nasıl Çalışır Bölümü */
+    .how-it-works-section {
+        padding: 3rem 0;
+        background: white;
+        border-radius: 16px;
+        margin: 3rem 0;
+    }
+
+    .steps-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .step-card {
+        background: linear-gradient(135deg, rgba(46, 109, 248, 0.1), rgba(46, 109, 248, 0.05));
+        border: 2px solid var(--secondary-color);
+        border-radius: 16px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        flex: 1;
+        min-width: 220px;
+        max-width: 280px;
+        transition: all 0.3s ease;
+    }
+
+    .step-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(46, 109, 248, 0.2);
+    }
+
+    .step-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        border: 3px solid var(--secondary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        color: var(--secondary-color);
+        font-size: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .step-card:hover .step-icon {
+        background: var(--secondary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .step-arrow {
+        color: var(--secondary-color);
+        font-size: 2rem;
+        flex-shrink: 0;
+    }
+
+    .step-text {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.05rem;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* Kazanacakların Bölümü */
+    .benefits-section {
+        padding: 3rem 0;
+    }
+
+    .benefit-card {
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .benefit-card:hover {
+        border-color: var(--secondary-color);
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .benefit-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, rgba(46, 109, 248, 0.1), rgba(46, 109, 248, 0.05));
+        border: 2px solid var(--secondary-color);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-color);
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .benefit-card:hover .benefit-icon {
+        background: var(--secondary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .benefit-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.15rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+    .benefit-text {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin: 0;
+        font-size: 0.95rem;
+        flex: 1;
+    }
+
+    @@media (max-width: 992px) {
+        .steps-container {
+            flex-direction: column;
+        }
+
+        .step-arrow {
+            transform: rotate(90deg);
+            margin: 0.5rem 0;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+        }
+
+        .intro-description {
+            font-size: 1rem;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .credit-report-section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem 1rem;
+        }
+
+        .step-card {
+            padding: 2rem 1.5rem;
+        }
+    }
+
+    .options-section {
+        padding: 3rem 0;
+    }
+
+    .options-title {
+        font-size: 2rem;
+        line-height: 1.4;
+        margin-bottom: 3rem !important;
+    }
+
+    .title-bold {
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+
+    .title-light {
+        color: var(--secondary-color);
+        font-weight: 400;
+    }
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .option-box {
+        background: white;
+        border: 2px solid var(--secondary-color);
+        border-radius: 12px;
+        padding: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 90px;
+    }
+
+    .option-box:hover {
+        transform: scale(1.08);
+        box-shadow: 0 10px 30px rgba(46, 109, 248, 0.3);
+        border-color: var(--accent-color);
+    }
+
+    .option-icon-circle {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        border: 2px solid var(--secondary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        color: var(--secondary-color);
+        font-size: 1.4rem;
+        transition: all 0.3s ease;
+    }
+
+    .option-box:hover .option-icon-circle {
+        background: var(--secondary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .option-label {
+        font-weight: 600;
+        color: var(--secondary-color);
+        font-size: 0.95rem;
+        flex: 1;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .option-label.light-bg {
+        background: rgba(46, 109, 248, 0.1);
+    }
+
+    @@media (max-width: 992px) {
+        .options-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .options-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .options-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* Hesaplama Sonuçları */
+    #calculationResult {
+        border: 2px solid var(--secondary-color);
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.15);
+        animation: slideDown 0.5s ease-out;
+    }
+
+    @@keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .result-card {
+        background: linear-gradient(135deg, rgba(46, 109, 248, 0.1), rgba(46, 109, 248, 0.05));
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .result-card:hover {
+        border-color: var(--secondary-color);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(46, 109, 248, 0.2);
+    }
+
+    .result-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
     }
 
     .result-label {
         color: var(--text-secondary);
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
+        font-weight: 500;
     }
 
     .result-value {
+        color: var(--primary-color);
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--accent-color);
+    }
+
+    .result-summary {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        padding: 0.75rem;
+        background: rgba(46, 109, 248, 0.05);
+        border-radius: 8px;
+    }
+
+    .result-summary strong {
+        color: var(--primary-color);
+    }
+
+    .result-summary span {
+        color: var(--secondary-color);
+        font-weight: 600;
     }
 </style>
 
@@ -228,6 +782,7 @@
             const amount = parseFloat(document.getElementById('creditAmount').value);
             const term = parseInt(document.getElementById('term').value);
             const interestRate = parseFloat(document.getElementById('interestRate').value);
+            const creditType = document.getElementById('creditType').value;
             
             // Aylık faiz oranı
             const monthlyRate = interestRate / 100 / 12;
@@ -236,38 +791,51 @@
             const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / 
                                    (Math.pow(1 + monthlyRate, term) - 1);
             
+            // Toplam ödeme
             const totalPayment = monthlyPayment * term;
+            
+            // Toplam faiz
             const totalInterest = totalPayment - amount;
             
-            // Sonuçları göster
-            const resultContainer = document.getElementById('resultContainer');
-            resultContainer.innerHTML = `
-                <div class="result-item">
-                    <div class="result-label">Aylık Ödeme</div>
-                    <div class="result-value">${formatCurrency(monthlyPayment)}</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">Toplam Ödeme</div>
-                    <div class="result-value">${formatCurrency(totalPayment)}</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">Toplam Faiz</div>
-                    <div class="result-value">${formatCurrency(totalInterest)}</div>
-                </div>
-                <div class="result-item">
-                    <div class="result-label">Ana Para</div>
-                    <div class="result-value">${formatCurrency(amount)}</div>
-                </div>
-                <div class="mt-4">
-                    <button class="btn btn-primary w-100" onclick="showToast('Kredi başvurusu için yönlendiriliyorsunuz...', 'success')">
-                        <i class="fas fa-paper-plane me-2"></i>
-                        Kredi Başvurusu Yap
-                    </button>
-                </div>
-            `;
+            // Formatla ve göster
+            formatAndDisplayResults(amount, term, interestRate, creditType, monthlyPayment, totalPayment, totalInterest);
+            
+            // Sonuç kartını göster
+            const resultCard = document.getElementById('calculationResult');
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             
             showToast('Hesaplama tamamlandı!', 'success');
         });
+
+        function formatAndDisplayResults(amount, term, interestRate, creditType, monthlyPayment, totalPayment, totalInterest) {
+            // Para formatı için fonksiyon
+            function formatCurrency(value) {
+                return new Intl.NumberFormat('tr-TR', {
+                    style: 'currency',
+                    currency: 'TRY',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(value);
+            }
+
+            // Kredi türü isimleri
+            const creditTypeNames = {
+                'consumer': 'İhtiyaç Kredisi',
+                'housing': 'Konut Kredisi',
+                'vehicle': 'Taşıt Kredisi',
+                'commercial': 'Ticari Kredi'
+            };
+
+            // Sonuçları göster
+            document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
+            document.getElementById('totalPayment').textContent = formatCurrency(totalPayment);
+            document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
+            document.getElementById('resultTerm').textContent = term + ' Ay';
+            document.getElementById('resultAmount').textContent = formatCurrency(amount);
+            document.getElementById('resultRate').textContent = interestRate + '%';
+            document.getElementById('resultType').textContent = creditTypeNames[creditType] || creditType;
+        }
     </script>
 }
 

@@ -13,6 +13,22 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/ferideikbaldurmus/dev/figjam2/wwwroot/img/adam.png",
+      "PackagePath": "staticwebassets/img/adam.png"
+    },
+    {
+      "Id": "/Users/ferideikbaldurmus/dev/figjam2/wwwroot/img/adam2.png",
+      "PackagePath": "staticwebassets/img/adam2.png"
+    },
+    {
+      "Id": "/Users/ferideikbaldurmus/dev/figjam2/wwwroot/img/logo.png",
+      "PackagePath": "staticwebassets/img/logo.png"
+    },
+    {
+      "Id": "/Users/ferideikbaldurmus/dev/figjam2/wwwroot/img/woman.png",
+      "PackagePath": "staticwebassets/img/woman.png"
+    },
+    {
       "Id": "/Users/ferideikbaldurmus/dev/figjam2/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

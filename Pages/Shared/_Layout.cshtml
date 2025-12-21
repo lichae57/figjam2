@@ -13,25 +13,31 @@
     @if ((ViewData["ShowNavbar"] as bool?) ?? true)
     {
         <header class="bank-header">
-            <nav class="navbar navbar-dark bg-primary-custom shadow-sm">
+            <nav class="navbar navbar-light bg-white shadow-sm">
                 <div class="container d-flex justify-content-between align-items-center">
-                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard" style="margin-right: 0; padding-left: 0;">
-                        <i class="fas fa-university me-2 text-white" style="font-size: 2rem;"></i>
-                        <span class="fw-bold text-white" style="font-size: 1.5rem;">İnteraktif Şube</span>
+                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Dashboard" style="margin-right: 0; padding-left: 0; background: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none;">
+                        <img src="~/img/logo.png" alt="Interaktif Kredi" style="height: 55px; width: auto;" />
                     </a>
                     
                     @if (ViewContext.HttpContext.Session.GetString("IsLoggedIn") == "true")
                     {
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="search-container" style="position: relative;">
+                                <i class="fas fa-search" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--secondary-color); font-size: 0.9rem; pointer-events: none;"></i>
+                                <input type="text" 
+                                       class="form-control" 
+                                       placeholder="Ara..." 
+                                       style="width: 200px; padding-left: 2.25rem; padding-right: 0.75rem; padding-top: 0.4rem; padding-bottom: 0.4rem; background-color: #f5f5f5; border: 1px solid var(--secondary-color); border-radius: 20px; color: #333; font-size: 0.9rem; height: auto;">
+                            </div>
                             <div class="dropdown">
-                                <button class="btn btn-link text-white text-decoration-none d-flex align-items-center dropdown-toggle" 
+                                <button class="btn btn-link text-decoration-none d-flex align-items-center dropdown-toggle" 
                                         type="button" 
                                         id="profileDropdown" 
                                         data-bs-toggle="dropdown" 
                                         aria-expanded="false"
-                                        style="border: none; padding: 0.5rem 1rem;">
-                                    <i class="fas fa-user-circle me-2" style="font-size: 1.5rem;"></i>
-                                    <span class="d-none d-md-inline">@(ViewContext.HttpContext.Session.GetString("UserName") ?? "Kullanıcı")</span>
+                                        style="border: none; padding: 0.5rem 1rem; color: var(--secondary-color);">
+                                    <i class="fas fa-user-circle me-2" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
+                                    <span class="d-none d-md-inline" style="color: var(--secondary-color);">@(ViewContext.HttpContext.Session.GetString("UserName") ?? "Kullanıcı")</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0; min-width: 200px;">
                                     <li>
@@ -57,15 +63,22 @@
                     else
                     {
                         <div class="d-flex align-items-center gap-3">
+                            <div class="search-container" style="position: relative;">
+                                <i class="fas fa-search" style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--secondary-color); font-size: 0.9rem; pointer-events: none;"></i>
+                                <input type="text" 
+                                       class="form-control" 
+                                       placeholder="Ara..." 
+                                       style="width: 200px; padding-left: 2.25rem; padding-right: 0.75rem; padding-top: 0.4rem; padding-bottom: 0.4rem; background-color: #f5f5f5; border: 1px solid var(--secondary-color); border-radius: 20px; color: #333; font-size: 0.9rem; height: auto;">
+                            </div>
                             <div class="dropdown">
-                                <button class="btn btn-link text-white text-decoration-none d-flex align-items-center dropdown-toggle" 
+                                <button class="btn btn-link text-decoration-none d-flex align-items-center dropdown-toggle" 
                                         type="button" 
                                         id="profileDropdownGuest" 
                                         data-bs-toggle="dropdown" 
                                         aria-expanded="false"
-                                        style="border: none; padding: 0.5rem 1rem;">
-                                    <i class="fas fa-user-circle me-2" style="font-size: 1.3rem;"></i>
-                                    <span class="d-none d-md-inline">Profil</span>
+                                        style="border: none; padding: 0.5rem 1rem; color: var(--secondary-color);">
+                                    <i class="fas fa-user-circle me-2" style="font-size: 1.3rem; color: var(--secondary-color);"></i>
+                                    <span class="d-none d-md-inline" style="color: var(--secondary-color);">Profil</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownGuest" style="margin-top: 0.5rem; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; padding: 0.5rem 0; min-width: 180px;">
                                     <li>
@@ -81,9 +94,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="/Settings" class="btn btn-outline-light d-flex align-items-center" style="padding: 0.5rem 1.25rem; border-radius: 25px; font-weight: 500;">
-                                <i class="fas fa-cog me-2"></i>
-                                <span>Ayarlar</span>
+                            <a href="/Settings" class="btn btn-link text-decoration-none d-flex align-items-center" style="border: none; padding: 0.5rem 1rem; color: var(--secondary-color);">
+                                <i class="fas fa-cog me-2" style="font-size: 1.2rem; color: var(--secondary-color);"></i>
+                                <span style="color: var(--secondary-color);">Ayarlar</span>
                             </a>
                         </div>
                     }
@@ -100,7 +113,7 @@
     {
         <footer class="bank-footer mt-5" style="background-color: var(--primary-color); color: var(--text-light);">
             <div class="container py-4 py-md-5">
-                <div class="row g-4">
+                <div class="row g-4 justify-content-center">
                     <!-- Hakkımızda -->
                     <div class="col-12 col-lg-3 col-md-6 text-center text-md-start">
                         <h5 class="mb-4 fw-bold">
@@ -130,7 +143,7 @@
                     </div>
 
                     <!-- Hızlı Linkler -->
-                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start">
+                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start mx-auto mx-lg-0">
                         <h6 class="mb-4 fw-bold">Hızlı Linkler</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -157,7 +170,7 @@
                     </div>
 
                     <!-- Kurumsal -->
-                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start">
+                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start mx-auto mx-lg-0">
                         <h6 class="mb-4 fw-bold">Kurumsal</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -177,11 +190,6 @@
                             </li>
                             <li class="mb-2">
                                 <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
-                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Basın
-                                </a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
                                     <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>İletişim
                                 </a>
                             </li>
@@ -189,7 +197,7 @@
                     </div>
 
                     <!-- Güvenlik & Destek -->
-                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start">
+                    <div class="col-12 col-lg-2 col-md-6 text-center text-md-start mx-auto mx-lg-0">
                         <h6 class="mb-4 fw-bold">Güvenlik & Destek</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -210,11 +218,6 @@
                             <li class="mb-2">
                                 <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
                                     <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>KVKK
-                                </a>
-                            </li>
-                            <li class="mb-2">
-                                <a href="#" class="text-white text-decoration-none" style="opacity: 0.8;">
-                                    <i class="fas fa-chevron-right me-2" style="font-size: 0.7rem;"></i>Şube & ATM
                                 </a>
                             </li>
                         </ul>
@@ -365,6 +368,23 @@
             }
         }
     </script>
+
+    <style>
+        .search-container input::placeholder {
+            color: var(--secondary-color) !important;
+        }
+        
+        .search-container input:focus {
+            background-color: #ffffff !important;
+            border-color: var(--secondary-color) !important;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 109, 248, 0.2) !important;
+        }
+        
+        .search-container input:focus::placeholder {
+            color: var(--secondary-color) !important;
+        }
+    </style>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
