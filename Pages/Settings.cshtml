@@ -95,14 +95,29 @@
                         <div class="card-body">
                             <form id="profileForm">
                                 <div class="text-center mb-4">
-                                    <div class="avatar-upload">
-                                        <div class="avatar-preview">
-                                            <i class="fas fa-user-circle fa-5x text-secondary-custom"></i>
+                                    <label for="profileUpload" class="avatar-upload-label">
+                                        <div class="avatar-upload" id="avatarUploadArea">
+                                            <div class="avatar-preview" id="avatarPreview">
+                                                <i class="fas fa-user-circle fa-5x text-secondary-custom" id="defaultAvatarIcon"></i>
+                                                <img id="avatarImage" src="" alt="Profil Resmi" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                            </div>
+                                            <div class="avatar-overlay">
+                                                <div class="avatar-overlay-buttons">
+                                                    <span class="avatar-overlay-text">Resmi Değiştir</span>
+                                                    <button type="button" class="btn btn-sm btn-danger avatar-delete" id="btnDeleteAvatar" onclick="event.stopPropagation(); removeAvatar();">
+                                                        <i class="fa-solid fa-trash-can"></i> Kaldır
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="btn btn-sm btn-outline avatar-edit">
+                                                <i class="fas fa-camera"></i>
+                                            </div>
+                                            <button type="button" class="avatar-delete-btn" id="btnDeleteAvatarTop" onclick="event.stopPropagation(); removeAvatar();" title="Resmi Kaldır">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-outline avatar-edit">
-                                            <i class="fas fa-camera"></i>
-                                        </button>
-                                    </div>
+                                    </label>
+                                    <input type="file" id="profileUpload" accept="image/*" style="display:none;">
                                 </div>
 
                                 <div class="row">
@@ -141,6 +156,47 @@
                                 <div class="form-group mb-4">
                                     <label class="form-label">Adres</label>
                                     <textarea class="form-control" rows="2" placeholder="Adresiniz">Atatürk Mahallesi, Cumhuriyet Caddesi No: 123, Kadıköy/İstanbul</textarea>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h6 class="mb-3">
+                                    <i class="fas fa-briefcase me-2"></i>
+                                    Meslek & Gelir Bilgileri
+                                </h6>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Meslek Seçimi</label>
+                                            <div class="custom-select-wrapper" style="position: relative;">
+                                                <select class="form-select profile-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                                                    <option value="">Meslek seçiniz</option>
+                                                    <option value="private">Özel Sektör</option>
+                                                    <option value="public" selected>Kamu</option>
+                                                    <option value="freelance">Serbest Meslek</option>
+                                                    <option value="student">Öğrenci</option>
+                                                    <option value="retired">Emekli</option>
+                                                </select>
+                                                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Aylık Net Gelir Aralığı</label>
+                                            <div class="custom-select-wrapper" style="position: relative;">
+                                                <select class="form-select profile-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                                                    <option value="">Gelir aralığı seçiniz</option>
+                                                    <option value="0-20k">0 - 20.000 TL</option>
+                                                    <option value="20k-50k" selected>20.000 - 50.000 TL</option>
+                                                    <option value="50k-100k">50.000 - 100.000 TL</option>
+                                                    <option value="100k+">100.000 TL ve üzeri</option>
+                                                </select>
+                                                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary" id="btn-save" onclick="saveChanges(); return false;">
@@ -303,11 +359,11 @@
                         <div class="card-body">
                             <div class="security-item mb-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div style="flex: 1; flex-grow: 1;">
                                         <h6 class="mb-1">İki Faktörlü Doğrulama (2FA)</h6>
                                         <p class="text-muted mb-0 small">Ekstra güvenlik katmanı ekleyin</p>
                                     </div>
-                                    <div class="form-check form-switch">
+                                    <div class="form-check form-switch" style="margin-left: auto; flex-shrink: 0;">
                                         <input class="form-check-input" type="checkbox" checked id="twoFactorAuth">
                                     </div>
                                 </div>
@@ -315,26 +371,29 @@
 
                             <div class="security-item mb-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div style="flex: 1; flex-grow: 1;">
                                         <h6 class="mb-1">Oturum Zaman Aşımı</h6>
                                         <p class="text-muted mb-0 small">Hareketsizlik durumunda oturumu kapat</p>
                                     </div>
-                                    <select class="form-select" style="width: auto;">
-                                        <option value="5">5 dakika</option>
-                                        <option value="10">10 dakika</option>
-                                        <option value="15" selected>15 dakika</option>
-                                        <option value="30">30 dakika</option>
-                                    </select>
+                                    <div class="custom-select-wrapper" style="margin-left: auto; flex-shrink: 0; position: relative;">
+                                        <select class="form-select security-timeout-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: all 0.3s ease;">
+                                            <option value="5">5 dakika</option>
+                                            <option value="10">10 dakika</option>
+                                            <option value="15" selected>15 dakika</option>
+                                            <option value="30">30 dakika</option>
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="security-item mb-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div style="flex: 1; flex-grow: 1;">
                                         <h6 class="mb-1">Giriş Bildirimleri</h6>
                                         <p class="text-muted mb-0 small">Yeni cihazdan giriş yapıldığında bildir</p>
                                     </div>
-                                    <div class="form-check form-switch">
+                                    <div class="form-check form-switch" style="margin-left: auto; flex-shrink: 0;">
                                         <input class="form-check-input" type="checkbox" checked>
                                     </div>
                                 </div>
@@ -379,25 +438,28 @@
                         <div class="card-body">
                             <div class="privacy-item mb-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div style="flex: 1; flex-grow: 1;">
                                         <h6 class="mb-1">Profil Görünürlüğü</h6>
                                         <p class="text-muted mb-0 small">Profilinizi kimlerin görebileceğini belirleyin</p>
                                     </div>
-                                    <select class="form-select" style="width: auto;">
-                                        <option value="public">Herkese Açık</option>
-                                        <option value="contacts" selected>Sadece Kişiler</option>
-                                        <option value="private">Gizli</option>
-                                    </select>
+                                    <div class="custom-select-wrapper" style="margin-left: auto; flex-shrink: 0; position: relative;">
+                                        <select class="form-select privacy-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; width: auto; transition: all 0.3s ease;">
+                                            <option value="public">Herkese Açık</option>
+                                            <option value="contacts" selected>Sadece Kişiler</option>
+                                            <option value="private">Gizli</option>
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="privacy-item mb-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div style="flex: 1; flex-grow: 1;">
                                         <h6 class="mb-1">Arama Sonuçlarında Görün</h6>
                                         <p class="text-muted mb-0 small">Diğer kullanıcılar sizi bulabilsin</p>
                                     </div>
-                                    <div class="form-check form-switch">
+                                    <div class="form-check form-switch" style="margin-left: auto; flex-shrink: 0;">
                                         <input class="form-check-input" type="checkbox" checked>
                                     </div>
                                 </div>
@@ -405,11 +467,11 @@
 
                             <div class="privacy-item mb-4">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div style="flex: 1; flex-grow: 1;">
                                         <h6 class="mb-1">Çerez Tercihleri</h6>
                                         <p class="text-muted mb-0 small">Çerez kullanım tercihlerinizi yönetin</p>
                                     </div>
-                                    <button class="btn btn-sm btn-outline" id="btn-manage-cookies" onclick="manageCookies()">Yönet</button>
+                                    <button class="btn btn-sm btn-outline" id="btn-manage-cookies" onclick="manageCookies()" style="margin-left: auto; padding: 8px 25px; border-radius: 12px; flex-shrink: 0;">Yönet</button>
                                 </div>
                             </div>
 
@@ -515,9 +577,26 @@
         font-size: 0.8rem;
     }
 
+    .avatar-upload-label {
+        cursor: pointer;
+        display: inline-block;
+    }
+
     .avatar-upload {
         position: relative;
         display: inline-block;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+        padding: 2px;
+    }
+
+    .avatar-upload:hover .avatar-overlay {
+        opacity: 1;
+    }
+
+    .avatar-upload.drag-over {
+        border: 2px dashed #2E6DF8;
+        background: rgba(46, 109, 248, 0.1);
     }
 
     .avatar-preview {
@@ -528,6 +607,56 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .avatar-overlay-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .avatar-overlay-text {
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+    .avatar-delete {
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        border-radius: 8px;
+        background: #DC3545;
+        border: none;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-delete:hover {
+        background: #c82333;
+        transform: scale(1.05);
     }
 
     .avatar-edit {
@@ -541,6 +670,39 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 2;
+        background: white;
+        border: 2px solid #2E6DF8;
+    }
+
+    .avatar-delete-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        padding: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        background: white;
+        color: #DC3545;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-delete-btn:hover {
+        background: #DC3545;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .avatar-upload:hover .avatar-delete-btn {
+        display: flex;
     }
 
     .password-strength {
@@ -564,10 +726,151 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1rem;
+        padding: 1.25rem;
         background: var(--bg-light);
         border-radius: 10px;
         margin-bottom: 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .security-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .security-item:last-of-type {
+        border-bottom: none;
+    }
+    
+    .security-item > .d-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .security-item .d-flex > div:first-child {
+        flex: 1;
+        flex-grow: 1;
+    }
+    
+    .security-item .custom-select-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .security-item .security-timeout-select {
+        margin-left: auto;
+        width: auto;
+        min-width: 150px;
+        border-radius: 12px;
+        padding: 10px 40px 10px 15px;
+        border: 1px solid #e0e0e0;
+        background: #f8f9fa;
+        font-weight: 500;
+        color: #333;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+    
+    .security-item .security-timeout-select:hover {
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.1);
+    }
+    
+    .security-item .security-timeout-select:hover {
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.1);
+    }
+    
+    .security-item .security-timeout-select:focus {
+        outline: none;
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.15);
+    }
+    
+    .profile-select {
+        width: 100%;
+    }
+    
+    .profile-select:hover {
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.1);
+    }
+    
+    .profile-select:focus {
+        outline: none;
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.15);
+    }
+    
+    .security-item .form-check {
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+    
+    .security-item .form-check-input {
+        cursor: pointer;
+    }
+    
+    .security-item .form-check-input:checked {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+    
+    .privacy-item > .d-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .privacy-item .d-flex > div:first-child {
+        flex: 1;
+        flex-grow: 1;
+    }
+    
+    .privacy-item .form-select {
+        margin-left: auto;
+        width: auto;
+        border-radius: 12px;
+        padding: 10px 15px;
+        border: 2px solid #e0e0e0;
+        flex-shrink: 0;
+    }
+    
+    .privacy-item .form-check {
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+    
+    .privacy-item #btn-manage-cookies {
+        margin-left: auto;
+        padding: 8px 25px;
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+    
+    #privacy-section .card-body {
+        padding: 2.5rem;
+    }
+    
+    .privacy-item .d-flex > div:first-child {
+        flex-grow: 1;
+        margin-right: 20px;
+    }
+    
+    .privacy-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .privacy-item:last-of-type {
+        border-bottom: none;
     }
 
     .notification-info {
@@ -947,52 +1250,74 @@
 
         // Çerez Yönetimi Fonksiyonu
         function manageCookies() {
-            // Modal'ı görünür yap
-            document.getElementById('cookieManagementModal').style.display = 'flex';
+            var btn = document.getElementById("btn-manage-cookies");
+            var originalText = btn.innerHTML;
             
-            // Modal içindeki "İncele" butonuna event listener ekle
-            document.getElementById('confirmCookieBtn').onclick = function() {
-                // Modalı kapat
-                document.getElementById('cookieManagementModal').style.display = 'none';
+            // Butonu "İşleniyor..." moduna al
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+            btn.disabled = true;
+            
+            // 1 saniye sonra butonu eski haline getir ve modalı aç
+            setTimeout(function() {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
                 
-                var btn = document.getElementById("btn-manage-cookies");
-                var alertBox = document.getElementById("success-alert");
-                var originalText = btn.innerHTML;
+                // Modal'ı görünür yap
+                document.getElementById('cookieManagementModal').style.display = 'flex';
+            }, 1000);
+        }
 
-                // Butonu "İşleniyor..." moduna al (spinner ikonlu)
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
-                btn.disabled = true;
-
+        // Çerez Politikası İnceleme Fonksiyonu
+        function reviewCookies() {
+            // İlk modalı kapat
+            document.getElementById('cookieManagementModal').style.display = 'none';
+            
+            // Detaylı modalı aç
+            document.getElementById('cookieDetailModal').style.display = 'flex';
+        }
+        
+        // Zorunlu Çerezleri Kabul Et
+        function acceptRequiredCookies() {
+            // Sadece zorunlu çerezler aktif (zaten aktif)
+            document.getElementById('cookieAnalytics').checked = false;
+            document.getElementById('cookieMarketing').checked = false;
+            
+            // Modalı kapat
+            document.getElementById('cookieDetailModal').style.display = 'none';
+            
+            // Başarı mesajı
+            var alertBox = document.getElementById("success-alert");
+            if (alertBox) {
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Zorunlu çerez tercihleriniz kaydedildi. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                alertBox.style.display = 'block';
+                
                 setTimeout(function() {
-                    // Tepedeki bildirim kutusunu göster
-                    alertBox.className = "alert alert-info alert-dismissible fade show";
-                    alertBox.querySelector("strong").innerText = "Bilgi:";
-                    
-                    // Mesaj içeriğini güncelle
-                    var iconElement = alertBox.querySelector("i");
-                    var closeButton = alertBox.querySelector(".btn-close");
-                    alertBox.innerHTML = '';
-                    if (iconElement) {
-                        alertBox.appendChild(iconElement);
-                    }
-                    alertBox.appendChild(document.createTextNode(" Çerez tercihleriniz inceleniyor, lütfen bekleyiniz."));
-                    if (closeButton) {
-                        alertBox.appendChild(closeButton);
-                    } else {
-                        var newCloseBtn = document.createElement("button");
-                        newCloseBtn.type = "button";
-                        newCloseBtn.className = "btn-close";
-                        newCloseBtn.setAttribute("data-bs-dismiss", "alert");
-                        newCloseBtn.setAttribute("aria-label", "Close");
-                        alertBox.appendChild(newCloseBtn);
-                    }
-                    alertBox.style.display = 'block';
-                    
-                    // Butonu eski haline getir
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, 1000);
-            };
+                    alertBox.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Tüm Çerezleri Kabul Et
+        function acceptAllCookies() {
+            // Tüm çerezleri aktif et
+            document.getElementById('cookieAnalytics').checked = true;
+            document.getElementById('cookieMarketing').checked = true;
+            
+            // Modalı kapat
+            document.getElementById('cookieDetailModal').style.display = 'none';
+            
+            // Başarı mesajı
+            var alertBox = document.getElementById("success-alert");
+            if (alertBox) {
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Tüm çerez tercihleriniz kaydedildi. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                alertBox.style.display = 'block';
+                
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+            }
         }
 
         // Kritik İşlem: Hesabı Sil Fonksiyonu
@@ -1008,14 +1333,29 @@
                 var btn = document.getElementById("btn-delete-account");
                 var alertBox = document.getElementById("success-alert");
 
-                // Butonu "İşleniyor..." moduna al
-                btn.innerHTML = '<i class="fa-solid fa-trash-can fa-bounce"></i> İşleniyor...';
+                // Butonu "İşleniyor..." moduna al (ikon olmadan)
+                btn.innerHTML = 'İşleniyor...';
                 btn.style.opacity = "0.5";
                 btn.style.pointerEvents = "none";
 
                 setTimeout(function() {
-                    // Tepedeki alert kutusunu göster (Sarı/Warning)
-                    alertBox.querySelector("strong").innerText = "Dikkat!";
+                    // a) Butonun içeriğini güncelle (sadece metin, ikon yok)
+                    btn.innerHTML = 'Talep Alındı';
+                    
+                    // b) Butonun rengini daha açık kırmızıya çek ve disabled yap
+                    btn.style.backgroundColor = "#ffcccb";
+                    btn.style.borderColor = "#ff9999";
+                    btn.style.color = "#cc0000";
+                    btn.style.cursor = "not-allowed";
+                    btn.disabled = true;
+                    btn.style.pointerEvents = "none";
+                    
+                    // c) Sayfanın en üstündeki bildirim bandını görünür kıl
+                    alertBox.style.display = 'block';
+                    
+                    // d) Bildirim bandının içeriğini güncelle
+                    alertBox.className = "alert alert-info alert-dismissible fade show";
+                    alertBox.querySelector("strong").innerText = "Bilgi:";
                     
                     // Mesaj içeriğini güncelle
                     var iconElement = alertBox.querySelector("i");
@@ -1024,7 +1364,7 @@
                     if (iconElement) {
                         alertBox.appendChild(iconElement);
                     }
-                    alertBox.appendChild(document.createTextNode(" Hesap silme talebiniz alındı. Güvenlik gereği 24 saat içinde işleme alınacaktır."));
+                    alertBox.appendChild(document.createTextNode(" Hesap silme talebiniz alındı."));
                     if (closeButton) {
                         alertBox.appendChild(closeButton);
                     } else {
@@ -1035,12 +1375,7 @@
                         newCloseBtn.setAttribute("aria-label", "Close");
                         alertBox.appendChild(newCloseBtn);
                     }
-                    alertBox.className = "alert alert-warning alert-dismissible fade show";
-                    alertBox.style.display = 'block';
-                    
-                    // Butonu "Talep Alındı" haline getir
-                    btn.innerHTML = '<i class="fa-solid fa-clock"></i> Talep Alındı';
-                }, 2000);
+                }, 1500);
             };
         }
 
@@ -1103,8 +1438,203 @@ function directOpenModal(btn) {
         <p style="color:#666; font-size:14px; margin-bottom:20px;">Gizliliğiniz bizim için önemli. Çerez kullanım politikamızı yönetmek ister misiniz?</p>
         <div style="display:flex; gap:10px;">
             <button onclick="document.getElementById('cookieManagementModal').style.display='none'" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; background:#f8f9fa;">Kapat</button>
-            <button id="confirmCookieBtn" style="flex:1; padding:10px; border-radius:10px; border:none; background:#2E6DF8; color:white; font-weight:600;">İncele</button>
+            <button id="confirmCookieBtn" onclick="reviewCookies()" style="flex:1; padding:10px; border-radius:12px; border:none; background:#2E6DF8; color:white; font-weight:600; transition: all 0.3s ease; cursor: pointer; box-shadow: 0 2px 4px rgba(46, 109, 248, 0.3);">İncele</button>
         </div>
+        <style>
+            #confirmCookieBtn:hover {
+                background: #1a5cd6 !important;
+                box-shadow: 0 4px 8px rgba(46, 109, 248, 0.5) !important;
+                transform: translateY(-1px);
+            }
+        </style>
     </div>
 </div>
+
+<div id="cookieDetailModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100001; align-items:center; justify-content:center; backdrop-filter: blur(5px);">
+    <div style="background:white; padding:35px; border-radius:20px; width:450px; max-width:90%; max-height:90vh; overflow-y:auto; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+        <h4 style="color:#2E6DF8; font-weight:700; margin-bottom:25px; text-align:center;">Çerez Ayarlarınız</h4>
+        
+        <div style="margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border-radius:12px; margin-bottom:12px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; margin-bottom:4px; color:#333;">Zorunlu Çerezler</div>
+                    <div style="font-size:0.85rem; color:#666;">Sistemin çalışması için gereklidir.</div>
+                </div>
+                <div class="form-check form-switch" style="margin-left:auto; flex-shrink:0;">
+                    <input class="form-check-input" type="checkbox" checked disabled id="cookieRequired" style="cursor:not-allowed;">
+                </div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border-radius:12px; margin-bottom:12px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; margin-bottom:4px; color:#333;">Analiz Çerezleri</div>
+                    <div style="font-size:0.85rem; color:#666;">Deneyiminizi iyileştirmek için kullanılır.</div>
+                </div>
+                <div class="form-check form-switch" style="margin-left:auto; flex-shrink:0;">
+                    <input class="form-check-input" type="checkbox" id="cookieAnalytics" style="cursor:pointer;">
+                </div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border-radius:12px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; margin-bottom:4px; color:#333;">Pazarlama Çerezleri</div>
+                    <div style="font-size:0.85rem; color:#666;">Size özel teklifler sunmamızı sağlar.</div>
+                </div>
+                <div class="form-check form-switch" style="margin-left:auto; flex-shrink:0;">
+                    <input class="form-check-input" type="checkbox" id="cookieMarketing" style="cursor:pointer;">
+                </div>
+            </div>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:25px;">
+            <button onclick="acceptRequiredCookies()" style="flex:1; padding:12px; border-radius:12px; border:1px solid #ddd; background:#f8f9fa; font-weight:600; cursor:pointer; transition:all 0.3s ease;">Zorunlu Çerezleri Kabul Et</button>
+            <button onclick="acceptAllCookies()" style="flex:1; padding:12px; border-radius:12px; border:none; background:#2E6DF8; color:white; font-weight:600; cursor:pointer; transition:all 0.3s ease; box-shadow: 0 2px 4px rgba(46, 109, 248, 0.3);">Tüm Çerezleri Kabul Et</button>
+        </div>
+        
+        <style>
+            #cookieDetailModal .form-check-input:checked {
+                background-color: #2E6DF8;
+                border-color: #2E6DF8;
+            }
+            
+            #cookieDetailModal button:hover {
+                transform: translateY(-1px);
+            }
+            
+            #cookieDetailModal button[onclick="acceptAllCookies()"]:hover {
+                background: #1a5cd6 !important;
+                box-shadow: 0 4px 8px rgba(46, 109, 248, 0.5) !important;
+            }
+        </style>
+    </div>
+</div>
+
+<script>
+// Profil Resmi Yükleme Fonksiyonları
+document.addEventListener('DOMContentLoaded', function() {
+    const profileUpload = document.getElementById('profileUpload');
+    const avatarUploadArea = document.getElementById('avatarUploadArea');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const avatarImage = document.getElementById('avatarImage');
+    const defaultAvatarIcon = document.getElementById('defaultAvatarIcon');
+    const successAlert = document.getElementById('success-alert');
+    const btnSave = document.getElementById('btn-save');
+
+    // Dosya seçildiğinde
+    if (profileUpload) {
+        profileUpload.addEventListener('change', function(e) {
+            handleFileSelect(e.target.files[0]);
+        });
+    }
+
+    // Drag & Drop Event Listeners
+    if (avatarUploadArea) {
+        // Drag over - dosya üzerine gelindiğinde
+        avatarUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            avatarUploadArea.classList.add('drag-over');
+        });
+
+        // Drag leave - dosya alan dışına çıktığında
+        avatarUploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            avatarUploadArea.classList.remove('drag-over');
+        });
+
+        // Drop - dosya bırakıldığında
+        avatarUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            avatarUploadArea.classList.remove('drag-over');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('image/')) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        // Click event - tıklanabilir alan
+        avatarUploadArea.style.cursor = 'pointer';
+    }
+
+    // Dosya seçimi ve önizleme fonksiyonu
+    function handleFileSelect(file) {
+        if (!file || !file.type.startsWith('image/')) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Önizlemeyi göster
+            avatarImage.src = e.target.result;
+            avatarImage.style.display = 'block';
+            defaultAvatarIcon.style.display = 'none';
+
+            // Başarı mesajını göster
+            if (successAlert) {
+                successAlert.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Profil resminiz başarıyla güncellendi. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                successAlert.className = "alert alert-success alert-dismissible fade show";
+                successAlert.style.display = 'block';
+
+                // 3 saniye sonra gizle
+                setTimeout(function() {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            }
+
+            // Kaydet butonunu kısa süreliğine "İşleniyor..." moduna al
+            if (btnSave) {
+                const originalText = btnSave.innerHTML;
+                btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+                btnSave.disabled = true;
+
+                setTimeout(function() {
+                    btnSave.innerHTML = originalText;
+                    btnSave.disabled = false;
+                }, 1500);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Profil resmini silme fonksiyonu
+    window.removeAvatar = function() {
+        // Resmi gizle, varsayılan ikonu göster
+        avatarImage.style.display = 'none';
+        avatarImage.src = '';
+        defaultAvatarIcon.style.display = 'block';
+
+        // Input dosya değerini sıfırla
+        if (profileUpload) {
+            profileUpload.value = '';
+        }
+
+        // Başarı mesajını göster
+        if (successAlert) {
+            successAlert.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Profil resminiz başarıyla kaldırıldı. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            successAlert.className = "alert alert-success alert-dismissible fade show";
+            successAlert.style.display = 'block';
+
+            // 3 saniye sonra gizle
+            setTimeout(function() {
+                successAlert.style.display = 'none';
+            }, 3000);
+        }
+
+        // Kaydet butonunu kısa süreliğine "İşleniyor..." moduna al
+        if (btnSave) {
+            const originalText = btnSave.innerHTML;
+            btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+            btnSave.disabled = true;
+
+            setTimeout(function() {
+                btnSave.innerHTML = originalText;
+                btnSave.disabled = false;
+            }, 1500);
+        }
+    };
+});
+</script>
 
