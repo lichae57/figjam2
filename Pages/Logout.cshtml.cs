@@ -5,13 +5,13 @@ namespace figjam2.Pages
 {
     public class LogoutModel : PageModel
     {
-        public IActionResult OnPost()
+        public IActionResult OnGet()
         {
             // Session'ı temizle
             HttpContext.Session.Clear();
             
-            // Dashboard'a yönlendir
-            return RedirectToPage("/Dashboard");
+            // Giriş sayfasına yönlendir
+            return RedirectToPage("/Login");
         }
     }
 }

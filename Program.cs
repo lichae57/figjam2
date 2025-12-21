@@ -20,7 +20,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// Only use HTTPS redirection if HTTPS is configured
+var httpsPort = builder.Configuration["HTTPS_PORT"] ?? 
+                Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT");
+if (!string.IsNullOrEmpty(httpsPort) || app.Configuration.GetValue<bool>("HTTPS:Enabled", false))
+{
+    app.UseHttpsRedirection();
+}
 app.UseStaticFiles();
 
 app.UseRouting();

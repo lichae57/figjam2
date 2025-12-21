@@ -1,0 +1,616 @@
+@page
+@model figjam2.Pages.CreditReportModel
+@{
+    ViewData["Title"] = "Kredi Güven Raporu";
+}
+
+<div class="credit-report-page">
+    <div class="container">
+        <div class="page-header mb-4 fade-in">
+            <h1>
+                <i class="fas fa-file-alt me-2 text-secondary-custom"></i>
+                Kredi Güven Raporu
+            </h1>
+            <p class="text-muted">Finansal durumunuzu analiz edin ve krediye ulaşma şansınızı artırın</p>
+        </div>
+
+        <!-- Kazanacakların -->
+        <div class="benefits-section mt-5">
+            <h2 class="section-title text-center mb-5">
+                <span class="title-light-blue">Kredi Güven Raporu ile</span>
+                <span class="title-dark-blue">kazanacakların</span>
+            </h2>
+            <div class="row g-4">
+                <div class="col-12 col-md-6">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h5 class="benefit-title">Bankaların gözünde daha güçlü bir müşteri profili</h5>
+                        <p class="benefit-text">Kredi Güven Raporu, finansal durumunu analiz ederek iyileştirir. Böylece bankaların seni güvenilir bir müşteri olarak görmesini sağlar.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h5 class="benefit-title">Kredi başvurularında artan onay şansı</h5>
+                        <p class="benefit-text">Rapor sayesinde başvurularında en yüksek onay ihtimali olan bankaları ve kredi türlerini kolayca belirleyebilirsin.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="benefit-title">Kredi notunu etkilemeden sonuç öğren</h5>
+                        <p class="benefit-text">Kredi Güven Raporu, kredi başvurusu yapmadan finansal durumunu analiz eder ve kredi başvurunun olası sonucunu öğrenmeni sağlar, böylece kredi notun etkilenmez.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="benefit-title">Finansal sağlığını iyileştirmek için öneriler</h5>
+                        <p class="benefit-text">Kişiye özel analizler ve yapay zeka destekli önerilerle borç yönetimini optimize edebilir ve finansal hedeflerine ulaşabilirsin.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rapor Oluşturma Formu -->
+        <div class="report-form-section mt-5 fade-in">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-8">
+                        <div class="form-card">
+                            <h2 class="form-title text-center mb-4">
+                                <i class="fas fa-file-alt me-2 text-secondary-custom"></i>
+                                Kredi Güven Raporu Oluştur
+                            </h2>
+
+                            <!-- Adım 1: Kişisel Bilgiler -->
+                            <div id="step1" class="form-step active">
+                                <h3 class="step-title mb-4">
+                                    <span class="step-number">1</span>
+                                    Kişisel Bilgiler
+                                </h3>
+                                <form id="personalInfoForm">
+                                    <div class="mb-4">
+                                        <label class="form-label" for="tckn">
+                                            <i class="fas fa-id-card me-2"></i>TC Kimlik No
+                                        </label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="tckn" 
+                                               name="tckn"
+                                               maxlength="11"
+                                               pattern="[0-9]{11}"
+                                               placeholder="11 haneli TC Kimlik No"
+                                               required>
+                                        <small class="form-text text-muted">11 haneli TC Kimlik Numaranızı giriniz</small>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label" for="phoneNumber">
+                                            <i class="fas fa-phone me-2"></i>Telefon Numarası
+                                        </label>
+                                        <input type="tel" 
+                                               class="form-control" 
+                                               id="phoneNumber" 
+                                               name="phoneNumber"
+                                               maxlength="11"
+                                               pattern="[0-9]{10,11}"
+                                               placeholder="05XX XXX XX XX"
+                                               required>
+                                        <small class="form-text text-muted">Cep telefonu numaranızı giriniz</small>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                                            <i class="fas fa-arrow-right me-2"></i>
+                                            Devam Et
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Adım 2: Ödeme Bilgileri -->
+                            <div id="step2" class="form-step" style="display: none;">
+                                <h3 class="step-title mb-4">
+                                    <span class="step-number">2</span>
+                                    Ödeme Bilgileri
+                                </h3>
+                                <form id="paymentForm">
+                                    <div class="mb-4">
+                                        <label class="form-label" for="cardNumber">
+                                            <i class="fas fa-credit-card me-2"></i>Kart Numarası
+                                        </label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="cardNumber" 
+                                               name="cardNumber"
+                                               maxlength="19"
+                                               pattern="[0-9\s]{13,19}"
+                                               placeholder="1234 5678 9012 3456"
+                                               required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <label class="form-label" for="cardExpiry">
+                                                <i class="fas fa-calendar me-2"></i>Son Kullanma Tarihi
+                                            </label>
+                                            <input type="text" 
+                                                   class="form-control" 
+                                                   id="cardExpiry" 
+                                                   name="cardExpiry"
+                                                   maxlength="5"
+                                                   pattern="[0-9]{2}/[0-9]{2}"
+                                                   placeholder="MM/YY"
+                                                   required>
+                                        </div>
+                                        <div class="col-md-6 mb-4">
+                                            <label class="form-label" for="cardCvv">
+                                                <i class="fas fa-lock me-2"></i>CVV
+                                            </label>
+                                            <input type="text" 
+                                                   class="form-control" 
+                                                   id="cardCvv" 
+                                                   name="cardCvv"
+                                                   maxlength="3"
+                                                   pattern="[0-9]{3}"
+                                                   placeholder="123"
+                                                   required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label" for="cardName">
+                                            <i class="fas fa-user me-2"></i>Kart Üzerindeki İsim
+                                        </label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="cardName" 
+                                               name="cardName"
+                                               placeholder="Ad Soyad"
+                                               required>
+                                    </div>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Rapor Ücreti:</strong> ₺299.00
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-outline-secondary me-2" onclick="goToStep(1)">
+                                            <i class="fas fa-arrow-left me-2"></i>
+                                            Geri
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                                            <i class="fas fa-check me-2"></i>
+                                            Ödemeyi Tamamla
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Adım 3: Yapay Zeka Analizi -->
+                            <div id="step3" class="form-step" style="display: none;">
+                                <div class="text-center">
+                                    <div class="analysis-icon mb-4">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <h3 class="step-title mb-4">
+                                        <span class="step-number">3</span>
+                                        Yapay Zeka Analizi Başlatılıyor
+                                    </h3>
+                                    <div class="progress-container mb-4">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="analysisProgress" class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                 role="progressbar" 
+                                                 style="width: 0%"
+                                                 aria-valuenow="0" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                <span id="progressText">0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted mb-4" style="text-align: center; max-width: 500px; margin: 0 auto;">
+                                        Finansal durumunuz analiz ediliyor, lütfen bekleyiniz...
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Adım 4: Sonuç -->
+                            <div id="step4" class="form-step" style="display: none;">
+                                <div class="text-center">
+                                    <div class="success-icon mb-4">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <h3 class="step-title mb-4">
+                                        <span class="step-number">4</span>
+                                        Analiz Tamamlandı
+                                    </h3>
+                                    <div class="result-message mb-4">
+                                        <p class="lead">
+                                            Kredi Güven Raporunuz hazırlandı!
+                                        </p>
+                                        <p class="text-muted">
+                                            Detaylı sonuçları görmek ve kredi uzmanımızla görüşmek için lütfen bizimle iletişime geçin.
+                                        </p>
+                                    </div>
+                                    <div class="contact-info mb-4">
+                                        <div class="contact-item">
+                                            <i class="fas fa-phone me-2 text-secondary-custom"></i>
+                                            <strong>0850 123 45 67</strong>
+                                        </div>
+                                        <div class="contact-item mt-2">
+                                            <i class="fas fa-envelope me-2 text-secondary-custom"></i>
+                                            <strong>destek@interaktifsube.com</strong>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-lg px-5" onclick="location.reload()">
+                                        <i class="fas fa-redo me-2"></i>
+                                        Yeni Rapor Oluştur
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .credit-report-page {
+        padding: 3rem 0;
+        min-height: 60vh;
+        margin: -1cm 5cm 0 5cm;
+    }
+
+    .page-header {
+        margin-bottom: 3rem;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+        margin-top: 1cm;
+    }
+
+    .section-title {
+        font-size: 2.25rem;
+        line-height: 1.3;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .title-light-blue {
+        color: var(--secondary-color);
+        font-weight: 400;
+    }
+
+    .title-dark-blue {
+        color: var(--primary-color);
+        font-weight: 700;
+    }
+
+    /* Kazanacakların Bölümü */
+    .benefits-section {
+        padding: 3rem 0;
+    }
+
+    .benefit-card {
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .benefit-card:hover {
+        border-color: var(--secondary-color);
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .benefit-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, rgba(46, 109, 248, 0.1), rgba(46, 109, 248, 0.05));
+        border: 2px solid var(--secondary-color);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary-color);
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .benefit-card:hover .benefit-icon {
+        background: var(--secondary-color);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .benefit-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.15rem;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+    .benefit-text {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin: 0;
+        font-size: 0.95rem;
+        flex: 1;
+    }
+
+    @@media (max-width: 768px) {
+        .credit-report-page {
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+
+        .benefit-card {
+            padding: 1.5rem 1rem;
+        }
+    }
+
+    /* Rapor Form Bölümü */
+    .report-form-section {
+        padding: 3rem 0;
+    }
+
+    .form-card {
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        padding: 3rem;
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.1);
+    }
+
+    .form-title {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .form-step {
+        animation: fadeIn 0.5s ease-in;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .step-title {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: var(--secondary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .analysis-icon {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .progress-container {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .success-icon {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        animation: scaleIn 0.5s ease-out;
+    }
+
+    @@keyframes scaleIn {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+
+    .result-message {
+        padding: 2rem;
+        background: rgba(46, 109, 248, 0.05);
+        border-radius: 12px;
+        border: 2px solid var(--secondary-color);
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .result-message .lead {
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    .result-message .text-muted {
+        margin: 0;
+        line-height: 1.7;
+    }
+
+    .contact-info {
+        padding: 1.5rem;
+        background: white;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .contact-item {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @@media (max-width: 768px) {
+        .form-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        let currentStep = 1;
+
+        // TCKN formatı
+        document.getElementById('tckn').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Telefon formatı
+        document.getElementById('phoneNumber').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+            if (this.value.length > 11) {
+                this.value = this.value.substring(0, 11);
+            }
+        });
+
+        // Kart numarası formatı
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = this.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            this.value = formattedValue;
+        });
+
+        // Son kullanma tarihi formatı
+        document.getElementById('cardExpiry').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            this.value = value;
+        });
+
+        // CVV formatı
+        document.getElementById('cardCvv').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Kişisel bilgiler formu
+        document.getElementById('personalInfoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            goToStep(2);
+        });
+
+        // Ödeme formu
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            goToStep(3);
+            startAnalysis();
+        });
+
+        function goToStep(step) {
+            // Mevcut adımı gizle
+            document.getElementById('step' + currentStep).style.display = 'none';
+            
+            // Yeni adıma geç
+            currentStep = step;
+            document.getElementById('step' + currentStep).style.display = 'block';
+            
+            // Sayfayı kaydır
+            document.getElementById('step' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function startAnalysis() {
+            let progress = 0;
+            const progressBar = document.getElementById('analysisProgress');
+            const progressText = document.getElementById('progressText');
+            
+            const interval = setInterval(function() {
+                progress += 2;
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%';
+                    progressBar.setAttribute('aria-valuenow', progress);
+                    progressText.textContent = progress + '%';
+                } else {
+                    clearInterval(interval);
+                    setTimeout(function() {
+                        goToStep(4);
+                    }, 500);
+                }
+            }, 100);
+        }
+    </script>
+}
+

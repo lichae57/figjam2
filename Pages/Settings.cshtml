@@ -1,0 +1,1640 @@
+@page
+@model figjam2.Pages.SettingsModel
+@{
+    ViewData["Title"] = "Ayarlar";
+}
+
+<div class="settings-container">
+    <div class="container py-4">
+        <!-- Page Header -->
+        <div class="page-header mb-4 fade-in">
+            <h1>
+                <i class="fas fa-cog me-2 text-secondary-custom"></i>
+                Ayarlar
+            </h1>
+            <p class="text-muted">Hesap ayarlarınızı yönetin</p>
+        </div>
+
+        <div class="row">
+            <!-- Settings Menu -->
+            <div class="col-12 col-lg-4 mb-4">
+                <div class="card settings-menu fade-in">
+                    <div class="card-body p-0">
+                        <div class="settings-nav">
+                            <a href="#profile" class="settings-nav-item active" data-section="profile">
+                                <div class="nav-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Profil Düzenleme</span>
+                                    <span class="nav-desc">Kişisel bilgilerinizi güncelleyin</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#password" class="settings-nav-item" data-section="password">
+                                <div class="nav-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Şifre Değiştirme</span>
+                                    <span class="nav-desc">Hesap güvenliğinizi güncelleyin</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#notifications" class="settings-nav-item" data-section="notifications">
+                                <div class="nav-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Bildirim Ayarları</span>
+                                    <span class="nav-desc">Bildirim tercihlerinizi yönetin</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#security" class="settings-nav-item" data-section="security">
+                                <div class="nav-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Güvenlik</span>
+                                    <span class="nav-desc">İki faktörlü doğrulama ve daha fazlası</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                            <a href="#privacy" class="settings-nav-item" data-section="privacy">
+                                <div class="nav-icon">
+                                    <i class="fas fa-eye-slash"></i>
+                                </div>
+                                <div class="nav-content">
+                                    <span class="nav-title">Gizlilik</span>
+                                    <span class="nav-desc">Gizlilik tercihlerinizi ayarlayın</span>
+                                </div>
+                                <i class="fas fa-chevron-right nav-arrow"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Content -->
+            <div class="col-12 col-lg-8">
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none; margin-bottom: 20px;">
+                    <i class="fa-solid fa-circle-check me-2"></i> <strong>Harika!</strong> Bilgileriniz başarıyla kaydedildi.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profile-section" class="settings-section fade-in">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-user me-2"></i>
+                                Profil Düzenleme
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="profileForm">
+                                <div class="text-center mb-4">
+                                    <label for="profileUpload" class="avatar-upload-label">
+                                        <div class="avatar-upload" id="avatarUploadArea">
+                                            <div class="avatar-preview" id="avatarPreview">
+                                                <i class="fas fa-user-circle fa-5x text-secondary-custom" id="defaultAvatarIcon"></i>
+                                                <img id="avatarImage" src="" alt="Profil Resmi" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                            </div>
+                                            <div class="avatar-overlay">
+                                                <div class="avatar-overlay-buttons">
+                                                    <span class="avatar-overlay-text">Resmi Değiştir</span>
+                                                    <button type="button" class="btn btn-sm btn-danger avatar-delete" id="btnDeleteAvatar" onclick="event.stopPropagation(); removeAvatar();">
+                                                        <i class="fa-solid fa-trash-can"></i> Kaldır
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="btn btn-sm btn-outline avatar-edit">
+                                                <i class="fas fa-camera"></i>
+                                            </div>
+                                            <button type="button" class="avatar-delete-btn" id="btnDeleteAvatarTop" onclick="event.stopPropagation(); removeAvatar();" title="Resmi Kaldır">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </div>
+                                    </label>
+                                    <input type="file" id="profileUpload" accept="image/*" style="display:none;">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Ad</label>
+                                            <input type="text" class="form-control" value="Ahmet" placeholder="Adınız">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Soyad</label>
+                                            <input type="text" class="form-control" value="Yılmaz" placeholder="Soyadınız">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">E-posta</label>
+                                    <input type="email" class="form-control" value="ahmet.yilmaz@email.com" placeholder="E-posta adresiniz">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Telefon</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+90</span>
+                                        <input type="text" class="form-control" value="532 123 45 67" placeholder="Telefon numaranız">
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Doğum Tarihi</label>
+                                    <input type="date" class="form-control" value="1985-03-15">
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Adres</label>
+                                    <textarea class="form-control" rows="2" placeholder="Adresiniz">Atatürk Mahallesi, Cumhuriyet Caddesi No: 123, Kadıköy/İstanbul</textarea>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h6 class="mb-3">
+                                    <i class="fas fa-briefcase me-2"></i>
+                                    Meslek & Gelir Bilgileri
+                                </h6>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Meslek Seçimi</label>
+                                            <div class="custom-select-wrapper" style="position: relative;">
+                                                <select class="form-select profile-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                                                    <option value="">Meslek seçiniz</option>
+                                                    <option value="private">Özel Sektör</option>
+                                                    <option value="public" selected>Kamu</option>
+                                                    <option value="freelance">Serbest Meslek</option>
+                                                    <option value="student">Öğrenci</option>
+                                                    <option value="retired">Emekli</option>
+                                                </select>
+                                                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Aylık Net Gelir Aralığı</label>
+                                            <div class="custom-select-wrapper" style="position: relative;">
+                                                <select class="form-select profile-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                                                    <option value="">Gelir aralığı seçiniz</option>
+                                                    <option value="0-20k">0 - 20.000 TL</option>
+                                                    <option value="20k-50k" selected>20.000 - 50.000 TL</option>
+                                                    <option value="50k-100k">50.000 - 100.000 TL</option>
+                                                    <option value="100k+">100.000 TL ve üzeri</option>
+                                                </select>
+                                                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" id="btn-save" onclick="saveChanges(); return false;">
+                                    <i class="fas fa-save me-2"></i>
+                                    Değişiklikleri Kaydet
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Section -->
+                <div id="password-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-lock me-2"></i>
+                                Şifre Değiştirme
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="passwordForm">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Mevcut Şifre</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="currentPassword" placeholder="Mevcut şifrenizi giriniz">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="currentPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Yeni Şifre</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="newPassword" placeholder="Yeni şifrenizi giriniz">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="newPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="password-strength mt-2">
+                                        <div class="strength-bar">
+                                            <div class="strength-fill" style="width: 0%"></div>
+                                        </div>
+                                        <small class="text-muted">Şifre gücü: <span class="strength-text">-</span></small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Yeni Şifre (Tekrar)</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Yeni şifrenizi tekrar giriniz">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="confirmPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Şifre Gereksinimleri:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        <li>En az 8 karakter</li>
+                                        <li>En az bir büyük harf</li>
+                                        <li>En az bir küçük harf</li>
+                                        <li>En az bir rakam</li>
+                                        <li>En az bir özel karakter (!@@#$%^&amp;*)</li>
+                                    </ul>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary mt-3" id="btn-password" onclick="changePassword(); return false;">
+                                    <i class="fas fa-key me-2"></i>
+                                    Şifreyi Değiştir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-bell me-2"></i>
+                                Bildirim Ayarları
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="notification-group mb-4">
+                                <h6 class="text-muted mb-3">E-posta Bildirimleri</h6>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">İşlem Bildirimleri</span>
+                                        <span class="notification-desc">Para transferi ve ödemeler için e-posta alın</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">Güvenlik Uyarıları</span>
+                                        <span class="notification-desc">Şüpheli aktiviteler için uyarı alın</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">Kampanya ve Fırsatlar</span>
+                                        <span class="notification-desc">Özel tekliflerden haberdar olun</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="notification-group">
+                                <h6 class="text-muted mb-3">SMS Bildirimleri</h6>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">OTP Kodları</span>
+                                        <span class="notification-desc">Giriş ve işlem onay kodları</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked disabled>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <span class="notification-title">Hesap Hareketleri</span>
+                                        <span class="notification-desc">Para giriş/çıkış bildirimleri</span>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary mt-4" id="btn-notifications" onclick="saveNotifications()">
+                                <i class="fas fa-save me-2"></i>
+                                Ayarları Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div id="security-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Güvenlik
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="security-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; flex-grow: 1;">
+                                        <h6 class="mb-1">İki Faktörlü Doğrulama (2FA)</h6>
+                                        <p class="text-muted mb-0 small">Ekstra güvenlik katmanı ekleyin</p>
+                                    </div>
+                                    <div class="form-check form-switch" style="margin-left: auto; flex-shrink: 0;">
+                                        <input class="form-check-input" type="checkbox" checked id="twoFactorAuth">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="security-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; flex-grow: 1;">
+                                        <h6 class="mb-1">Oturum Zaman Aşımı</h6>
+                                        <p class="text-muted mb-0 small">Hareketsizlik durumunda oturumu kapat</p>
+                                    </div>
+                                    <div class="custom-select-wrapper" style="margin-left: auto; flex-shrink: 0; position: relative;">
+                                        <select class="form-select security-timeout-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: all 0.3s ease;">
+                                            <option value="5">5 dakika</option>
+                                            <option value="10">10 dakika</option>
+                                            <option value="15" selected>15 dakika</option>
+                                            <option value="30">30 dakika</option>
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="security-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; flex-grow: 1;">
+                                        <h6 class="mb-1">Giriş Bildirimleri</h6>
+                                        <p class="text-muted mb-0 small">Yeni cihazdan giriş yapıldığında bildir</p>
+                                    </div>
+                                    <div class="form-check form-switch" style="margin-left: auto; flex-shrink: 0;">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h6 class="mb-3">Aktif Oturumlar</h6>
+                            <div class="session-item">
+                                <div class="session-icon">
+                                    <i class="fas fa-desktop"></i>
+                                </div>
+                                <div class="session-info">
+                                    <span class="session-device">Windows PC - Chrome</span>
+                                    <span class="session-location">İstanbul, Türkiye • Şu an aktif</span>
+                                </div>
+                                <span class="badge bg-success">Mevcut</span>
+                            </div>
+                            <div class="session-item d-flex">
+                                <div class="session-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="session-info">
+                                    <span class="session-device">iPhone - Safari</span>
+                                    <span class="session-location">İstanbul, Türkiye • 2 saat önce</span>
+                                </div>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="directOpenModal(this)">Sonlandır</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Section -->
+                <div id="privacy-section" class="settings-section d-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-eye-slash me-2"></i>
+                                Gizlilik
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="privacy-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; flex-grow: 1;">
+                                        <h6 class="mb-1">Profil Görünürlüğü</h6>
+                                        <p class="text-muted mb-0 small">Profilinizi kimlerin görebileceğini belirleyin</p>
+                                    </div>
+                                    <div class="custom-select-wrapper" style="margin-left: auto; flex-shrink: 0; position: relative;">
+                                        <select class="form-select privacy-select" style="background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px 40px 10px 15px; font-weight: 500; color: #333; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; width: auto; transition: all 0.3s ease;">
+                                            <option value="public">Herkese Açık</option>
+                                            <option value="contacts" selected>Sadece Kişiler</option>
+                                            <option value="private">Gizli</option>
+                                        </select>
+                                        <i class="fa-solid fa-chevron-down" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #666; font-size: 0.85rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="privacy-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; flex-grow: 1;">
+                                        <h6 class="mb-1">Arama Sonuçlarında Görün</h6>
+                                        <p class="text-muted mb-0 small">Diğer kullanıcılar sizi bulabilsin</p>
+                                    </div>
+                                    <div class="form-check form-switch" style="margin-left: auto; flex-shrink: 0;">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="privacy-item mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div style="flex: 1; flex-grow: 1;">
+                                        <h6 class="mb-1">Çerez Tercihleri</h6>
+                                        <p class="text-muted mb-0 small">Çerez kullanım tercihlerinizi yönetin</p>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline" id="btn-manage-cookies" onclick="manageCookies()" style="margin-left: auto; padding: 8px 25px; border-radius: 12px; flex-shrink: 0;">Yönet</button>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="alert alert-warning">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Hesap Silme
+                                </h6>
+                                <p class="mb-2">Hesabınızı silmek tüm verilerinizin kalıcı olarak silinmesine neden olur.</p>
+                                <button class="btn btn-sm btn-outline-danger" id="btn-delete-account" onclick="deleteAccount()">
+                                    <i class="fas fa-trash me-2"></i>
+                                    Hesabı Sil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .settings-container {
+        min-height: calc(100vh - 200px);
+    }
+
+    .page-header {
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+
+    .settings-menu {
+        overflow: hidden;
+    }
+
+    .settings-nav {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .settings-nav-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .settings-nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .settings-nav-item:hover {
+        background: var(--bg-light);
+    }
+
+    .settings-nav-item.active {
+        background: linear-gradient(90deg, rgba(46, 109, 248, 0.1), transparent);
+        border-left: 4px solid var(--secondary-color);
+    }
+
+    .nav-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: var(--bg-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+    }
+
+    .settings-nav-item.active .nav-icon {
+        background: var(--secondary-color);
+        color: white;
+    }
+
+    .nav-content {
+        flex: 1;
+    }
+
+    .nav-title {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .nav-desc {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+
+    .nav-arrow {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+    }
+
+    .avatar-upload-label {
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .avatar-upload {
+        position: relative;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+        padding: 2px;
+    }
+
+    .avatar-upload:hover .avatar-overlay {
+        opacity: 1;
+    }
+
+    .avatar-upload.drag-over {
+        border: 2px dashed #2E6DF8;
+        background: rgba(46, 109, 248, 0.1);
+    }
+
+    .avatar-preview {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--bg-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .avatar-overlay-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .avatar-overlay-text {
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+    .avatar-delete {
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        border-radius: 8px;
+        background: #DC3545;
+        border: none;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-delete:hover {
+        background: #c82333;
+        transform: scale(1.05);
+    }
+
+    .avatar-edit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        background: white;
+        border: 2px solid #2E6DF8;
+    }
+
+    .avatar-delete-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        padding: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        background: white;
+        color: #DC3545;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-delete-btn:hover {
+        background: #DC3545;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .avatar-upload:hover .avatar-delete-btn {
+        display: flex;
+    }
+
+    .password-strength {
+        margin-top: 0.5rem;
+    }
+
+    .strength-bar {
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .strength-fill {
+        height: 100%;
+        background: var(--error-color);
+        transition: all 0.3s ease;
+    }
+
+    .notification-item, .security-item, .privacy-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem;
+        background: var(--bg-light);
+        border-radius: 10px;
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .security-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .security-item:last-of-type {
+        border-bottom: none;
+    }
+    
+    .security-item > .d-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .security-item .d-flex > div:first-child {
+        flex: 1;
+        flex-grow: 1;
+    }
+    
+    .security-item .custom-select-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .security-item .security-timeout-select {
+        margin-left: auto;
+        width: auto;
+        min-width: 150px;
+        border-radius: 12px;
+        padding: 10px 40px 10px 15px;
+        border: 1px solid #e0e0e0;
+        background: #f8f9fa;
+        font-weight: 500;
+        color: #333;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+    
+    .security-item .security-timeout-select:hover {
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.1);
+    }
+    
+    .security-item .security-timeout-select:hover {
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.1);
+    }
+    
+    .security-item .security-timeout-select:focus {
+        outline: none;
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.15);
+    }
+    
+    .profile-select {
+        width: 100%;
+    }
+    
+    .profile-select:hover {
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.1);
+    }
+    
+    .profile-select:focus {
+        outline: none;
+        border-color: #2E6DF8;
+        box-shadow: 0 0 0 3px rgba(46, 109, 248, 0.15);
+    }
+    
+    .security-item .form-check {
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+    
+    .security-item .form-check-input {
+        cursor: pointer;
+    }
+    
+    .security-item .form-check-input:checked {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+    
+    .privacy-item > .d-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .privacy-item .d-flex > div:first-child {
+        flex: 1;
+        flex-grow: 1;
+    }
+    
+    .privacy-item .form-select {
+        margin-left: auto;
+        width: auto;
+        border-radius: 12px;
+        padding: 10px 15px;
+        border: 2px solid #e0e0e0;
+        flex-shrink: 0;
+    }
+    
+    .privacy-item .form-check {
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+    
+    .privacy-item #btn-manage-cookies {
+        margin-left: auto;
+        padding: 8px 25px;
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+    
+    #privacy-section .card-body {
+        padding: 2.5rem;
+    }
+    
+    .privacy-item .d-flex > div:first-child {
+        flex-grow: 1;
+        margin-right: 20px;
+    }
+    
+    .privacy-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .privacy-item:last-of-type {
+        border-bottom: none;
+    }
+
+    .notification-info {
+        flex: 1;
+    }
+
+    .notification-title {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .notification-desc {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .session-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: 10px;
+        margin-bottom: 0.75rem;
+    }
+
+    .session-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: var(--secondary-color);
+        font-size: 1.25rem;
+    }
+
+    .session-info {
+        flex: 1;
+    }
+
+    .session-device {
+        display: block;
+        font-weight: 600;
+    }
+
+    .session-location {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@media (max-width: 992px) {
+        .settings-nav-item {
+            padding: 0.875rem 1rem;
+        }
+
+        .nav-desc {
+            display: none;
+        }
+    }
+
+    /* Custom Modal Styles */
+    .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    }
+
+    .custom-modal-content {
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 450px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    .modal-icon {
+        font-size: 4rem;
+        color: #2E6DF8;
+        margin-bottom: 20px;
+    }
+
+    .custom-modal-content h3 {
+        color: #222854;
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+
+    .custom-modal-content p {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1rem;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .btn-confirm {
+        background-color: #FF7F00;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-confirm:hover {
+        background-color: #e67300;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(255, 127, 0, 0.3);
+    }
+
+    .btn-cancel {
+        background-color: #f0f0f0;
+        color: #555;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+        background-color: #e0e0e0;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Settings navigation
+        const navItems = document.querySelectorAll('.settings-nav-item');
+        const sections = document.querySelectorAll('.settings-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show corresponding section
+                const sectionId = this.dataset.section + '-section';
+                sections.forEach(section => {
+                    if (section.id === sectionId) {
+                        section.classList.remove('d-none');
+                    } else {
+                        section.classList.add('d-none');
+                    }
+                });
+            });
+        });
+
+        // Password visibility toggle
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Password strength checker
+        const newPasswordInput = document.getElementById('newPassword');
+        if (newPasswordInput) {
+            newPasswordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                let strengthText = 'Çok Zayıf';
+                let color = 'var(--error-color)';
+
+                if (password.length >= 8) strength++;
+                if (/[a-z]/.test(password)) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+                const fillWidth = (strength / 5) * 100;
+
+                if (strength >= 5) {
+                    strengthText = 'Çok Güçlü';
+                    color = 'var(--success-color)';
+                } else if (strength >= 4) {
+                    strengthText = 'Güçlü';
+                    color = '#28a745';
+                } else if (strength >= 3) {
+                    strengthText = 'Orta';
+                    color = 'var(--warning-color)';
+                } else if (strength >= 2) {
+                    strengthText = 'Zayıf';
+                    color = '#fd7e14';
+                }
+
+                document.querySelector('.strength-fill').style.width = fillWidth + '%';
+                document.querySelector('.strength-fill').style.background = color;
+                document.querySelector('.strength-text').textContent = strengthText;
+            });
+        }
+
+        // Form submissions
+        document.getElementById('profileForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('Profil bilgileri güncellendi!', 'success');
+        });
+
+        document.getElementById('passwordForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (newPass !== confirmPass) {
+                showToast('Şifreler eşleşmiyor!', 'error');
+                return;
+            }
+
+            showToast('Şifreniz başarıyla değiştirildi!', 'success');
+        });
+
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle text-success' : 'fa-exclamation-circle text-danger'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function saveChanges() {
+            // 1. Butonu seç
+            var btn = document.getElementById("btn-save");
+            var originalText = btn.innerHTML;
+
+            // 2. Yükleniyor moduna al
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Kaydediliyor...';
+            btn.disabled = true;
+
+            // 3. 1.5 saniye bekle (Simülasyon)
+            setTimeout(function() {
+                // 4. Başarı mesajı göster (Bootstrap bildirim kutusu)
+                var successAlert = document.getElementById("success-alert");
+                if (successAlert) {
+                    successAlert.style.display = "block";
+                    // 5 saniye sonra otomatik kapat
+                    setTimeout(function() {
+                        successAlert.style.display = "none";
+                    }, 5000);
+                }
+
+                // 5. Butonu eski haline getir
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        function changePassword() {
+            var btn = document.getElementById("btn-password");
+            var alertBox = document.getElementById("success-alert");
+            var originalText = btn.innerHTML;
+
+            // 1. Kutudaki mesajı güncelle
+            alertBox.querySelector("strong").innerText = "Güvenlik Güncellemesi!";
+            alertBox.innerHTML = alertBox.innerHTML.replace("Bilgileriniz başarıyla kaydedildi.", "Şifreniz başarıyla değiştirildi.");
+
+            // 2. Varsa önceki mesajı gizle
+            alertBox.style.display = 'none';
+
+            // 3. Yükleniyor modu
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Güncelleniyor...';
+            btn.disabled = true;
+
+            // 4. Bekleme simülasyonu (2 saniye)
+            setTimeout(function() {
+                // Bildirimi göster
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.style.display = 'block';
+
+                // Form inputlarını temizle (Opsiyonel estetik)
+                var passwordSection = document.getElementById("password-section");
+                if (passwordSection) {
+                    var inputs = passwordSection.querySelectorAll("input[type='password']");
+                    inputs.forEach(input => input.value = "");
+                }
+
+                // Butonu eski haline getir (süre dolunca)
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+
+                // 3 saniye sonra mesajı kaybet
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+
+            }, 2000);
+        }
+
+        function saveNotifications() {
+            var btn = document.getElementById("btn-notifications");
+            var alertBox = document.getElementById("success-alert");
+            var originalText = btn.innerHTML;
+
+            // Mesaj içeriğini bildirim ayarları için özelleştir
+            alertBox.querySelector("strong").innerText = "Başarılı!";
+            alertBox.innerHTML = alertBox.innerHTML.replace(/Bilgileriniz|Şifreniz.*/, "Bildirim tercihleriniz başarıyla güncellendi.");
+
+            alertBox.style.display = 'none';
+            btn.innerHTML = '<i class="fa-solid fa-sync fa-spin"></i> Güncelleniyor...';
+            btn.disabled = true;
+
+            setTimeout(function() {
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.style.display = 'block';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+            }, 1500);
+        }
+
+        // Çerez Yönetimi Fonksiyonu
+        function manageCookies() {
+            var btn = document.getElementById("btn-manage-cookies");
+            var originalText = btn.innerHTML;
+            
+            // Butonu "İşleniyor..." moduna al
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+            btn.disabled = true;
+            
+            // 1 saniye sonra butonu eski haline getir ve modalı aç
+            setTimeout(function() {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Modal'ı görünür yap
+                document.getElementById('cookieManagementModal').style.display = 'flex';
+            }, 1000);
+        }
+
+        // Çerez Politikası İnceleme Fonksiyonu
+        function reviewCookies() {
+            // İlk modalı kapat
+            document.getElementById('cookieManagementModal').style.display = 'none';
+            
+            // Detaylı modalı aç
+            document.getElementById('cookieDetailModal').style.display = 'flex';
+        }
+        
+        // Zorunlu Çerezleri Kabul Et
+        function acceptRequiredCookies() {
+            // Sadece zorunlu çerezler aktif (zaten aktif)
+            document.getElementById('cookieAnalytics').checked = false;
+            document.getElementById('cookieMarketing').checked = false;
+            
+            // Modalı kapat
+            document.getElementById('cookieDetailModal').style.display = 'none';
+            
+            // Başarı mesajı
+            var alertBox = document.getElementById("success-alert");
+            if (alertBox) {
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Zorunlu çerez tercihleriniz kaydedildi. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                alertBox.style.display = 'block';
+                
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Tüm Çerezleri Kabul Et
+        function acceptAllCookies() {
+            // Tüm çerezleri aktif et
+            document.getElementById('cookieAnalytics').checked = true;
+            document.getElementById('cookieMarketing').checked = true;
+            
+            // Modalı kapat
+            document.getElementById('cookieDetailModal').style.display = 'none';
+            
+            // Başarı mesajı
+            var alertBox = document.getElementById("success-alert");
+            if (alertBox) {
+                alertBox.className = "alert alert-success alert-dismissible fade show";
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Tüm çerez tercihleriniz kaydedildi. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                alertBox.style.display = 'block';
+                
+                setTimeout(function() {
+                    alertBox.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Kritik İşlem: Hesabı Sil Fonksiyonu
+        function deleteAccount() {
+            // Modern modal'ı aç
+            document.getElementById('deleteAccountModal').style.display = 'flex';
+            
+            // Modal içindeki "Evet, Hesabımı Sil" butonuna event listener ekle
+            document.getElementById('finalDeleteBtn').onclick = function() {
+                // Modalı kapat
+                document.getElementById('deleteAccountModal').style.display = 'none';
+                
+                var btn = document.getElementById("btn-delete-account");
+                var alertBox = document.getElementById("success-alert");
+
+                // Butonu "İşleniyor..." moduna al (ikon olmadan)
+                btn.innerHTML = 'İşleniyor...';
+                btn.style.opacity = "0.5";
+                btn.style.pointerEvents = "none";
+
+                setTimeout(function() {
+                    // a) Butonun içeriğini güncelle (sadece metin, ikon yok)
+                    btn.innerHTML = 'Talep Alındı';
+                    
+                    // b) Butonun rengini daha açık kırmızıya çek ve disabled yap
+                    btn.style.backgroundColor = "#ffcccb";
+                    btn.style.borderColor = "#ff9999";
+                    btn.style.color = "#cc0000";
+                    btn.style.cursor = "not-allowed";
+                    btn.disabled = true;
+                    btn.style.pointerEvents = "none";
+                    
+                    // c) Sayfanın en üstündeki bildirim bandını görünür kıl
+                    alertBox.style.display = 'block';
+                    
+                    // d) Bildirim bandının içeriğini güncelle
+                    alertBox.className = "alert alert-info alert-dismissible fade show";
+                    alertBox.querySelector("strong").innerText = "Bilgi:";
+                    
+                    // Mesaj içeriğini güncelle
+                    var iconElement = alertBox.querySelector("i");
+                    var closeButton = alertBox.querySelector(".btn-close");
+                    alertBox.innerHTML = '';
+                    if (iconElement) {
+                        alertBox.appendChild(iconElement);
+                    }
+                    alertBox.appendChild(document.createTextNode(" Hesap silme talebiniz alındı."));
+                    if (closeButton) {
+                        alertBox.appendChild(closeButton);
+                    } else {
+                        var newCloseBtn = document.createElement("button");
+                        newCloseBtn.type = "button";
+                        newCloseBtn.className = "btn-close";
+                        newCloseBtn.setAttribute("data-bs-dismiss", "alert");
+                        newCloseBtn.setAttribute("aria-label", "Close");
+                        alertBox.appendChild(newCloseBtn);
+                    }
+                }, 1500);
+            };
+        }
+
+    </script>
+}
+
+<div id="finalModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:white; padding:30px; border-radius:15px; text-align:center; width:300px;">
+        <h4 style="color:#2E6DF8">Emin misiniz?</h4>
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="document.getElementById('finalModal').style.display='none'" style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;">Hayır</button>
+            <button id="confirmAction" style="flex:1; padding:10px; border-radius:8px; border:none; background:#2E6DF8; color:white;">Evet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function directOpenModal(btn) {
+    console.log("Buton tıklandı");
+    document.getElementById('finalModal').style.display = 'flex';
+    
+    document.getElementById('confirmAction').onclick = function() {
+        document.getElementById('finalModal').style.display = 'none';
+        btn.innerHTML = 'Kapatılıyor...';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+            btn.innerHTML = 'Sonlandırıldı';
+            btn.className = 'btn btn-secondary btn-sm disabled';
+            btn.closest('.d-flex').style.opacity = '0.4';
+            
+            // Tepedeki alert kutusunu bul ve göster
+            const alert = document.getElementById('success-alert');
+            if(alert) alert.style.display = 'block';
+        }, 1000);
+    };
+}
+</script>
+
+<div id="deleteAccountModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:100000; align-items:center; justify-content:center; backdrop-filter: blur(8px);">
+    <div style="background:white; padding:40px; border-radius:24px; text-align:center; width:400px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+        <div style="width:70px; height:70px; background:#FFEBEB; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:30px; color:#DC3545;"></i>
+        </div>
+        <h3 style="color:#2E6DF8; font-weight:800;">Emin misiniz?</h3>
+        <p style="color:#666; margin:15px 0 25px;">Hesabınızı silmek tüm verilerinizin kalıcı olarak kaybolmasına neden olur. Bu işlem geri alınamaz!</p>
+        <div style="display:flex; gap:12px;">
+            <button onclick="document.getElementById('deleteAccountModal').style.display='none'" style="flex:1; padding:12px; border-radius:12px; border:1px solid #ddd; background:#f8f9fa; font-weight:600;">Vazgeç</button>
+            <button id="finalDeleteBtn" style="flex:1; padding:12px; border-radius:12px; border:none; background:#DC3545; color:white; font-weight:600;">Evet, Hesabımı Sil</button>
+        </div>
+    </div>
+</div>
+
+<div id="cookieManagementModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100000; align-items:center; justify-content:center; backdrop-filter: blur(5px);">
+    <div style="background:white; padding:35px; border-radius:20px; text-align:center; width:350px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+        <div style="width:60px; height:60px; background:#E6F7FF; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px;">
+            <i class="fa-solid fa-cookie-bite" style="font-size:25px; color:#2E6DF8;"></i>
+        </div>
+        <h4 style="color:#2E6DF8; font-weight:700;">Çerez Tercihleri</h4>
+        <p style="color:#666; font-size:14px; margin-bottom:20px;">Gizliliğiniz bizim için önemli. Çerez kullanım politikamızı yönetmek ister misiniz?</p>
+        <div style="display:flex; gap:10px;">
+            <button onclick="document.getElementById('cookieManagementModal').style.display='none'" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; background:#f8f9fa;">Kapat</button>
+            <button id="confirmCookieBtn" onclick="reviewCookies()" style="flex:1; padding:10px; border-radius:12px; border:none; background:#2E6DF8; color:white; font-weight:600; transition: all 0.3s ease; cursor: pointer; box-shadow: 0 2px 4px rgba(46, 109, 248, 0.3);">İncele</button>
+        </div>
+        <style>
+            #confirmCookieBtn:hover {
+                background: #1a5cd6 !important;
+                box-shadow: 0 4px 8px rgba(46, 109, 248, 0.5) !important;
+                transform: translateY(-1px);
+            }
+        </style>
+    </div>
+</div>
+
+<div id="cookieDetailModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100001; align-items:center; justify-content:center; backdrop-filter: blur(5px);">
+    <div style="background:white; padding:35px; border-radius:20px; width:450px; max-width:90%; max-height:90vh; overflow-y:auto; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+        <h4 style="color:#2E6DF8; font-weight:700; margin-bottom:25px; text-align:center;">Çerez Ayarlarınız</h4>
+        
+        <div style="margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border-radius:12px; margin-bottom:12px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; margin-bottom:4px; color:#333;">Zorunlu Çerezler</div>
+                    <div style="font-size:0.85rem; color:#666;">Sistemin çalışması için gereklidir.</div>
+                </div>
+                <div class="form-check form-switch" style="margin-left:auto; flex-shrink:0;">
+                    <input class="form-check-input" type="checkbox" checked disabled id="cookieRequired" style="cursor:not-allowed;">
+                </div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border-radius:12px; margin-bottom:12px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; margin-bottom:4px; color:#333;">Analiz Çerezleri</div>
+                    <div style="font-size:0.85rem; color:#666;">Deneyiminizi iyileştirmek için kullanılır.</div>
+                </div>
+                <div class="form-check form-switch" style="margin-left:auto; flex-shrink:0;">
+                    <input class="form-check-input" type="checkbox" id="cookieAnalytics" style="cursor:pointer;">
+                </div>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px; background:#f8f9fa; border-radius:12px;">
+                <div style="flex:1;">
+                    <div style="font-weight:600; margin-bottom:4px; color:#333;">Pazarlama Çerezleri</div>
+                    <div style="font-size:0.85rem; color:#666;">Size özel teklifler sunmamızı sağlar.</div>
+                </div>
+                <div class="form-check form-switch" style="margin-left:auto; flex-shrink:0;">
+                    <input class="form-check-input" type="checkbox" id="cookieMarketing" style="cursor:pointer;">
+                </div>
+            </div>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:25px;">
+            <button onclick="acceptRequiredCookies()" style="flex:1; padding:12px; border-radius:12px; border:1px solid #ddd; background:#f8f9fa; font-weight:600; cursor:pointer; transition:all 0.3s ease;">Zorunlu Çerezleri Kabul Et</button>
+            <button onclick="acceptAllCookies()" style="flex:1; padding:12px; border-radius:12px; border:none; background:#2E6DF8; color:white; font-weight:600; cursor:pointer; transition:all 0.3s ease; box-shadow: 0 2px 4px rgba(46, 109, 248, 0.3);">Tüm Çerezleri Kabul Et</button>
+        </div>
+        
+        <style>
+            #cookieDetailModal .form-check-input:checked {
+                background-color: #2E6DF8;
+                border-color: #2E6DF8;
+            }
+            
+            #cookieDetailModal button:hover {
+                transform: translateY(-1px);
+            }
+            
+            #cookieDetailModal button[onclick="acceptAllCookies()"]:hover {
+                background: #1a5cd6 !important;
+                box-shadow: 0 4px 8px rgba(46, 109, 248, 0.5) !important;
+            }
+        </style>
+    </div>
+</div>
+
+<script>
+// Profil Resmi Yükleme Fonksiyonları
+document.addEventListener('DOMContentLoaded', function() {
+    const profileUpload = document.getElementById('profileUpload');
+    const avatarUploadArea = document.getElementById('avatarUploadArea');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const avatarImage = document.getElementById('avatarImage');
+    const defaultAvatarIcon = document.getElementById('defaultAvatarIcon');
+    const successAlert = document.getElementById('success-alert');
+    const btnSave = document.getElementById('btn-save');
+
+    // Dosya seçildiğinde
+    if (profileUpload) {
+        profileUpload.addEventListener('change', function(e) {
+            handleFileSelect(e.target.files[0]);
+        });
+    }
+
+    // Drag & Drop Event Listeners
+    if (avatarUploadArea) {
+        // Drag over - dosya üzerine gelindiğinde
+        avatarUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            avatarUploadArea.classList.add('drag-over');
+        });
+
+        // Drag leave - dosya alan dışına çıktığında
+        avatarUploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            avatarUploadArea.classList.remove('drag-over');
+        });
+
+        // Drop - dosya bırakıldığında
+        avatarUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            avatarUploadArea.classList.remove('drag-over');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('image/')) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        // Click event - tıklanabilir alan
+        avatarUploadArea.style.cursor = 'pointer';
+    }
+
+    // Dosya seçimi ve önizleme fonksiyonu
+    function handleFileSelect(file) {
+        if (!file || !file.type.startsWith('image/')) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Önizlemeyi göster
+            avatarImage.src = e.target.result;
+            avatarImage.style.display = 'block';
+            defaultAvatarIcon.style.display = 'none';
+
+            // Başarı mesajını göster
+            if (successAlert) {
+                successAlert.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Profil resminiz başarıyla güncellendi. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                successAlert.className = "alert alert-success alert-dismissible fade show";
+                successAlert.style.display = 'block';
+
+                // 3 saniye sonra gizle
+                setTimeout(function() {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            }
+
+            // Kaydet butonunu kısa süreliğine "İşleniyor..." moduna al
+            if (btnSave) {
+                const originalText = btnSave.innerHTML;
+                btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+                btnSave.disabled = true;
+
+                setTimeout(function() {
+                    btnSave.innerHTML = originalText;
+                    btnSave.disabled = false;
+                }, 1500);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Profil resmini silme fonksiyonu
+    window.removeAvatar = function() {
+        // Resmi gizle, varsayılan ikonu göster
+        avatarImage.style.display = 'none';
+        avatarImage.src = '';
+        defaultAvatarIcon.style.display = 'block';
+
+        // Input dosya değerini sıfırla
+        if (profileUpload) {
+            profileUpload.value = '';
+        }
+
+        // Başarı mesajını göster
+        if (successAlert) {
+            successAlert.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> <strong>Başarılı!</strong> Profil resminiz başarıyla kaldırıldı. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+            successAlert.className = "alert alert-success alert-dismissible fade show";
+            successAlert.style.display = 'block';
+
+            // 3 saniye sonra gizle
+            setTimeout(function() {
+                successAlert.style.display = 'none';
+            }, 3000);
+        }
+
+        // Kaydet butonunu kısa süreliğine "İşleniyor..." moduna al
+        if (btnSave) {
+            const originalText = btnSave.innerHTML;
+            btnSave.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İşleniyor...';
+            btnSave.disabled = true;
+
+            setTimeout(function() {
+                btnSave.innerHTML = originalText;
+                btnSave.disabled = false;
+            }, 1500);
+        }
+    };
+});
+</script>
+

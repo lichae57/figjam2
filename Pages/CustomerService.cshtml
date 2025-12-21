@@ -1,0 +1,267 @@
+@page "/CustomerService"
+@model figjam2.Pages.CustomerServiceModel
+@{
+    ViewData["Title"] = "Müşteri Hizmetleri";
+}
+
+<div class="service-detail-container">
+    <div class="page-header mb-5 fade-in">
+        <div class="d-flex align-items-center mb-3">
+            <div class="service-header-icon me-3">
+                <i class="fas fa-phone-alt"></i>
+            </div>
+            <div>
+                <h1 class="mb-2">Müşteri Hizmetleri</h1>
+                <p class="text-muted mb-0">7/24 müşteri desteği, şube randevu ve canlı destek hizmetleri ile yanınızdayız</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Telefon Desteği -->
+        <div class="col-12 col-lg-4 fade-in">
+            <div class="card h-100 feature-card">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h4 class="mb-3">Telefon Desteği</h4>
+                    <p class="text-muted mb-4">7/24 müşteri hizmetleri hattımızdan bize ulaşın.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>0850 222 0 222</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>7/24 hizmet</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Uzman danışmanlar</li>
+                    </ul>
+                    <a href="tel:08502220222" class="btn btn-primary w-100">
+                        <i class="fas fa-phone me-2"></i>Hemen Ara
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canlı Destek -->
+        <div class="col-12 col-lg-4 fade-in">
+            <div class="card h-100 feature-card">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4 class="mb-3">Canlı Destek</h4>
+                    <p class="text-muted mb-4">Online canlı destek ile anında yardım alın.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Anında yanıt</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Uzman ekip</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>7/24 hizmet</li>
+                    </ul>
+                    <a href="/Dashboard" class="btn btn-primary w-100">
+                        <i class="fas fa-comment-dots me-2"></i>Canlı Destek
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Şube Randevu -->
+        <div class="col-12 col-lg-4 fade-in">
+            <div class="card h-100 feature-card">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h4 class="mb-3">Şube Randevu</h4>
+                    <p class="text-muted mb-4">Size en yakın şubemizden randevu alın.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Online randevu</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Şube seçimi</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Zaman seçimi</li>
+                    </ul>
+                    <a href="/Dashboard" class="btn btn-primary w-100">
+                        <i class="fas fa-calendar me-2"></i>Randevu Al
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- İletişim Bilgileri -->
+    <div class="row mt-5">
+        <div class="col-12 col-lg-6 fade-in">
+            <div class="card h-100">
+                <div class="card-body p-5">
+                    <h3 class="mb-4">
+                        <i class="fas fa-envelope me-2 text-secondary-custom"></i>
+                        E-posta Desteği
+                    </h3>
+                    <p class="text-muted mb-4">Sorularınız için e-posta gönderebilirsiniz. En geç 24 saat içinde yanıt alırsınız.</p>
+                    <div class="mb-4">
+                        <h5 class="mb-2">Genel Bilgi</h5>
+                        <p class="mb-0">
+                            <i class="fas fa-envelope me-2 text-secondary-custom"></i>
+                            <a href="mailto:info@interaktifsube.com" class="text-decoration-none">info@interaktifsube.com</a>
+                        </p>
+                    </div>
+                    <div>
+                        <h5 class="mb-2">Teknik Destek</h5>
+                        <p class="mb-0">
+                            <i class="fas fa-envelope me-2 text-secondary-custom"></i>
+                            <a href="mailto:destek@interaktifsube.com" class="text-decoration-none">destek@interaktifsube.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 fade-in">
+            <div class="card h-100">
+                <div class="card-body p-5">
+                    <h3 class="mb-4">
+                        <i class="fas fa-map-marker-alt me-2 text-secondary-custom"></i>
+                        Şube Bilgileri
+                    </h3>
+                    <p class="text-muted mb-4">Size en yakın şubemizi bulun ve ziyaret edin.</p>
+                    <div class="mb-4">
+                        <h5 class="mb-2">Ana Şube</h5>
+                        <p class="mb-2">
+                            <i class="fas fa-map-marker-alt me-2 text-secondary-custom"></i>
+                            İstanbul, Türkiye
+                        </p>
+                        <p class="mb-2">
+                            <i class="fas fa-clock me-2 text-secondary-custom"></i>
+                            Pazartesi - Cuma: 09:00 - 18:00
+                        </p>
+                        <p class="mb-0">
+                            <i class="fas fa-phone me-2 text-secondary-custom"></i>
+                            0850 222 0 222
+                        </p>
+                    </div>
+                    <a href="/Dashboard" class="btn btn-outline-primary">
+                        <i class="fas fa-search me-2"></i>Şube Bul
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sık Sorulan Sorular -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-5">
+                    <h3 class="mb-4 text-center">
+                        <i class="fas fa-question-circle me-2 text-secondary-custom"></i>
+                        Sık Sorulan Sorular
+                    </h3>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Hesap işlemlerimi nasıl yapabilirim?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Hesap işlemlerinizi internet bankacılığı veya mobil uygulama üzerinden kolayca yapabilirsiniz. Tüm işlemler güvenli şifreleme ile korunmaktadır.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Kredi başvurusu nasıl yapılır?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Kredi başvurunuzu online olarak yapabilirsiniz. Kredi Hesaplama sayfasından başvuru formunu doldurarak başvurunuzu tamamlayabilirsiniz.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Kartımı nasıl bloke edebilirim?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Kartınızı internet bankacılığı, mobil uygulama veya müşteri hizmetleri hattımızdan bloke edebilirsiniz. 7/24 hizmet veren hattımız: 0850 222 0 222
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .service-detail-container {
+        padding: 2rem 0;
+    }
+
+    .page-header {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+    .service-header-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        box-shadow: var(--shadow-md);
+    }
+
+    .feature-card {
+        transition: all 0.3s ease;
+        border-radius: 16px;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .feature-badge {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .accordion-button {
+        background-color: #f8f9fa;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+</style>
+
