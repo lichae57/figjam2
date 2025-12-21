@@ -381,6 +381,38 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="faq-card">
+                        <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false">
+                            <div class="faq-question-text">
+                                Kredi ödemelerimi erken kapatabilir miyim?
+                            </div>
+                            <i class="fas fa-chevron-down faq-arrow"></i>
+                        </div>
+                        <div id="faq5" class="collapse">
+                            <div class="faq-answer">
+                                <p>Evet, kredi ödemelerinizi istediğiniz zaman erken kapatabilirsiniz. Erken kapanış işlemleri için önceden bildirim yapmanız ve gerekli işlem ücretlerinin ödenmesi gerekebilir. Detaylı bilgi için müşteri temsilcilerimizle iletişime geçebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="faq-card">
+                        <div class="faq-question" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false">
+                            <div class="faq-question-text">
+                                Kredi başvurusu için hangi belgeler gereklidir?
+                            </div>
+                            <i class="fas fa-chevron-down faq-arrow"></i>
+                        </div>
+                        <div id="faq6" class="collapse">
+                            <div class="faq-answer">
+                                <p>Kredi başvurusu için genellikle kimlik belgesi, gelir belgesi (maaş bordrosu veya gelir belgesi), ikametgah belgesi ve banka ekstreleri gerekir. Kredi türüne göre ek belgeler de istenebilir. Online başvuru sırasında hangi belgelerin gerekli olduğu size bildirilecektir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -484,10 +516,14 @@
         background: var(--bg-light);
     }
 
+    .faq-section .container {
+        max-width: 1000px;
+    }
+
     .faq-card {
         background: white;
         border: 2px solid var(--border-color);
-        border-radius: 12px;
+        border-radius: 20px;
         overflow: hidden;
         transition: all 0.3s ease;
         margin-bottom: 1rem;
@@ -499,7 +535,7 @@
     }
 
     .faq-question {
-        padding: 1.5rem;
+        padding: 1.25rem 1rem;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
@@ -537,7 +573,7 @@
     }
 
     .faq-answer {
-        padding: 1.5rem;
+        padding: 1.25rem 1rem;
         background: var(--bg-light);
         color: var(--text-secondary);
         line-height: 1.8;
@@ -566,10 +602,11 @@
 
     .options-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 1.5rem;
         max-width: 1200px;
         margin: 0 auto;
+        justify-items: center;
     }
 
     .option-box {
@@ -583,6 +620,9 @@
         text-align: center;
         transition: all 0.3s ease;
         cursor: pointer;
+        min-height: 160px;
+        justify-content: center;
+        width: 100%;
     }
 
     .option-box:hover {
@@ -608,6 +648,12 @@
         font-weight: 600;
         color: var(--primary-color);
         font-size: 0.9rem;
+        line-height: 1.4;
+        min-height: 2.8em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     .option-label.light-bg {
@@ -627,5 +673,25 @@
             opacity: 1;
             transform: translateY(0);
         }
+    }
+
+    /* Footer'ı sayfa sonuna yapıştır */
+    html {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin-bottom: 0 !important;
+    }
+
+    main {
+        flex: 1;
+    }
+
+    .bank-footer {
+        margin-top: 0 !important;
     }
 </style>
