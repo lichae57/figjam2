@@ -58,8 +58,15 @@ namespace figjam2.Pages
                 return Page();
             }
 
-            // Simulate successful registration
-            return RedirectToPage("/Login");
+            // Set session as logged in after successful registration
+            HttpContext.Session.SetString("IsLoggedIn", "true");
+            HttpContext.Session.SetString("UserName", $"{FirstName} {LastName}");
+            HttpContext.Session.SetString("Identifier", TcNumber ?? "");
+            HttpContext.Session.SetString("UserPhone", Phone ?? "");
+            HttpContext.Session.SetString("UserEmail", Email ?? "");
+
+            // Redirect to Dashboard
+            return RedirectToPage("/Dashboard");
         }
     }
 }
