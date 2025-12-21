@@ -4,17 +4,13 @@
     ViewData["Title"] = "Dijital Bankacılık";
 }
 
-<div class="service-detail-container">
-    <div class="page-header mb-5 fade-in">
-        <div class="d-flex align-items-center mb-3">
-            <div class="service-header-icon me-3">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
-            <div>
-                <h1 class="mb-2">Dijital Bankacılık</h1>
-                <p class="text-muted mb-0">Mobil uygulama, SMS bankacılık ve dijital cüzdan hizmetleri ile bankacılık işlemlerinizi kolaylaştırın</p>
-            </div>
-        </div>
+<div class="profile_container">
+    <div class="page_header mb-4 fade-in">
+        <h1>
+            <i class="fas fa-mobile-alt me-2 text-secondary-custom"></i>
+            Dijital Bankacılık
+        </h1>
+        <p class="text-muted">Mobil uygulama, SMS bankacılık ve dijital cüzdan hizmetleri ile bankacılık işlemlerinizi kolaylaştırın</p>
     </div>
 
     <div class="row g-4">
@@ -149,26 +145,15 @@
 </div>
 
 <style>
-    .service-detail-container {
+    .profile_container {
         padding: 2rem 0;
+        margin: -1cm 5cm 0 5cm;
     }
 
-    .page-header {
-        padding-left: 3rem;
-        padding-right: 3rem;
-    }
-
-    .service-header-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 2rem;
-        box-shadow: var(--shadow-md);
+    .page_header {
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+        margin-top: 1cm;
     }
 
     .feature-card {
