@@ -438,5 +438,61 @@
     </style>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Oturum Zaman Aşımı Mekanizması
+        (function() {
+            // Session'dan timeout değerini al (dakika cinsinden)
+            @{
+                var sessionTimeout = ViewContext.HttpContext.Session.GetString("SessionTimeoutMinutes");
+                var timeoutValue = string.IsNullOrEmpty(sessionTimeout) ? "15" : sessionTimeout;
+            }
+            var timeoutMinutes = parseInt('@timeoutValue');
+            var timeoutMilliseconds = timeoutMinutes * 60 * 1000; // Dakikayı milisaniyeye çevir
+            
+            var timeoutId;
+            var warningShown = false;
+            
+            // Timeout'u sıfırla
+            function resetTimeout() {
+                clearTimeout(timeoutId);
+                warningShown = false;
+                
+                timeoutId = setTimeout(function() {
+                    // Timeout süresi doldu, oturumu kapat ve Index sayfasına yönlendir
+                    performLogout();
+                }, timeoutMilliseconds);
+            }
+            
+            // Kullanıcı aktivitelerini dinle
+            var events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+            events.forEach(function(event) {
+                document.addEventListener(event, resetTimeout, true);
+            });
+            
+            // İlk timeout'u başlat
+            resetTimeout();
+            
+            // Logout fonksiyonu
+            function performLogout() {
+                // Önce mevcut logout fonksiyonunu kontrol et
+                if (typeof window.logout === 'function') {
+                    window.logout();
+                } else {
+                    // Logout sayfasına GET isteği gönder (Logout.cshtml.cs OnGet kullanıyor)
+                    fetch('/Logout', {
+                        method: 'GET',
+                        credentials: 'include'
+                    })
+                    .then(function() {
+                        window.location.replace('/Index');
+                    })
+                    .catch(function() {
+                        window.location.replace('/Index');
+                    });
+                }
+            }
+        })();
+    </script>
 </body>
 </html>
