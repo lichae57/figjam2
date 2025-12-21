@@ -92,6 +92,76 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Hesaplama Sonuçları -->
+            <div id="calculationResult" class="card mt-4 fade-in" style="display: none;">
+                <div class="card-body p-4">
+                    <h3 class="mb-4 text-center" style="color: var(--primary-color);">
+                        <i class="fas fa-chart-pie me-2 text-secondary-custom"></i>
+                        Hesaplama Sonuçları
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-lira-sign"></i>
+                                </div>
+                                <div class="result-label">Aylık Ödeme</div>
+                                <div class="result-value" id="monthlyPayment">-</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="result-label">Toplam Ödeme</div>
+                                <div class="result-value" id="totalPayment">-</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                                <div class="result-label">Toplam Faiz</div>
+                                <div class="result-value" id="totalInterest">-</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="result-card">
+                                <div class="result-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="result-label">Vade</div>
+                                <div class="result-value" id="resultTerm">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="result-summary">
+                                    <strong>Kredi Tutarı:</strong>
+                                    <span id="resultAmount" class="ms-2">-</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="result-summary">
+                                    <strong>Faiz Oranı:</strong>
+                                    <span id="resultRate" class="ms-2">-</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="result-summary">
+                                    <strong>Kredi Türü:</strong>
+                                    <span id="resultType" class="ms-2">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -109,6 +179,12 @@
                         <p class="intro-description text-center mb-5">
                             Kredi Güven Raporu, kredi başvurularınızın onaylanma ihtimalini artırmayı hedefleyen, finansal durumunuzu kapsamlı bir şekilde analiz eden bir araçtır. Bu rapor, bankaların kredi verme kriterlerini ve finansal geçmişinizi değerlendirerek, krediye ulaşmanız için gerekli adımları ve stratejileri belirler.
                         </p>
+                        <div class="text-center mt-4">
+                            <a href="/CreditReport" class="btn btn-primary btn-lg px-5 py-3">
+                                <i class="fas fa-file-alt me-2"></i>
+                                Hemen Rapor Oluştur
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <h3 class="section-subtitle text-center mb-4">Kredi Güven Raporu'nun özellikleri</h3>
@@ -190,7 +266,7 @@
     </div>
 
     <!-- Seçenekler -->
-    <div class="options-section mt-4 fade-in">
+    <div class="options-section mt-2 fade-in">
         <div class="container">
             <h2 class="options-title text-center mb-5">
                 <span class="title-bold">Krediye ulaşmanı sağlayacak seçeneklerle</span>
@@ -618,6 +694,84 @@
             font-size: 1.5rem;
         }
     }
+
+    /* Hesaplama Sonuçları */
+    #calculationResult {
+        border: 2px solid var(--secondary-color);
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.15);
+        animation: slideDown 0.5s ease-out;
+    }
+
+    @@keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .result-card {
+        background: linear-gradient(135deg, rgba(46, 109, 248, 0.1), rgba(46, 109, 248, 0.05));
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .result-card:hover {
+        border-color: var(--secondary-color);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(46, 109, 248, 0.2);
+    }
+
+    .result-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem;
+        background: var(--secondary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .result-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .result-value {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .result-summary {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        padding: 0.75rem;
+        background: rgba(46, 109, 248, 0.05);
+        border-radius: 8px;
+    }
+
+    .result-summary strong {
+        color: var(--primary-color);
+    }
+
+    .result-summary span {
+        color: var(--secondary-color);
+        font-weight: 600;
+    }
 </style>
 
 @section Scripts {
@@ -628,6 +782,7 @@
             const amount = parseFloat(document.getElementById('creditAmount').value);
             const term = parseInt(document.getElementById('term').value);
             const interestRate = parseFloat(document.getElementById('interestRate').value);
+            const creditType = document.getElementById('creditType').value;
             
             // Aylık faiz oranı
             const monthlyRate = interestRate / 100 / 12;
@@ -636,8 +791,51 @@
             const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / 
                                    (Math.pow(1 + monthlyRate, term) - 1);
             
+            // Toplam ödeme
+            const totalPayment = monthlyPayment * term;
+            
+            // Toplam faiz
+            const totalInterest = totalPayment - amount;
+            
+            // Formatla ve göster
+            formatAndDisplayResults(amount, term, interestRate, creditType, monthlyPayment, totalPayment, totalInterest);
+            
+            // Sonuç kartını göster
+            const resultCard = document.getElementById('calculationResult');
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
             showToast('Hesaplama tamamlandı!', 'success');
         });
+
+        function formatAndDisplayResults(amount, term, interestRate, creditType, monthlyPayment, totalPayment, totalInterest) {
+            // Para formatı için fonksiyon
+            function formatCurrency(value) {
+                return new Intl.NumberFormat('tr-TR', {
+                    style: 'currency',
+                    currency: 'TRY',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(value);
+            }
+
+            // Kredi türü isimleri
+            const creditTypeNames = {
+                'consumer': 'İhtiyaç Kredisi',
+                'housing': 'Konut Kredisi',
+                'vehicle': 'Taşıt Kredisi',
+                'commercial': 'Ticari Kredi'
+            };
+
+            // Sonuçları göster
+            document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
+            document.getElementById('totalPayment').textContent = formatCurrency(totalPayment);
+            document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
+            document.getElementById('resultTerm').textContent = term + ' Ay';
+            document.getElementById('resultAmount').textContent = formatCurrency(amount);
+            document.getElementById('resultRate').textContent = interestRate + '%';
+            document.getElementById('resultType').textContent = creditTypeNames[creditType] || creditType;
+        }
     </script>
 }
 

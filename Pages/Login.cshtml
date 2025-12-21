@@ -127,9 +127,11 @@
                                         <i class="fas fa-clock me-2"></i>
                                         <span id="otpTimer">02:00</span>
                                     </div>
-                                    <button type="button" class="btn btn-link text-secondary-custom mt-2 d-none" id="resendOtpBtn">
-                                        <i class="fas fa-redo me-1"></i>Tekrar Gönder
-                                    </button>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-link text-secondary-custom d-none" id="resendOtpBtn">
+                                            <i class="fas fa-redo me-1"></i>SMS Gelmedi mi? Tekrar Gönder
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <!-- KVKK Checkbox -->
@@ -767,9 +769,23 @@
             document.getElementById('otpCode').value = '';
             checkLoginButton();
             
-            showToast('Yeni SMS kodu gönderildi.', 'success');
-            startOtpTimer();
-            otpInputs[0].focus();
+            // Hatalı giriş sayacını sıfırla
+            failedAttempts = 0;
+            
+            // Show loading
+            const btn = this;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Gönderiliyor...';
+            btn.disabled = true;
+            
+            // Simulate sending
+            setTimeout(() => {
+                showToast('Yeni SMS kodu gönderildi.', 'success');
+                startOtpTimer();
+                otpInputs[0].focus();
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }, 1000);
         });
 
         // Back to Step 1
@@ -784,7 +800,14 @@
             document.getElementById('otpCode').value = '';
             document.getElementById('kvkkCheck').checked = false;
             checkLoginButton();
+            
+            // Hatalı giriş sayacını sıfırla
+            failedAttempts = 0;
         });
+
+        // Hatalı giriş sayacı
+        let failedAttempts = 0;
+        const MAX_FAILED_ATTEMPTS = 3;
 
         // Login Form Submit
         document.getElementById('otpForm').addEventListener('submit', function(e) {
@@ -796,16 +819,55 @@
                 return;
             }
 
-            // Check if OTP is correct (123456)
-            if (otp !== '123456') {
-                showToast('Hatalı SMS kodu! Doğru kod: 123456', 'error');
-                return;
-            }
-
             if (!document.getElementById('kvkkCheck').checked) {
                 showToast('KVKK metnini onaylamanız gerekmektedir.', 'error');
                 return;
             }
+
+            // Check if OTP is correct (123456)
+            if (otp !== '123456') {
+                failedAttempts++;
+                const remainingAttempts = MAX_FAILED_ATTEMPTS - failedAttempts;
+                
+                if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+                    // 3 kere hatalı giriş - uyarı göster ve TCKN sayfasına yönlendir
+                    showToast('3 kez hatalı giriş yaptınız. Güvenlik nedeniyle TC Kimlik numarası giriş sayfasına yönlendiriliyorsunuz.', 'error');
+                    
+                    setTimeout(() => {
+                        // OTP alanlarını temizle
+                        otpInputs.forEach(input => input.value = '');
+                        document.getElementById('otpCode').value = '';
+                        document.getElementById('kvkkCheck').checked = false;
+                        checkLoginButton();
+                        
+                        // Step 1'e dön
+                        clearInterval(timerInterval);
+                        document.getElementById('step2').classList.add('d-none');
+                        document.getElementById('step1').classList.remove('d-none');
+                        document.getElementById('step1Header').classList.remove('d-none');
+                        
+                        // TCKN alanını temizle ve odakla
+                        document.getElementById('tcNumber').value = '';
+                        document.getElementById('phoneNumber').value = '';
+                        document.getElementById('tcNumber').focus();
+                        
+                        // Sayaçları sıfırla
+                        failedAttempts = 0;
+                    }, 2000);
+                    return;
+                } else {
+                    showToast(`Hatalı SMS kodu! Kalan deneme hakkınız: ${remainingAttempts}`, 'error');
+                    // OTP alanlarını temizle
+                    otpInputs.forEach(input => input.value = '');
+                    document.getElementById('otpCode').value = '';
+                    checkLoginButton();
+                    otpInputs[0].focus();
+                    return;
+                }
+            }
+
+            // Başarılı giriş - sayaçları sıfırla
+            failedAttempts = 0;
 
             // Show loading
             const btn = document.getElementById('loginBtn');
