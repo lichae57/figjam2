@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace figjam2.Pages
 {
+    [IgnoreAntiforgeryToken]
     public class ProfileManagementModel : PageModel
     {
         public void OnGet()
         {
         }
 
-        [IgnoreAntiforgeryToken]
         public IActionResult OnPostUpdateAddress([FromForm] string address, [FromForm] string city, [FromForm] string district, [FromForm] string postalCode)
         {
             if (!string.IsNullOrEmpty(address))
@@ -28,7 +28,6 @@ namespace figjam2.Pages
             return new JsonResult(new { success = true, message = "Adres bilgileri başarıyla güncellendi!" });
         }
 
-        [IgnoreAntiforgeryToken]
         public IActionResult OnPostUpdateJob([FromForm] string profession, [FromForm] string income)
         {
             if (!string.IsNullOrEmpty(profession))
