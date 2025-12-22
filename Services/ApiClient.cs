@@ -56,28 +56,26 @@ namespace figjam2.Services
                 var response = await _httpClient.SendAsync(request);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                T? data = default;
-                if (!string.IsNullOrEmpty(responseContent))
+                // Connection refused veya benzeri hatalar için kontrol
+                if (!response.IsSuccessStatusCode && string.IsNullOrEmpty(responseContent))
                 {
-                    try
+                    return new ApiResponse<T>
                     {
-                        data = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
-                        });
-                    }
-                    catch
-                    {
-                        // JSON parse edilemezse string olarak döndür
-                    }
+                        Status = (int)response.StatusCode,
+                        IsSuccess = false,
+                        Error = $"API bağlantı hatası: {response.StatusCode}. Next.js API çalışmıyor olabilir (http://localhost:3000)"
+                    };
                 }
 
+                return ParseNextJsResponse<T>(responseContent, response);
+            }
+            catch (HttpRequestException httpEx)
+            {
                 return new ApiResponse<T>
                 {
-                    Status = (int)response.StatusCode,
-                    Data = data,
-                    IsSuccess = response.IsSuccessStatusCode,
-                    Error = response.IsSuccessStatusCode ? null : responseContent
+                    Status = 503,
+                    IsSuccess = false,
+                    Error = $"API bağlantı hatası: {httpEx.Message}. Next.js API çalışmıyor olabilir (http://localhost:3000)"
                 };
             }
             catch (Exception ex)
@@ -108,29 +106,7 @@ namespace figjam2.Services
                 var response = await _httpClient.SendAsync(request);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                T? data = default;
-                if (!string.IsNullOrEmpty(responseContent))
-                {
-                    try
-                    {
-                        data = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
-                        });
-                    }
-                    catch
-                    {
-                        // JSON parse edilemezse string olarak döndür
-                    }
-                }
-
-                return new ApiResponse<T>
-                {
-                    Status = (int)response.StatusCode,
-                    Data = data,
-                    IsSuccess = response.IsSuccessStatusCode,
-                    Error = response.IsSuccessStatusCode ? null : responseContent
-                };
+                return ParseNextJsResponse<T>(responseContent, response);
             }
             catch (Exception ex)
             {
@@ -141,6 +117,59 @@ namespace figjam2.Services
                     Error = ex.Message
                 };
             }
+        }
+
+        private ApiResponse<T> ParseNextJsResponse<T>(string responseContent, HttpResponseMessage response)
+        {
+            T? data = default;
+            if (!string.IsNullOrEmpty(responseContent))
+            {
+                try
+                {
+                    // Önce Next.js API response formatını kontrol et: { status, data, elapsed, error? }
+                    var jsonDoc = JsonDocument.Parse(responseContent);
+                    if (jsonDoc.RootElement.TryGetProperty("data", out var dataElement) && 
+                        jsonDoc.RootElement.TryGetProperty("status", out var statusElement))
+                    {
+                        // Next.js API response formatı: { status, data, elapsed }
+                        data = JsonSerializer.Deserialize<T>(dataElement.GetRawText(), new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                        
+                        var nextjsStatus = statusElement.GetInt32();
+                        return new ApiResponse<T>
+                        {
+                            Status = nextjsStatus,
+                            Data = data,
+                            IsSuccess = nextjsStatus >= 200 && nextjsStatus < 300,
+                            Error = jsonDoc.RootElement.TryGetProperty("error", out var errorElement) 
+                                ? errorElement.GetString() 
+                                : null
+                        };
+                    }
+                    else
+                    {
+                        // Direkt Azure API response (Next.js API değil)
+                        data = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
+                    }
+                }
+                catch
+                {
+                    // JSON parse edilemezse string olarak döndür
+                }
+            }
+
+            return new ApiResponse<T>
+            {
+                Status = (int)response.StatusCode,
+                Data = data,
+                IsSuccess = response.IsSuccessStatusCode,
+                Error = response.IsSuccessStatusCode ? null : responseContent
+            };
         }
 
         public void SetToken(HttpContext httpContext, string token)

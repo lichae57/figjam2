@@ -2,17 +2,29 @@ namespace figjam2.Services
 {
     public static class ApiConfig
     {
-        // Base URLs
+        // Next.js API Gateway Base URL (localhost:3000 veya production URL)
+        // Production'da bu değeri environment variable'dan alabilirsiniz
+        public const string NEXTJS_API_BASE = "http://localhost:3000/api/ep";
+        
+        // Direct Azure API URLs
         public const string CUSTOMERS_API_BASE = "https://customers-api.azurewebsites.net/api";
         public const string API_IDC_BASE = "https://api-idc.azurewebsites.net/api";
 
-        // Endpoints
+        // Direct Azure API Endpoints (Next.js API bypass - direkt Azure'a bağlan)
         public const string TCKN_GSM = $"{CUSTOMERS_API_BASE}/customer/tckn-gsm?code=gww5m66SOHBjQ9LY58dM5Gulq2giauLokvvIX4ylR405AzFu7CUbIA==";
         public const string KVKK_TEXT = $"{API_IDC_BASE}/kvkk/text/{{id}}?code=5OaiAxOi6mmwXV4gPTcKiHc9plIMg3s6Kcer667-4OK1AzFulZ-Mkw==";
         public const string KVKK_ONAY = $"{API_IDC_BASE}/kvkk/onay?code=VYa4cMvucKPZrC9eQ9ZuXKixMPhzb3M4URamT57nMXtkAzFuUL-6og==";
         public const string GENERATE_OTP = $"{API_IDC_BASE}/generate-otp?code=NgHo3RJwMJ4rVsPtGLau40m_vykzGV24zBAZYJPbVQpIAzFurGPRTw==";
         public const string SEND_OTP_SMS = $"{API_IDC_BASE}/send-otp-sms?code=fsfjOxq_5dhmOKxp4Q6ffi5ZuxdmGO2cnwGi2IBwRzSjAzFu9FrxaQ==";
         public const string VERIFY_OTP = $"{API_IDC_BASE}/verify-otp?code=NUqFOooe6OqRE8Nf5Se8Swlt5vUxjdMr3oJZes_-MioAAzFuP2nw2g==";
+        
+        // Next.js API Gateway Endpoints (şu an kullanılmıyor - direkt Azure API kullanılıyor)
+        // public const string TCKN_GSM_NEXTJS = $"{NEXTJS_API_BASE}/tckn-gsm";
+        // public const string KVKK_TEXT_NEXTJS = $"{NEXTJS_API_BASE}/kvkk-text";
+        // public const string KVKK_ONAY_NEXTJS = $"{NEXTJS_API_BASE}/kvkk-onay";
+        // public const string GENERATE_OTP_NEXTJS = $"{NEXTJS_API_BASE}/generate-otp";
+        // public const string SEND_OTP_SMS_NEXTJS = $"{NEXTJS_API_BASE}/send-otp-sms";
+        // public const string VERIFY_OTP_NEXTJS = $"{NEXTJS_API_BASE}/verify-otp";
         public const string DUMMY_REPORT_LIST = $"{API_IDC_BASE}/dummy/report-list?code=09wQ_IdxHgsj4oPYrxSrQMbedNddK56Q60lsZPpS5CckAzFu3c0m1A==";
         public const string REPORT_DETAIL = $"{API_IDC_BASE}/GetReportDetail?code=ghMl1aeJa-tKFvo9hkAn3Cnzgkbf_sc3ZYg7tWvPLfLhAzFuAm67hQ==";
 

@@ -45,6 +45,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Enable request buffering for reading request body multiple times
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    await next();
+});
+
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -79,6 +79,16 @@
                                     <small class="text-muted mt-1 d-block">Kayıtlı telefon numaranızı giriniz</small>
                                 </div>
 
+                                <!-- KVKK Checkbox -->
+                                <div class="form-check mb-4 kvkk-check">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <input class="form-check-input" type="checkbox" id="kvkkCheck" name="kvkkCheck" required>
+                                        <label class="form-check-label ms-2" for="kvkkCheck">
+                                            <a href="#" class="kvkk-link" data-bs-toggle="modal" data-bs-target="#kvkkModal">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn btn-primary w-100 mb-2" id="sendOtpBtn">
                                     <i class="fas fa-paper-plane me-2"></i>
                                     SMS Kodu Gönder
@@ -122,16 +132,6 @@
                                         <button type="button" class="btn btn-link text-secondary-custom d-none" id="resendOtpBtn">
                                             <i class="fas fa-redo me-1"></i>SMS Gelmedi mi? Tekrar Gönder
                                 </button>
-                                    </div>
-                            </div>
-
-                                <!-- KVKK Checkbox -->
-                                <div class="form-check mb-4 kvkk-check">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <input class="form-check-input" type="checkbox" id="kvkkCheck" name="kvkkCheck">
-                                        <label class="form-check-label ms-2" for="kvkkCheck">
-                                            <a href="#" class="kvkk-link" data-bs-toggle="modal" data-bs-target="#kvkkModal">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
-                                        </label>
                                     </div>
                             </div>
 
@@ -559,36 +559,86 @@
                 return;
             }
 
+            // KVKK kontrolü
+            const kvkkChecked = document.getElementById('kvkkCheck').checked;
+            if (!kvkkChecked) {
+                showToast('KVKK Aydınlatma Metni\'ni onaylamanız gerekmektedir.', 'error');
+                return;
+            }
+
             // Show loading
             const btn = document.getElementById('sendOtpBtn');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Gönderiliyor...';
             btn.disabled = true;
 
             try {
-                // TCKN/GSM Doğrulama - Her ikisini de gönder
-                const formData = new FormData();
-                formData.append('Tckn', tcNumber);
-                formData.append('Gsm', phoneNumber);
-
+                // TCKN/GSM Doğrulama - JSON olarak gönder
                 const verifyResponse = await fetch('/Login?handler=VerifyTcknGsm', {
                     method: 'POST',
-                    body: formData,
                     headers: {
+                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
-                    }
+                    },
+                    body: JSON.stringify({ Tckn: tcNumber, Gsm: phoneNumber })
                 });
 
-                const verifyResult = await verifyResponse.json();
-
-                if (!verifyResult.success) {
-                    showToast(verifyResult.error || 'Doğrulama başarısız', 'error');
+                const responseText = await verifyResponse.text();
+                let verifyResult;
+                try {
+                    verifyResult = responseText ? JSON.parse(responseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('JSON parse hatası:', parseError, 'Response:', responseText);
+                    showToast('Yanıt işlenirken hata oluştu: ' + responseText.substring(0, 100), 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
                     return;
                 }
 
-                // GSM numarasını belirle (telefon numarası direkt kullanılır)
-                const gsmNumber = phoneNumber;
+                if (!verifyResponse.ok || !verifyResult.success) {
+                    const errorMsg = verifyResult.error || responseText || 'Doğrulama başarısız';
+                    console.error('VerifyTcknGsm hatası:', errorMsg);
+                    showToast(errorMsg, 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                // KVKK Onay
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>KVKK Onaylanıyor...';
+                const kvkkOnayResponse = await fetch('/Login?handler=KvkkOnay', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ kvkkId: 1 })
+                });
+
+                if (!kvkkOnayResponse.ok) {
+                    const errorText = await kvkkOnayResponse.text();
+                    showToast(errorText || 'KVKK onayı başarısız', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                const kvkkResponseText = await kvkkOnayResponse.text();
+                let kvkkOnayResult;
+                try {
+                    kvkkOnayResult = kvkkResponseText ? JSON.parse(kvkkResponseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('KVKK JSON parse hatası:', parseError, 'Response:', kvkkResponseText);
+                    showToast('KVKK onayı yanıtı işlenirken hata oluştu', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+                if (!kvkkOnayResult.success) {
+                    showToast(kvkkOnayResult.error || 'KVKK onayı başarısız', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
 
                 // OTP Üret
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>OTP Üretiliyor...';
@@ -601,7 +651,25 @@
                     body: JSON.stringify({ gsm: phoneNumber })
                 });
 
-                const generateOtpResult = await generateOtpResponse.json();
+                if (!generateOtpResponse.ok) {
+                    const errorText = await generateOtpResponse.text();
+                    showToast(errorText || 'OTP üretilemedi', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                const generateResponseText = await generateOtpResponse.text();
+                let generateOtpResult;
+                try {
+                    generateOtpResult = generateResponseText ? JSON.parse(generateResponseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('OTP Generate JSON parse hatası:', parseError, 'Response:', generateResponseText);
+                    showToast('OTP üretme yanıtı işlenirken hata oluştu', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
 
                 if (!generateOtpResult.success) {
                     showToast(generateOtpResult.error || 'OTP üretilemedi', 'error');
@@ -621,25 +689,31 @@
                     body: JSON.stringify({ gsm: phoneNumber })
                 });
 
-                const sendSmsResult = await sendSmsResponse.json();
+                if (!sendSmsResponse.ok) {
+                    const errorText = await sendSmsResponse.text();
+                    showToast(errorText || 'SMS gönderilemedi', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
+
+                const sendSmsResponseText = await sendSmsResponse.text();
+                let sendSmsResult;
+                try {
+                    sendSmsResult = sendSmsResponseText ? JSON.parse(sendSmsResponseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('SMS Send JSON parse hatası:', parseError, 'Response:', sendSmsResponseText);
+                    showToast('SMS gönderme yanıtı işlenirken hata oluştu', 'error');
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
+                    btn.disabled = false;
+                    return;
+                }
 
                 if (!sendSmsResult.success) {
                     showToast(sendSmsResult.error || 'SMS gönderilemedi', 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
                     return;
-                }
-
-                // KVKK Metni Getir
-                const kvkkResponse = await fetch('/Login?handler=KvkkText&id=2');
-                const kvkkResult = await kvkkResponse.json();
-
-                if (kvkkResult.success && kvkkResult.data) {
-                    // KVKK modal içeriğini güncelle
-                    const modalBody = document.querySelector('#kvkkModal .modal-body');
-                    if (modalBody && typeof kvkkResult.data === 'string') {
-                        modalBody.innerHTML = kvkkResult.data;
-                    }
                 }
 
                 // Step 2'ye geç
@@ -685,7 +759,7 @@
                 otpInputs.forEach(inp => otp += inp.value);
                 document.getElementById('otpCode').value = otp;
 
-                // Enable login button if OTP is complete and KVKK is checked
+                // Enable login button if OTP is complete
                 checkLoginButton();
             });
 
@@ -714,17 +788,14 @@
             });
         });
 
-        // KVKK Checkbox
-        document.getElementById('kvkkCheck').addEventListener('change', checkLoginButton);
+        // KVKK Checkbox - Modal'dan onaylandığında checkbox'ı işaretle
         document.getElementById('acceptKvkk').addEventListener('click', function() {
             document.getElementById('kvkkCheck').checked = true;
-            checkLoginButton();
         });
 
         function checkLoginButton() {
             const otp = document.getElementById('otpCode').value;
-            const kvkkChecked = document.getElementById('kvkkCheck').checked;
-            document.getElementById('loginBtn').disabled = !(otp.length === 6 && kvkkChecked);
+            document.getElementById('loginBtn').disabled = !(otp.length === 6);
         }
 
         // OTP Timer
@@ -794,7 +865,25 @@
                     body: JSON.stringify({ gsm: phoneNumber })
                 });
 
-                const generateOtpResult = await generateOtpResponse.json();
+                if (!generateOtpResponse.ok) {
+                    const errorText = await generateOtpResponse.text();
+                    showToast(errorText || 'OTP üretilemedi', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
+
+                const generateResponseText = await generateOtpResponse.text();
+                let generateOtpResult;
+                try {
+                    generateOtpResult = generateResponseText ? JSON.parse(generateResponseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('Resend OTP Generate JSON parse hatası:', parseError, 'Response:', generateResponseText);
+                    showToast('OTP üretme yanıtı işlenirken hata oluştu', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
 
                 if (!generateOtpResult.success) {
                     showToast(generateOtpResult.error || 'OTP üretilemedi', 'error');
@@ -813,7 +902,25 @@
                     body: JSON.stringify({ gsm: phoneNumber })
                 });
 
-                const sendSmsResult = await sendSmsResponse.json();
+                if (!sendSmsResponse.ok) {
+                    const errorText = await sendSmsResponse.text();
+                    showToast(errorText || 'SMS gönderilemedi', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
+
+                const sendSmsResponseText = await sendSmsResponse.text();
+                let sendSmsResult;
+                try {
+                    sendSmsResult = sendSmsResponseText ? JSON.parse(sendSmsResponseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('Resend SMS Send JSON parse hatası:', parseError, 'Response:', sendSmsResponseText);
+                    showToast('SMS gönderme yanıtı işlenirken hata oluştu', 'error');
+                    btn.innerHTML = originalHtml;
+                    btn.disabled = false;
+                    return;
+                }
 
                 if (!sendSmsResult.success) {
                     showToast(sendSmsResult.error || 'SMS gönderilemedi', 'error');
@@ -845,7 +952,6 @@
             // Clear OTP inputs
             otpInputs.forEach(input => input.value = '');
             document.getElementById('otpCode').value = '';
-            document.getElementById('kvkkCheck').checked = false;
             checkLoginButton();
             
             // TCKN ve telefon numarası alanlarını temizleme (kullanıcı tekrar girmesin diye)
@@ -861,7 +967,7 @@
         const MAX_FAILED_ATTEMPTS = 3;
 
         // Login Form Submit
-        document.getElementById('otpForm').addEventListener('submit', function(e) {
+        document.getElementById('otpForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const otp = document.getElementById('otpCode').value;
@@ -870,115 +976,103 @@
                 return;
             }
 
-            if (!document.getElementById('kvkkCheck').checked) {
-                showToast('KVKK metnini onaylamanız gerekmektedir.', 'error');
-                return;
-            }
+            // OTP Doğrulama
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Giriş Yapılıyor...';
+            btn.disabled = true;
 
-            // KVKK Onay
-            (async () => {
-                try {
-                    const kvkkFormData = new FormData();
-                    kvkkFormData.append('KvkkAccepted', 'true');
+            try {
+                const tcNumber = document.getElementById('tcNumber').value.trim();
+                const phoneNumber = document.getElementById('phoneNumber').value.trim();
 
-                    const kvkkResponse = await fetch('/Login?handler=KvkkOnay', {
-                        method: 'POST',
-                        body: kvkkFormData,
-                        headers: {
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
-                        }
-                    });
+                const formData = new FormData();
+                formData.append('OtpCode', otp);
+                formData.append('Gsm', phoneNumber);
 
-                    const kvkkResult = await kvkkResponse.json();
-                    if (!kvkkResult.success) {
-                        showToast('KVKK onayı başarısız. Lütfen tekrar deneyin.', 'error');
-                        return;
+                const verifyResponse = await fetch('/Login?handler=VerifyOtp', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     }
-                } catch (error) {
-                    console.error('KVKK Onay Error:', error);
-                    // KVKK onayı başarısız olsa bile devam et
-                }
+                });
 
-                // OTP Doğrulama
-                const btn = document.getElementById('loginBtn');
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Giriş Yapılıyor...';
-                btn.disabled = true;
-
-                try {
-                    const tcNumber = document.getElementById('tcNumber').value.trim();
-                    const phoneNumber = document.getElementById('phoneNumber').value.trim();
-
-                    const formData = new FormData();
-                    formData.append('OtpCode', otp);
-                    formData.append('Gsm', phoneNumber);
-
-                    const verifyResponse = await fetch('/Login?handler=VerifyOtp', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
-                        }
-                    });
-
-                    const verifyResult = await verifyResponse.json();
-
-                    if (!verifyResult.success) {
-                        failedAttempts++;
-                        const remainingAttempts = MAX_FAILED_ATTEMPTS - failedAttempts;
-                        
-                        if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
-                            showToast('3 kez hatalı giriş yaptınız. Güvenlik nedeniyle TC Kimlik numarası giriş sayfasına yönlendiriliyorsunuz.', 'error');
-                            
-                            setTimeout(() => {
-                                otpInputs.forEach(input => input.value = '');
-                                document.getElementById('otpCode').value = '';
-                                document.getElementById('kvkkCheck').checked = false;
-                                checkLoginButton();
-                                
-                                clearInterval(timerInterval);
-                                document.getElementById('step2').classList.add('d-none');
-                                document.getElementById('step1').classList.remove('d-none');
-                                document.getElementById('step1Header').classList.remove('d-none');
-                                
-                                document.getElementById('tcNumber').value = '';
-                                document.getElementById('phoneNumber').value = '';
-                                document.getElementById('tcNumber').focus();
-                                
-                                failedAttempts = 0;
-                            }, 2000);
-                            return;
-                        }
-                        
-                        showToast(verifyResult.error || `Hatalı kod. Kalan deneme hakkı: ${remainingAttempts}`, 'error');
-                        
-                        otpInputs.forEach(input => input.value = '');
-                        document.getElementById('otpCode').value = '';
-                        checkLoginButton();
-                        otpInputs[0].focus();
-                        
-                        btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
-                        btn.disabled = false;
-                return;
-            }
-            
-                    // Success - Redirect
-                    failedAttempts = 0;
-                    showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
-                    
-                    setTimeout(() => {
-                        if (verifyResult.redirect) {
-                            window.location.replace(verifyResult.redirect);
-                        } else {
-                            window.location.replace('/Dashboard');
-                        }
-                    }, 1000);
-                } catch (error) {
-                    console.error('Login Error:', error);
-                    showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+                if (!verifyResponse.ok) {
+                    const errorText = await verifyResponse.text();
+                    showToast(errorText || 'OTP doğrulama başarısız', 'error');
                     btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
                     btn.disabled = false;
+                    return;
                 }
-            })();
+
+                const verifyResponseText = await verifyResponse.text();
+                let verifyResult;
+                try {
+                    verifyResult = verifyResponseText ? JSON.parse(verifyResponseText) : { success: false, error: 'Boş yanıt alındı' };
+                } catch (parseError) {
+                    console.error('OTP Verify JSON parse hatası:', parseError, 'Response:', verifyResponseText);
+                    showToast('OTP doğrulama yanıtı işlenirken hata oluştu', 'error');
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
+                    btn.disabled = false;
+                    return;
+                }
+
+                if (!verifyResult.success) {
+                    failedAttempts++;
+                    const remainingAttempts = MAX_FAILED_ATTEMPTS - failedAttempts;
+                    
+                    if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+                        showToast('3 kez hatalı giriş yaptınız. Güvenlik nedeniyle TC Kimlik numarası giriş sayfasına yönlendiriliyorsunuz.', 'error');
+                        
+                        setTimeout(() => {
+                            otpInputs.forEach(input => input.value = '');
+                            document.getElementById('otpCode').value = '';
+                            checkLoginButton();
+                            
+                            clearInterval(timerInterval);
+                            document.getElementById('step2').classList.add('d-none');
+                            document.getElementById('step1').classList.remove('d-none');
+                            document.getElementById('step1Header').classList.remove('d-none');
+                            
+                            document.getElementById('tcNumber').value = '';
+                            document.getElementById('phoneNumber').value = '';
+                            document.getElementById('kvkkCheck').checked = false;
+                            document.getElementById('tcNumber').focus();
+                            
+                            failedAttempts = 0;
+                        }, 2000);
+                        return;
+                    }
+                    
+                    showToast(verifyResult.error || `Hatalı kod. Kalan deneme hakkı: ${remainingAttempts}`, 'error');
+                    
+                    otpInputs.forEach(input => input.value = '');
+                    document.getElementById('otpCode').value = '';
+                    checkLoginButton();
+                    otpInputs[0].focus();
+                    
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
+                    btn.disabled = false;
+                    return;
+                }
+                
+                // Success - Redirect
+                failedAttempts = 0;
+                showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
+                
+                setTimeout(() => {
+                    if (verifyResult.redirect) {
+                        window.location.replace(verifyResult.redirect);
+                    } else {
+                        window.location.replace('/Dashboard');
+                    }
+                }, 1000);
+            } catch (error) {
+                console.error('Login Error:', error);
+                showToast('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
+                btn.disabled = false;
+            }
         });
 
         // Toast function
@@ -1008,6 +1102,29 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
+
+        // Sayfa yüklendiğinde KVKK metnini getir
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const kvkkResponse = await fetch('/Login?handler=KvkkText&id=1');
+                const kvkkResult = await kvkkResponse.json();
+                
+                if (kvkkResult.success && kvkkResult.data) {
+                    const modalBody = document.querySelector('#kvkkModal .modal-body');
+                    if (modalBody) {
+                        if (typeof kvkkResult.data === 'string') {
+                            modalBody.innerHTML = kvkkResult.data;
+                        } else {
+                            // Eğer data bir object ise, içeriğini parse et
+                            const jsonStr = JSON.stringify(kvkkResult.data);
+                            modalBody.innerHTML = jsonStr;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('KVKK metni yüklenirken hata:', error);
+            }
+        });
     </script>
 }
 
