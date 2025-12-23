@@ -540,11 +540,16 @@
 
 @section Scripts {
     <script>
+        // Hatalı giriş sayacı
+        let failedAttempts = 0;
+        const MAX_FAILED_ATTEMPTS = 3;
+
         // Step 1: Send OTP
         document.getElementById('identifierForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            e.stopPropagation();
             
-            // Her iki alanı da al
+            console.log('identifierForm submit tetiklendi');
             const tcNumber = document.getElementById('tcNumber').value.trim();
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
             
@@ -572,17 +577,23 @@
             btn.disabled = true;
 
             try {
-                // TCKN/GSM Doğrulama - JSON olarak gönder
+                // TCKN/GSM Doğrulama - FormData olarak gönder (Razor Pages için daha uygun)
+                console.log('VerifyTcknGsm isteği gönderiliyor...');
+                const formData = new FormData();
+                formData.append('Tckn', tcNumber);
+                formData.append('Gsm', phoneNumber);
+
                 const verifyResponse = await fetch('/Login?handler=VerifyTcknGsm', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     },
-                    body: JSON.stringify({ Tckn: tcNumber, Gsm: phoneNumber })
+                    body: formData,
+                    credentials: 'same-origin'
                 });
 
                 const responseText = await verifyResponse.text();
+                console.log('VerifyTcknGsm response:', responseText);
                 let verifyResult;
                 try {
                     verifyResult = responseText ? JSON.parse(responseText) : { success: false, error: 'Boş yanıt alındı' };
@@ -605,18 +616,28 @@
 
                 // KVKK Onay
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>KVKK Onaylanıyor...';
+                const kvkkFormData = new FormData();
+                kvkkFormData.append('kvkkId', '1');
+
                 const kvkkOnayResponse = await fetch('/Login?handler=KvkkOnay', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     },
-                    body: JSON.stringify({ kvkkId: 1 })
+                    body: kvkkFormData,
+                    credentials: 'same-origin'
                 });
 
                 if (!kvkkOnayResponse.ok) {
                     const errorText = await kvkkOnayResponse.text();
-                    showToast(errorText || 'KVKK onayı başarısız', 'error');
+                    let errorMsg = 'KVKK onayı başarısız';
+                    try {
+                        const errJson = JSON.parse(errorText);
+                        errorMsg = errJson.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = errorText || errorMsg;
+                    }
+                    showToast(errorMsg, 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
                     return;
@@ -627,12 +648,13 @@
                 try {
                     kvkkOnayResult = kvkkResponseText ? JSON.parse(kvkkResponseText) : { success: false, error: 'Boş yanıt alındı' };
                 } catch (parseError) {
-                    console.error('KVKK JSON parse hatası:', parseError, 'Response:', kvkkResponseText);
+                    console.error('KVKK JSON parse hatası:', parseError);
                     showToast('KVKK onayı yanıtı işlenirken hata oluştu', 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
                     return;
                 }
+                
                 if (!kvkkOnayResult.success) {
                     showToast(kvkkOnayResult.error || 'KVKK onayı başarısız', 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
@@ -642,18 +664,28 @@
 
                 // OTP Üret
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>OTP Üretiliyor...';
+                const otpGenFormData = new FormData();
+                otpGenFormData.append('gsm', phoneNumber);
+
                 const generateOtpResponse = await fetch('/Login?handler=GenerateOtp', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     },
-                    body: JSON.stringify({ gsm: phoneNumber })
+                    body: otpGenFormData,
+                    credentials: 'same-origin'
                 });
 
                 if (!generateOtpResponse.ok) {
                     const errorText = await generateOtpResponse.text();
-                    showToast(errorText || 'OTP üretilemedi', 'error');
+                    let errorMsg = 'OTP üretilemedi';
+                    try {
+                        const errJson = JSON.parse(errorText);
+                        errorMsg = errJson.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = errorText || errorMsg;
+                    }
+                    showToast(errorMsg, 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
                     return;
@@ -664,7 +696,7 @@
                 try {
                     generateOtpResult = generateResponseText ? JSON.parse(generateResponseText) : { success: false, error: 'Boş yanıt alındı' };
                 } catch (parseError) {
-                    console.error('OTP Generate JSON parse hatası:', parseError, 'Response:', generateResponseText);
+                    console.error('OTP Generate JSON parse hatası:', parseError);
                     showToast('OTP üretme yanıtı işlenirken hata oluştu', 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
@@ -680,18 +712,28 @@
 
                 // OTP SMS Gönder
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>SMS Gönderiliyor...';
+                const smsFormData = new FormData();
+                smsFormData.append('gsm', phoneNumber);
+
                 const sendSmsResponse = await fetch('/Login?handler=SendOtpSms', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     },
-                    body: JSON.stringify({ gsm: phoneNumber })
+                    body: smsFormData,
+                    credentials: 'same-origin'
                 });
 
                 if (!sendSmsResponse.ok) {
                     const errorText = await sendSmsResponse.text();
-                    showToast(errorText || 'SMS gönderilemedi', 'error');
+                    let errorMsg = 'SMS gönderilemedi';
+                    try {
+                        const errJson = JSON.parse(errorText);
+                        errorMsg = errJson.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = errorText || errorMsg;
+                    }
+                    showToast(errorMsg, 'error');
                     btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>SMS Kodu Gönder';
                     btn.disabled = false;
                     return;
@@ -856,18 +898,28 @@
                 }
                 
                 // OTP Üret
+                const otpGenFormData = new FormData();
+                otpGenFormData.append('gsm', phoneNumber);
+
                 const generateOtpResponse = await fetch('/Login?handler=GenerateOtp', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     },
-                    body: JSON.stringify({ gsm: phoneNumber })
+                    body: otpGenFormData,
+                    credentials: 'same-origin'
                 });
 
                 if (!generateOtpResponse.ok) {
                     const errorText = await generateOtpResponse.text();
-                    showToast(errorText || 'OTP üretilemedi', 'error');
+                    let errorMsg = 'OTP üretilemedi';
+                    try {
+                        const errJson = JSON.parse(errorText);
+                        errorMsg = errJson.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = errorText || errorMsg;
+                    }
+                    showToast(errorMsg, 'error');
                     btn.innerHTML = originalHtml;
                     btn.disabled = false;
                     return;
@@ -893,18 +945,28 @@
                 }
 
                 // OTP SMS Gönder
+                const smsFormData = new FormData();
+                smsFormData.append('gsm', phoneNumber);
+
                 const sendSmsResponse = await fetch('/Login?handler=SendOtpSms', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
                     },
-                    body: JSON.stringify({ gsm: phoneNumber })
+                    body: smsFormData,
+                    credentials: 'same-origin'
                 });
 
                 if (!sendSmsResponse.ok) {
                     const errorText = await sendSmsResponse.text();
-                    showToast(errorText || 'SMS gönderilemedi', 'error');
+                    let errorMsg = 'SMS gönderilemedi';
+                    try {
+                        const errJson = JSON.parse(errorText);
+                        errorMsg = errJson.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = errorText || errorMsg;
+                    }
+                    showToast(errorMsg, 'error');
                     btn.innerHTML = originalHtml;
                     btn.disabled = false;
                     return;
@@ -954,17 +1016,9 @@
             document.getElementById('otpCode').value = '';
             checkLoginButton();
             
-            // TCKN ve telefon numarası alanlarını temizleme (kullanıcı tekrar girmesin diye)
-            // document.getElementById('tcNumber').value = '';
-            // document.getElementById('phoneNumber').value = '';
-            
             // Hatalı giriş sayacını sıfırla
             failedAttempts = 0;
         });
-
-        // Hatalı giriş sayacı
-        let failedAttempts = 0;
-        const MAX_FAILED_ATTEMPTS = 3;
 
         // Login Form Submit
         document.getElementById('otpForm').addEventListener('submit', async function(e) {
@@ -994,12 +1048,20 @@
                     body: formData,
                     headers: {
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
-                    }
+                    },
+                    credentials: 'same-origin'
                 });
 
                 if (!verifyResponse.ok) {
                     const errorText = await verifyResponse.text();
-                    showToast(errorText || 'OTP doğrulama başarısız', 'error');
+                    let errorMsg = 'OTP doğrulama başarısız';
+                    try {
+                        const errJson = JSON.parse(errorText);
+                        errorMsg = errJson.error || errorMsg;
+                    } catch (e) {
+                        errorMsg = errorText || errorMsg;
+                    }
+                    showToast(errorMsg, 'error');
                     btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Giriş Yap';
                     btn.disabled = false;
                     return;

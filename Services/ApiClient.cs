@@ -39,9 +39,10 @@ namespace figjam2.Services
         {
             try
             {
-                var token = GetToken(httpContext);
                 var request = new HttpRequestMessage(HttpMethod.Post, url);
                 
+                // Hem Bearer Token hem de Azure Code gönderelim (Gereksiz olsa bile zarar vermez)
+                var token = GetToken(httpContext);
                 if (!string.IsNullOrEmpty(token))
                 {
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -49,22 +50,23 @@ namespace figjam2.Services
 
                 if (body != null)
                 {
+                    // Naming policy'yi kaldırıyoruz, caller ne gönderirse o gitsin
                     var json = JsonSerializer.Serialize(body);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                    
+                    Console.WriteLine($"[ApiClient] Sending to {url}");
+                    Console.WriteLine($"[ApiClient] Request Body: {json}");
                 }
 
                 var response = await _httpClient.SendAsync(request);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                // Connection refused veya benzeri hatalar için kontrol
-                if (!response.IsSuccessStatusCode && string.IsNullOrEmpty(responseContent))
+                if (!response.IsSuccessStatusCode)
                 {
-                    return new ApiResponse<T>
-                    {
-                        Status = (int)response.StatusCode,
-                        IsSuccess = false,
-                        Error = $"API bağlantı hatası: {response.StatusCode}. Next.js API çalışmıyor olabilir (http://localhost:3000)"
-                    };
+                    Console.WriteLine($"[ApiClient] POST Error to: {url}");
+                    Console.WriteLine($"[ApiClient] Status Code: {(int)response.StatusCode}");
+                    Console.WriteLine($"[ApiClient] Request Body sent: {JsonSerializer.Serialize(body)}");
+                    Console.WriteLine($"[ApiClient] Response Content: {responseContent}");
                 }
 
                 return ParseNextJsResponse<T>(responseContent, response);
@@ -122,16 +124,24 @@ namespace figjam2.Services
         private ApiResponse<T> ParseNextJsResponse<T>(string responseContent, HttpResponseMessage response)
         {
             T? data = default;
+            string? error = null;
+
             if (!string.IsNullOrEmpty(responseContent))
             {
                 try
                 {
-                    // Önce Next.js API response formatını kontrol et: { status, data, elapsed, error? }
                     var jsonDoc = JsonDocument.Parse(responseContent);
+                    
+                    // Azure API hata formatı kontrolü: { success, statusCode, message, value }
+                    if (jsonDoc.RootElement.TryGetProperty("message", out var msgElement))
+                    {
+                        error = msgElement.GetString();
+                    }
+                    
+                    // Next.js API formatı kontrolü
                     if (jsonDoc.RootElement.TryGetProperty("data", out var dataElement) && 
                         jsonDoc.RootElement.TryGetProperty("status", out var statusElement))
                     {
-                        // Next.js API response formatı: { status, data, elapsed }
                         data = JsonSerializer.Deserialize<T>(dataElement.GetRawText(), new JsonSerializerOptions
                         {
                             PropertyNameCaseInsensitive = true
@@ -143,14 +153,12 @@ namespace figjam2.Services
                             Status = nextjsStatus,
                             Data = data,
                             IsSuccess = nextjsStatus >= 200 && nextjsStatus < 300,
-                            Error = jsonDoc.RootElement.TryGetProperty("error", out var errorElement) 
-                                ? errorElement.GetString() 
-                                : null
+                            Error = error ?? (jsonDoc.RootElement.TryGetProperty("error", out var errorElement) ? errorElement.GetString() : null)
                         };
                     }
                     else
                     {
-                        // Direkt Azure API response (Next.js API değil)
+                        // Direkt Azure API response
                         data = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
                         {
                             PropertyNameCaseInsensitive = true
@@ -159,7 +167,8 @@ namespace figjam2.Services
                 }
                 catch
                 {
-                    // JSON parse edilemezse string olarak döndür
+                    // JSON değilse veya parse edilemezse hata mesajı olarak içeriği al
+                    if (!response.IsSuccessStatusCode) error = responseContent;
                 }
             }
 
@@ -168,7 +177,7 @@ namespace figjam2.Services
                 Status = (int)response.StatusCode,
                 Data = data,
                 IsSuccess = response.IsSuccessStatusCode,
-                Error = response.IsSuccessStatusCode ? null : responseContent
+                Error = error ?? (response.IsSuccessStatusCode ? null : (!string.IsNullOrEmpty(responseContent) ? responseContent : response.ReasonPhrase))
             };
         }
 

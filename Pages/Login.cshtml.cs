@@ -48,80 +48,50 @@ namespace figjam2.Pages
         {
             try
             {
-                _logger.LogInformation("OnPostVerifyTcknGsm çağrıldı. ContentType: {ContentType}", Request.ContentType);
-                
-                Request.EnableBuffering();
-                Request.Body.Position = 0;
+                _logger.LogInformation("OnPostVerifyTcknGsm başladı. SessionID: {SessionId}", HttpContext.Session.Id);
                 
                 string tckn = "";
                 string gsm = "";
                 
-                // Önce FormData'dan dene
-                if (Request.HasFormContentType && Request.Form.ContainsKey("Tckn"))
+                // Form'dan oku (Daha güvenilir)
+                if (Request.HasFormContentType)
                 {
                     tckn = Request.Form["Tckn"].ToString()?.Trim() ?? "";
                     gsm = Request.Form["Gsm"].ToString()?.Trim() ?? "";
-                    _logger.LogInformation("OnPostVerifyTcknGsm: FormData'dan okundu. TCKN: '{Tckn}', GSM: '{Gsm}'", tckn, gsm);
+                    _logger.LogInformation("OnPostVerifyTcknGsm: Form verisi okundu. TCKN: '{Tckn}', GSM: '{Gsm}'", tckn, gsm);
                 }
-                else
+                
+                // Eğer formdan okunmadıysa JSON'dan dene
+                if (string.IsNullOrEmpty(tckn))
                 {
-                    // JSON body'den oku
-                    using var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true, bufferSize: 1024);
+                    Request.EnableBuffering();
+                    Request.Body.Position = 0;
+                    using var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true);
                     var body = await reader.ReadToEndAsync();
-                    
-                    _logger.LogInformation("OnPostVerifyTcknGsm: Request body uzunluğu: {Length}, İlk 200 karakter: {Body}", 
-                        body?.Length ?? 0, body?.Substring(0, Math.Min(200, body?.Length ?? 0)) ?? "BOŞ");
-                    
-                    if (Request.Body.CanSeek)
-                    {
-                        Request.Body.Position = 0;
-                    }
+                    _logger.LogInformation("OnPostVerifyTcknGsm: JSON Body okundu: {Body}", body);
                     
                     if (!string.IsNullOrEmpty(body))
                     {
-                        try
-                        {
-                            var jsonDoc = JsonDocument.Parse(body);
-                            if (jsonDoc.RootElement.TryGetProperty("Tckn", out var tcknElement))
-                            {
-                                tckn = tcknElement.GetString()?.Trim() ?? "";
-                            }
-                            if (jsonDoc.RootElement.TryGetProperty("Gsm", out var gsmElement))
-                            {
-                                gsm = gsmElement.GetString()?.Trim() ?? "";
-                            }
-                            // Alternatif property isimleri
-                            if (string.IsNullOrEmpty(tckn) && jsonDoc.RootElement.TryGetProperty("tckn", out var tcknLower))
-                            {
-                                tckn = tcknLower.GetString()?.Trim() ?? "";
-                            }
-                            if (string.IsNullOrEmpty(gsm) && jsonDoc.RootElement.TryGetProperty("gsm", out var gsmLower))
-                            {
-                                gsm = gsmLower.GetString()?.Trim() ?? "";
-                            }
-                            _logger.LogInformation("OnPostVerifyTcknGsm: JSON'dan okundu. TCKN: '{Tckn}', GSM: '{Gsm}'", tckn, gsm);
-                        }
-                        catch (JsonException ex)
-                        {
-                            _logger.LogError(ex, "OnPostVerifyTcknGsm: Geçersiz JSON formatı. Body: {Body}", body?.Substring(0, Math.Min(100, body?.Length ?? 0)));
-                            return new JsonResult(new { success = false, error = $"Geçersiz JSON formatı: {ex.Message}" })
-                            {
-                                StatusCode = 400
-                            };
-                        }
-                    }
-                    else
-                    {
-                        _logger.LogWarning("OnPostVerifyTcknGsm: Request body boş!");
+                        var jsonDoc = JsonDocument.Parse(body);
+                        if (jsonDoc.RootElement.TryGetProperty("Tckn", out var tElement)) tckn = tElement.GetString() ?? "";
+                        if (jsonDoc.RootElement.TryGetProperty("Gsm", out var gElement)) gsm = gElement.GetString() ?? "";
+                        
+                        // Küçük harf denemesi
+                        if (string.IsNullOrEmpty(tckn) && jsonDoc.RootElement.TryGetProperty("tckn", out var tLower)) tckn = tLower.GetString() ?? "";
+                        if (string.IsNullOrEmpty(gsm) && jsonDoc.RootElement.TryGetProperty("gsm", out var gLower)) gsm = gLower.GetString() ?? "";
                     }
                 }
 
-                _logger.LogInformation("OnPostVerifyTcknGsm: Request body okundu. TCKN: '{Tckn}', GSM: '{Gsm}', ContentType: {ContentType}", 
-                    tckn, gsm, Request.ContentType);
+                // TCKN/GSM'yi temizle ve logla
+                tckn = (tckn ?? "").Trim();
+                gsm = (gsm ?? "").Trim();
+                
+                _logger.LogInformation("OnPostVerifyTcknGsm: İşlenen değerler - TCKN: '{Tckn}' (Uzunluk: {TcknLen}), GSM: '{Gsm}' (Uzunluk: {GsmLen})", 
+                    tckn, tckn.Length, gsm, gsm.Length);
 
                 if (string.IsNullOrWhiteSpace(tckn) || string.IsNullOrWhiteSpace(gsm))
                 {
-                    _logger.LogWarning("OnPostVerifyTcknGsm: TCKN veya GSM eksik. TCKN: '{Tckn}', GSM: '{Gsm}'", tckn, gsm);
+                    _logger.LogWarning("OnPostVerifyTcknGsm: TCKN veya GSM eksik!");
                     return new JsonResult(new { success = false, error = "TCKN ve telefon numarası gereklidir" })
                     {
                         StatusCode = 400
@@ -135,93 +105,84 @@ namespace figjam2.Pages
                     cleanedGsm = cleanedGsm.Substring(1);
                 }
 
+                // API'nin beklediği format (camelCase)
                 var requestBody = new
                 {
                     tckn = tckn,
                     gsm = cleanedGsm
                 };
 
-                _logger.LogInformation("OnPostVerifyTcknGsm: TCKN={Tckn}, GSM={Gsm}, API URL={Url}", tckn, cleanedGsm, ApiConfig.TCKN_GSM);
+                _logger.LogInformation("OnPostVerifyTcknGsm: Azure API'ye istek gönderiliyor. URL: {Url}, Body: {Body}", 
+                    ApiConfig.TCKN_GSM.Split('?')[0], JsonSerializer.Serialize(requestBody));
                 
                 ApiResponse<object> response;
                 try
                 {
                     response = await _apiClient.PostAsync<object>(ApiConfig.TCKN_GSM, requestBody, HttpContext);
-                    _logger.LogInformation("OnPostVerifyTcknGsm: API Response Status={Status}, IsSuccess={IsSuccess}, Error={Error}", 
+                    _logger.LogInformation("OnPostVerifyTcknGsm: API'den yanıt alındı. Status: {Status}, Success: {IsSuccess}, Error: {Error}", 
                         response.Status, response.IsSuccess, response.Error);
                 }
                 catch (Exception apiEx)
                 {
-                    _logger.LogError(apiEx, "OnPostVerifyTcknGsm: API çağrısı başarısız. Next.js API çalışmıyor olabilir. URL: {Url}", ApiConfig.TCKN_GSM);
-                    return new JsonResult(new { success = false, error = $"API bağlantı hatası: {apiEx.Message}. Lütfen Next.js API'nin çalıştığından emin olun (http://localhost:3000)" })
+                    _logger.LogError(apiEx, "OnPostVerifyTcknGsm: API çağrısı sırasında hata!");
+                    return new JsonResult(new { success = false, error = $"API bağlantı hatası: {apiEx.Message}" })
                     {
-                        StatusCode = 503
+                        StatusCode = 500
                     };
                 }
 
                 if (response.IsSuccess && response.Data != null)
                 {
-                    // Customer ID'yi session'a kaydet
                     var json = JsonSerializer.Serialize(response.Data);
+                    _logger.LogInformation("OnPostVerifyTcknGsm: API Yanıtı: {Response}", json);
                     var jsonDoc = JsonDocument.Parse(json);
                     
-                    // Farklı response formatlarını kontrol et
                     string? customerIdStr = null;
                     
-                    // data.value.CustomerId formatı
-                    if (jsonDoc.RootElement.TryGetProperty("data", out var dataElement))
+                    // JSON hiyerarşisini en derinden en yüzeye tara: data.value.CustomerId veya value.CustomerId
+                    JsonElement root = jsonDoc.RootElement;
+                    
+                    // data.value.CustomerId kontrolü
+                    if (root.TryGetProperty("data", out var dataElem) && dataElem.ValueKind == JsonValueKind.Object)
                     {
-                        if (dataElement.ValueKind == JsonValueKind.Object)
+                        if (dataElem.TryGetProperty("value", out var valElem) && valElem.ValueKind == JsonValueKind.Object)
                         {
-                            if (dataElement.TryGetProperty("value", out var valueElement))
-                            {
-                                if (valueElement.ValueKind == JsonValueKind.Object)
-                                {
-                                    if (valueElement.TryGetProperty("CustomerId", out var customerIdUpper))
-                                    {
-                                        customerIdStr = customerIdUpper.ValueKind == JsonValueKind.String 
-                                            ? customerIdUpper.GetString() 
-                                            : customerIdUpper.GetInt32().ToString();
-                                    }
-                                    else if (valueElement.TryGetProperty("customerId", out var customerIdLower))
-                                    {
-                                        customerIdStr = customerIdLower.ValueKind == JsonValueKind.String 
-                                            ? customerIdLower.GetString() 
-                                            : customerIdLower.GetInt32().ToString();
-                                    }
-                                }
-                            }
+                            if (valElem.TryGetProperty("CustomerId", out var cId)) 
+                                customerIdStr = cId.ValueKind == JsonValueKind.Number ? cId.GetInt32().ToString() : cId.GetString();
+                            else if (valElem.TryGetProperty("customerId", out var cIdLow))
+                                customerIdStr = cIdLow.ValueKind == JsonValueKind.Number ? cIdLow.GetInt32().ToString() : cIdLow.GetString();
                         }
                     }
-                    // Direkt customerId
-                    else if (jsonDoc.RootElement.TryGetProperty("customerId", out var customerIdDirect))
-                    {
-                        customerIdStr = customerIdDirect.ValueKind == JsonValueKind.String 
-                            ? customerIdDirect.GetString() 
-                            : customerIdDirect.GetInt32().ToString();
-                    }
-                    else if (jsonDoc.RootElement.TryGetProperty("CustomerId", out var customerIdDirectUpper))
-                    {
-                        customerIdStr = customerIdDirectUpper.ValueKind == JsonValueKind.String 
-                            ? customerIdDirectUpper.GetString() 
-                            : customerIdDirectUpper.GetInt32().ToString();
-                    }
                     
+                    // value.CustomerId kontrolü (yedek)
+                    if (string.IsNullOrEmpty(customerIdStr) && root.TryGetProperty("value", out var vElem) && vElem.ValueKind == JsonValueKind.Object)
+                    {
+                        if (vElem.TryGetProperty("CustomerId", out var cId2)) 
+                            customerIdStr = cId2.ValueKind == JsonValueKind.Number ? cId2.GetInt32().ToString() : cId2.GetString();
+                    }
+
                     if (!string.IsNullOrEmpty(customerIdStr))
                     {
                         HttpContext.Session.SetString("CustomerId", customerIdStr);
-                        _logger.LogInformation("CustomerId session'a kaydedildi: {CustomerId}", customerIdStr);
+                        _logger.LogInformation("OnPostVerifyTcknGsm: CustomerId kaydedildi: {CustomerId}", customerIdStr);
                     }
                     else
                     {
-                        _logger.LogWarning("CustomerId response'da bulunamadı. Response: {Response}", json);
+                        // Fallback: Tüm JSON içinde string taraması
+                        _logger.LogWarning("OnPostVerifyTcknGsm: Standart yollarla CustomerId bulunamadı, fallback aranıyor...");
+                        if (json.Contains("\"CustomerId\":"))
+                        {
+                            var parts = json.Split("\"CustomerId\":");
+                            var valPart = parts[1].Split(',')[0].Split('}')[0].Trim().Trim(':').Trim('"').Trim();
+                            customerIdStr = valPart;
+                            HttpContext.Session.SetString("CustomerId", customerIdStr);
+                            _logger.LogInformation("OnPostVerifyTcknGsm: Fallback ile CustomerId bulundu: {CustomerId}", customerIdStr);
+                        }
                     }
 
-                    // GSM numarasını session'a kaydet (OTP için gerekli)
                     HttpContext.Session.SetString("Gsm", cleanedGsm);
                     HttpContext.Session.SetString("Tckn", tckn);
-                    _logger.LogInformation("GSM ve TCKN session'a kaydedildi. GSM: {Gsm}, TCKN: {Tckn}", cleanedGsm, tckn);
-
+                    
                     return new JsonResult(new { success = true, data = response.Data, gsm = cleanedGsm });
                 }
 
@@ -245,34 +206,24 @@ namespace figjam2.Pages
         {
             try
             {
-                Request.EnableBuffering();
-                Request.Body.Position = 0;
-                
-                string body;
-                using (var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true, bufferSize: 1024))
+                string? gsm = null;
+                if (Request.HasFormContentType)
                 {
-                    body = await reader.ReadToEndAsync();
-                }
-                
-                if (Request.Body.CanSeek)
-                {
-                    Request.Body.Position = 0;
+                    gsm = Request.Form["gsm"].ToString()?.Trim();
                 }
 
-                string? gsm = null;
-                if (!string.IsNullOrEmpty(body))
+                if (string.IsNullOrEmpty(gsm))
                 {
-                    try
+                    Request.EnableBuffering();
+                    Request.Body.Position = 0;
+                    using var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true);
+                    var body = await reader.ReadToEndAsync();
+                    if (!string.IsNullOrEmpty(body))
                     {
-                        var jsonDoc = JsonDocument.Parse(body);
-                        if (jsonDoc.RootElement.TryGetProperty("gsm", out var gsmElement))
-                        {
-                            gsm = gsmElement.GetString()?.Trim();
-                        }
-                    }
-                    catch (JsonException)
-                    {
-                        // JSON parse edilemezse session'dan al
+                        try {
+                            var jsonDoc = JsonDocument.Parse(body);
+                            if (jsonDoc.RootElement.TryGetProperty("gsm", out var gElement)) gsm = gElement.GetString()?.Trim();
+                        } catch { }
                     }
                 }
                 
@@ -283,23 +234,16 @@ namespace figjam2.Pages
                 }
 
                 var tckn = HttpContext.Session.GetString("Tckn");
+                _logger.LogInformation("OnPostGenerateOtp: GSM={Gsm}, TCKN={Tckn}", gsm, tckn);
 
                 if (string.IsNullOrEmpty(gsm))
                 {
-                    _logger.LogWarning("OnPostGenerateOtp: GSM numarası bulunamadı");
-                    return new JsonResult(new { success = false, error = "GSM numarası bulunamadı. Lütfen önce TCKN/GSM doğrulaması yapın." })
-                    {
-                        StatusCode = 400
-                    };
+                    return new JsonResult(new { success = false, error = "GSM numarası bulunamadı." }) { StatusCode = 400 };
                 }
 
                 if (string.IsNullOrEmpty(tckn))
                 {
-                    _logger.LogWarning("OnPostGenerateOtp: TCKN bulunamadı");
-                    return new JsonResult(new { success = false, error = "TCKN bulunamadı. Lütfen önce TCKN/GSM doğrulaması yapın." })
-                    {
-                        StatusCode = 400
-                    };
+                    return new JsonResult(new { success = false, error = "TCKN bulunamadı." }) { StatusCode = 400 };
                 }
 
                 // GSM numarasını temizle
@@ -309,76 +253,70 @@ namespace figjam2.Pages
                     cleanedGsm = cleanedGsm.Substring(1);
                 }
 
-                // API hem TCKN hem de GSM bekliyor
+                // API'nin beklediği format (camelCase - VerifyTcknGsm ile aynı)
                 var requestBody = new
                 {
                     tckn = tckn,
                     gsm = cleanedGsm
                 };
 
-                _logger.LogInformation("OnPostGenerateOtp: TCKN={Tckn}, GSM={Gsm}", tckn, cleanedGsm);
+                _logger.LogInformation("OnPostGenerateOtp: Azure API'ye istek gönderiliyor. URL: {Url}, Body: {Body}", 
+                    ApiConfig.GENERATE_OTP.Split('?')[0], JsonSerializer.Serialize(requestBody));
+                
                 var response = await _apiClient.PostAsync<object>(ApiConfig.GENERATE_OTP, requestBody, HttpContext);
+                
+                _logger.LogInformation("OnPostGenerateOtp: API Yanıtı - Status: {Status}, Success: {IsSuccess}, Error: {Error}", 
+                    response.Status, response.IsSuccess, response.Error);
 
                 if (response.IsSuccess && response.Data != null)
                 {
-                    // OTP kodunu session'a kaydet
-                    var json = JsonSerializer.Serialize(response.Data);
-                    var jsonDoc = JsonDocument.Parse(json);
-                    
-                    string? otpCode = null;
-                    
-                    // Farklı response formatlarını kontrol et
-                    if (jsonDoc.RootElement.TryGetProperty("data", out var dataElement))
-                    {
-                        if (dataElement.ValueKind == JsonValueKind.Object)
+                    var responseContent = JsonSerializer.Serialize(response.Data);
+                    _logger.LogInformation("OnPostGenerateOtp: Başarılı yanıt: {Response}", responseContent);
+                    try {
+                        var jsonDoc = JsonDocument.Parse(responseContent);
+                        string? otpCode = null;
+                        
+                        // data.value.OTPCode formatını tara
+                        if (jsonDoc.RootElement.TryGetProperty("data", out var dataElem) && dataElem.ValueKind == JsonValueKind.Object)
                         {
-                            if (dataElement.TryGetProperty("value", out var valueElement))
+                            if (dataElem.TryGetProperty("value", out var valElem) && valElem.ValueKind == JsonValueKind.Object)
                             {
-                                if (valueElement.ValueKind == JsonValueKind.Object)
-                                {
-                                    if (valueElement.TryGetProperty("OTPCode", out var otpCodeUpper))
-                                    {
-                                        otpCode = otpCodeUpper.ValueKind == JsonValueKind.String 
-                                            ? otpCodeUpper.GetString() 
-                                            : otpCodeUpper.GetInt32().ToString();
-                                    }
-                                    else if (valueElement.TryGetProperty("otpCode", out var otpCodeLower))
-                                    {
-                                        otpCode = otpCodeLower.ValueKind == JsonValueKind.String 
-                                            ? otpCodeLower.GetString() 
-                                            : otpCodeLower.GetInt32().ToString();
-                                    }
-                                }
+                                if (valElem.TryGetProperty("OTPCode", out var otpVal))
+                                    otpCode = otpVal.ValueKind == JsonValueKind.Number ? otpVal.GetInt32().ToString() : otpVal.GetString();
+                                else if (valElem.TryGetProperty("otpCode", out var otpValLow))
+                                    otpCode = otpValLow.ValueKind == JsonValueKind.Number ? otpValLow.GetInt32().ToString() : otpValLow.GetString();
                             }
                         }
-                    }
-                    
-                    if (!string.IsNullOrEmpty(otpCode))
-                    {
-                        HttpContext.Session.SetString("OtpCode", otpCode);
-                        _logger.LogInformation("OnPostGenerateOtp: OTP kodu session'a kaydedildi: {OtpCode}", otpCode);
-                    }
-                    else
-                    {
-                        _logger.LogWarning("OnPostGenerateOtp: OTP kodu response'da bulunamadı. Response: {Response}", json);
+                        
+                        // Alternatif: doğrudan value.OTPCode
+                        if (string.IsNullOrEmpty(otpCode) && jsonDoc.RootElement.TryGetProperty("value", out var valElemDirect) && valElemDirect.ValueKind == JsonValueKind.Object)
+                        {
+                            if (valElemDirect.TryGetProperty("OTPCode", out var otpVal))
+                                otpCode = otpVal.ValueKind == JsonValueKind.Number ? otpVal.GetInt32().ToString() : otpVal.GetString();
+                        }
+
+                        if (!string.IsNullOrEmpty(otpCode))
+                        {
+                            HttpContext.Session.SetString("OtpCode", otpCode);
+                            _logger.LogInformation("OnPostGenerateOtp: OTP kodu session'a kaydedildi: {OtpCode}", otpCode);
+                        }
+                        else
+                        {
+                            _logger.LogWarning("OnPostGenerateOtp: OTP kodu yanıtta bulunamadı!");
+                        }
+                    } catch (Exception ex) {
+                        _logger.LogError(ex, "OnPostGenerateOtp: Yanıt parse edilirken hata!");
                     }
                     
                     return new JsonResult(new { success = true, data = response.Data });
                 }
 
-                _logger.LogWarning("OnPostGenerateOtp: API başarısız. Status={Status}, Error={Error}", response.Status, response.Error);
-                return new JsonResult(new { success = false, error = response.Error ?? "OTP üretilemedi" })
-                {
-                    StatusCode = response.Status
-                };
+                return new JsonResult(new { success = false, error = response.Error ?? "OTP üretilemedi" }) { StatusCode = response.Status };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "OnPostGenerateOtp: Beklenmeyen hata");
-                return new JsonResult(new { success = false, error = $"Sunucu hatası: {ex.Message}" })
-                {
-                    StatusCode = 500
-                };
+                return new JsonResult(new { success = false, error = ex.Message }) { StatusCode = 500 };
             }
         }
 
@@ -387,99 +325,51 @@ namespace figjam2.Pages
         {
             try
             {
-                Request.EnableBuffering();
-                Request.Body.Position = 0;
-                
-                string body;
-                using (var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true, bufferSize: 1024))
-                {
-                    body = await reader.ReadToEndAsync();
-                }
-                
-                if (Request.Body.CanSeek)
-                {
-                    Request.Body.Position = 0;
-                }
-
                 string? gsm = null;
-                if (!string.IsNullOrEmpty(body))
+                if (Request.HasFormContentType)
                 {
-                    try
-                    {
-                        var jsonDoc = JsonDocument.Parse(body);
-                        if (jsonDoc.RootElement.TryGetProperty("gsm", out var gsmElement))
-                        {
-                            gsm = gsmElement.GetString()?.Trim();
-                        }
-                    }
-                    catch (JsonException)
-                    {
-                        // JSON parse edilemezse session'dan al
-                    }
+                    gsm = Request.Form["gsm"].ToString()?.Trim();
                 }
                 
-                // Session'dan al
-                if (string.IsNullOrEmpty(gsm))
-                {
-                    gsm = HttpContext.Session.GetString("Gsm");
-                }
-
+                if (string.IsNullOrEmpty(gsm)) gsm = HttpContext.Session.GetString("Gsm");
                 var otpCode = HttpContext.Session.GetString("OtpCode");
 
-                if (string.IsNullOrEmpty(gsm))
+                _logger.LogInformation("OnPostSendOtpSms: GSM={Gsm}, OtpCode={OtpCode}", gsm, otpCode);
+
+                if (string.IsNullOrEmpty(gsm) || string.IsNullOrEmpty(otpCode))
                 {
-                    _logger.LogWarning("OnPostSendOtpSms: GSM numarası bulunamadı");
-                    return new JsonResult(new { success = false, error = "GSM numarası bulunamadı. Lütfen önce TCKN/GSM doğrulaması yapın." })
-                    {
-                        StatusCode = 400
-                    };
+                    return new JsonResult(new { success = false, error = "GSM veya OTP bulunamadı." }) { StatusCode = 400 };
                 }
 
-                if (string.IsNullOrEmpty(otpCode))
-                {
-                    _logger.LogWarning("OnPostSendOtpSms: OTP kodu bulunamadı");
-                    return new JsonResult(new { success = false, error = "OTP kodu bulunamadı. Lütfen önce OTP üretin." })
-                    {
-                        StatusCode = 400
-                    };
-                }
-
-                // GSM numarasını temizle
                 var cleanedGsm = new string(gsm.Where(char.IsDigit).ToArray());
-                if (cleanedGsm.Length == 11 && cleanedGsm.StartsWith("0"))
-                {
-                    cleanedGsm = cleanedGsm.Substring(1);
-                }
+                if (cleanedGsm.Length == 11 && cleanedGsm.StartsWith("0")) cleanedGsm = cleanedGsm.Substring(1);
 
-                // API hem GSM hem de OTP kodu bekliyor
+                // API'nin beklediği format (camelCase - VerifyTcknGsm ile aynı)
                 var requestBody = new
                 {
                     gsm = cleanedGsm,
                     otpCode = otpCode
                 };
 
-                _logger.LogInformation("OnPostSendOtpSms: GSM={Gsm}, OtpCode={OtpCode}", cleanedGsm, otpCode);
+                _logger.LogInformation("OnPostSendOtpSms: Azure API'ye istek gönderiliyor. URL: {Url}, Body: {Body}", 
+                    ApiConfig.SEND_OTP_SMS.Split('?')[0], JsonSerializer.Serialize(requestBody));
+                
                 var response = await _apiClient.PostAsync<object>(ApiConfig.SEND_OTP_SMS, requestBody, HttpContext);
+                
+                _logger.LogInformation("OnPostSendOtpSms: API Yanıtı - Status: {Status}, Success: {IsSuccess}, Error: {Error}", 
+                    response.Status, response.IsSuccess, response.Error);
 
                 if (response.IsSuccess)
                 {
-                    _logger.LogInformation("OnPostSendOtpSms: SMS başarıyla gönderildi");
                     return new JsonResult(new { success = true, data = response.Data });
                 }
 
-                _logger.LogWarning("OnPostSendOtpSms: API başarısız. Status={Status}, Error={Error}", response.Status, response.Error);
-                return new JsonResult(new { success = false, error = response.Error ?? "SMS gönderilemedi" })
-                {
-                    StatusCode = response.Status
-                };
+                return new JsonResult(new { success = false, error = response.Error ?? "SMS gönderilemedi" }) { StatusCode = response.Status };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "OnPostSendOtpSms: Beklenmeyen hata");
-                return new JsonResult(new { success = false, error = $"Sunucu hatası: {ex.Message}" })
-                {
-                    StatusCode = 500
-                };
+                return new JsonResult(new { success = false, error = ex.Message }) { StatusCode = 500 };
             }
         }
 
@@ -514,44 +404,32 @@ namespace figjam2.Pages
         {
             try
             {
-                Request.EnableBuffering();
-                Request.Body.Position = 0;
-                
-                string body;
-                using (var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true, bufferSize: 1024))
-                {
-                    body = await reader.ReadToEndAsync();
-                }
-                
-                if (Request.Body.CanSeek)
-                {
-                    Request.Body.Position = 0;
-                }
-
+                _logger.LogInformation("OnPostKvkkOnay başladı. SessionID: {SessionId}", HttpContext.Session.Id);
                 int kvkkId = 1; // Default
-                if (!string.IsNullOrEmpty(body))
+                if (Request.HasFormContentType && Request.Form.ContainsKey("kvkkId"))
                 {
-                    try
+                    int.TryParse(Request.Form["kvkkId"], out kvkkId);
+                }
+                else
+                {
+                    Request.EnableBuffering();
+                    Request.Body.Position = 0;
+                    using var reader = new StreamReader(Request.Body, System.Text.Encoding.UTF8, leaveOpen: true);
+                    var body = await reader.ReadToEndAsync();
+                    if (!string.IsNullOrEmpty(body))
                     {
-                        var jsonDoc = JsonDocument.Parse(body);
-                        if (jsonDoc.RootElement.TryGetProperty("kvkkId", out var kvkkIdElement))
-                        {
-                            kvkkId = kvkkIdElement.GetInt32();
-                        }
-                    }
-                    catch (JsonException)
-                    {
-                        // JSON parse edilemezse default değer kullan
+                        try {
+                            var jsonDoc = JsonDocument.Parse(body);
+                            if (jsonDoc.RootElement.TryGetProperty("kvkkId", out var kvkkElement)) kvkkId = kvkkElement.GetInt32();
+                        } catch { }
                     }
                 }
 
                 var customerId = HttpContext.Session.GetString("CustomerId") ?? "";
                 if (string.IsNullOrEmpty(customerId))
                 {
-                    return new JsonResult(new { success = false, error = "Müşteri bilgisi bulunamadı. Lütfen önce TCKN/GSM doğrulaması yapın." })
-                    {
-                        StatusCode = 400
-                    };
+                    _logger.LogWarning("OnPostKvkkOnay: CustomerId session'da bulunamadı!");
+                    return new JsonResult(new { success = false, error = "Müşteri bilgisi (ID) bulunamadı. Lütfen sayfayı yenileyip tekrar deneyin." }) { StatusCode = 400 };
                 }
 
                 var requestBody = new
@@ -559,27 +437,23 @@ namespace figjam2.Pages
                     customerId = int.Parse(customerId),
                     kvkkId = kvkkId,
                     approved = true,
-                    timestamp = DateTime.UtcNow
+                    timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
                 };
 
+                _logger.LogInformation("OnPostKvkkOnay: İstek gönderiliyor (camelCase). URL: {Url}, Body: {Body}", 
+                    ApiConfig.KVKK_ONAY.Split('?')[0], JsonSerializer.Serialize(requestBody));
+                
                 var response = await _apiClient.PostAsync<object>(ApiConfig.KVKK_ONAY, requestBody, HttpContext);
+                
+                _logger.LogInformation("OnPostKvkkOnay: API Yanıtı - Status: {Status}, Success: {IsSuccess}, Error: {Error}", 
+                    response.Status, response.IsSuccess, response.Error);
 
-                if (response.IsSuccess)
-                {
-                    return new JsonResult(new { success = true, data = response.Data });
-                }
-
-                return new JsonResult(new { success = false, error = response.Error })
-                {
-                    StatusCode = response.Status
-                };
+                if (response.IsSuccess) return new JsonResult(new { success = true, data = response.Data });
+                return new JsonResult(new { success = false, error = response.Error }) { StatusCode = response.Status };
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { success = false, error = ex.Message })
-                {
-                    StatusCode = 500
-                };
+                return new JsonResult(new { success = false, error = ex.Message }) { StatusCode = 500 };
             }
         }
 
@@ -591,21 +465,31 @@ namespace figjam2.Pages
                 var otpCode = Request.Form["OtpCode"].ToString()?.Trim() ?? "";
                 var gsm = Request.Form["Gsm"].ToString()?.Trim() ?? HttpContext.Session.GetString("Gsm") ?? "";
 
+                _logger.LogInformation("OnPostVerifyOtp: OTP doğrulama isteği. GSM: {Gsm}, OtpCode: {OtpCode}", gsm, otpCode);
+
                 if (string.IsNullOrEmpty(gsm))
                 {
+                    _logger.LogWarning("OnPostVerifyOtp: GSM numarası bulunamadı");
                     return new JsonResult(new { success = false, error = "GSM numarası bulunamadı" })
                     {
                         StatusCode = 400
                     };
                 }
 
+                // API'nin beklediği format (camelCase - VerifyTcknGsm ile aynı)
                 var requestBody = new
                 {
                     gsm = gsm,
                     otpCode = otpCode
                 };
 
+                _logger.LogInformation("OnPostVerifyOtp: Azure API'ye istek gönderiliyor. URL: {Url}, Body: {Body}", 
+                    ApiConfig.VERIFY_OTP.Split('?')[0], JsonSerializer.Serialize(requestBody));
+                
                 var response = await _apiClient.PostAsync<object>(ApiConfig.VERIFY_OTP, requestBody, HttpContext);
+                
+                _logger.LogInformation("OnPostVerifyOtp: API Yanıtı - Status: {Status}, Success: {IsSuccess}, Error: {Error}", 
+                    response.Status, response.IsSuccess, response.Error);
 
                 if (response.IsSuccess && response.Data != null)
                 {
