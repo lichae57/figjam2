@@ -60,6 +60,20 @@ namespace figjam2.Models
         [Display(Name = "Gelir Aralığı")]
         public string? IncomeRange { get; set; }
 
+        // Eş Bilgileri
+        [Display(Name = "Eş Çalışma Durumu")]
+        public string? SpouseWorkStatus { get; set; }
+
+        [Display(Name = "Eş Gelir Aralığı")]
+        public string? SpouseIncomeRange { get; set; }
+
+        // Finansal Durum ve Varlık Bilgileri
+        [Display(Name = "Finansal Durum")]
+        public string? FinancialStatus { get; set; }
+
+        [Display(Name = "Varlık Bilgileri")]
+        public string? AssetInfo { get; set; }
+
         // Adres detayları için ek alanlar (API'den gelen)
         public int? AddressId { get; set; }
         public int? CustomerId { get; set; }
@@ -134,6 +148,26 @@ namespace figjam2.Models
         public decimal? MonthlyIncome { get; set; }
         public string? WorkType { get; set; }
         public int? ExperienceYears { get; set; }
+    }
+
+    // Finansal Durum ve Varlık Bilgisi yanıtı için DTO
+    public class CustomerFinanceAssetsResponse
+    {
+        public int CustomerId { get; set; }
+        public string? FinancialStatus { get; set; }
+        public string? Assets { get; set; }
+        public string? CreditHistory { get; set; }
+        // API'den gelen gerçek alanları buraya ekleyeceğiz
+        public string? value { get; set; } // Bazı API'ler "value" içinde dönebiliyor
+    }
+
+    // Eş Bilgisi yanıtı için DTO
+    public class CustomerWifeInfoResponse
+    {
+        public int CustomerId { get; set; }
+        public string? WifeWorkStatus { get; set; }
+        public string? WifeIncomeRange { get; set; }
+        // API'den gelen gerçek alanları buraya ekleyeceğiz
     }
 
     // Adres güncelleme için request modeli

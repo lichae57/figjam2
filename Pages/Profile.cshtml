@@ -1,530 +1,218 @@
 @page
 @model figjam2.Pages.ProfileModel
 @{
-    ViewData["Title"] = "Profil";
+    ViewData["Title"] = "Profilim";
 }
 
-<div class="profile_container">
-    <div class="page_header mb-4 fade-in">
-        <div class="d-flex justify-content-between align-items-center">
+<div class="container-fluid py-4" style="background: #f4f7fe; min-height: 100vh;">
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1>
-                    <i class="fas fa-user me-2 text-secondary-custom"></i>
-                    Profil Bilgilerim
-                </h1>
-                <p class="text-muted mb-0">Kişisel bilgilerinizi görüntüleyin ve yönetin</p>
+                <h2 class="fw-bold text-primary">Profil Bilgilerim</h2>
+                <p class="text-muted">Kişisel, iş ve finansal durumunuzu buradan yönetebilirsiniz.</p>
             </div>
-            <button type="button" id="editModeBtn" class="btn btn-outline-primary" onclick="toggleEditMode()">
+            <button class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" onclick="toggleEditMode()" id="editBtn">
                 <i class="fas fa-edit me-2"></i>Düzenle
             </button>
         </div>
-    </div>
 
-    <!-- Bildirim Kutuları -->
-    <div id="successAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
-        <i class="fas fa-check-circle me-2"></i>
-        <span id="successMessage"></span>
-        <button type="button" class="btn-close" onclick="hideAlert('successAlert')"></button>
-    </div>
-
-    <div id="errorAlert" class="alert alert-danger alert-dismissible fade" role="alert" style="display: none;">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        <span id="errorMessage"></span>
-        <button type="button" class="btn-close" onclick="hideAlert('errorAlert')"></button>
-    </div>
-
-    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>
-            @Model.SuccessMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle me-2"></i>
-            @Model.ErrorMessage
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <div class="row">
-        <div class="col-12 col-lg-4 fade-in">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="profile_avatar mb-3">
-                        <i class="fas fa-user-circle fa-5x text-secondary-custom"></i>
+        <div class="row g-4">
+            <!-- Sol Kolon: Profil Özeti -->
+            <div class="col-12 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 text-center p-4">
+                    <div class="mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                            <i class="fas fa-user fa-3x text-primary"></i>
+                        </div>
                     </div>
-                    <h4>@Model.Profile.FullName</h4>
-                    <p class="text-muted mb-3">Müşteri No: @{
-                        var customerId = Model.Profile.CustomerId?.ToString() ?? HttpContext.Session.GetString("CustomerId");
-                        if (!string.IsNullOrEmpty(customerId) && customerId.Length >= 8)
-                        {
-                            @customerId.Substring(0, 8)
-                        }
-                        else if (!string.IsNullOrEmpty(customerId))
-                        {
-                            @customerId
-                        }
-                        else
-                        {
-                            @("12345678")
-                        }
-                    }</p>
-                    <a href="/ProfileManagement" class="btn btn-primary w-100">
-                        <i class="fas fa-edit me-2"></i>
-                        Bilgileri Düzenle
-                    </a>
+                    <h4 class="fw-bold">@Model.Profile.FullName</h4>
+                    <p class="text-muted mb-1">Müşteri ID: @(Model.Profile.CustomerId?.ToString() ?? "---")</p>
+                    <p class="badge bg-success-soft text-success rounded-pill px-3">Aktif Kullanıcı</p>
+                    <hr class="my-4">
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="small text-muted d-block">TC Kimlik No</label>
+                            <span class="fw-semibold">@Model.Profile.MaskedTcKimlikNo</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small text-muted d-block">Telefon</label>
+                            <span class="fw-semibold">@Model.Profile.Phone</span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small text-muted d-block">Doğum Tarihi</label>
+                            <span class="fw-semibold">@(Model.Profile.BirthDate?.ToString("dd.MM.yyyy") ?? "Belirtilmemiş")</span>
+                        </div>
+                        <div class="mb-0">
+                            <label class="small text-muted d-block">E-posta</label>
+                            <span class="fw-semibold text-break">@(string.IsNullOrEmpty(Model.Profile.Email) ? "Belirtilmemiş" : Model.Profile.Email)</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </div>
-
-        <div class="col-12 col-lg-8 fade-in">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="mb-3">
-                        <i class="fas fa-user me-2 text-secondary-custom"></i>
-                        Kullanıcı Bilgileri
+            <!-- Sağ Kolon: Detaylı Bilgiler -->
+            <div class="col-12 col-lg-8">
+                <!-- Adres Bilgileri -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i> Adres Bilgileri
                     </h5>
-                    <div class="row mb-3">
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.FirstName" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext"><strong>@(string.IsNullOrEmpty(Model.Profile.FirstName) ? "Bilgi yok" : Model.Profile.FirstName)</strong></p>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.LastName" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext"><strong>@(string.IsNullOrEmpty(Model.Profile.LastName) ? "Bilgi yok" : Model.Profile.LastName)</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.TcKimlikNo" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext"><strong>@(string.IsNullOrEmpty(Model.Profile.MaskedTcKimlikNo) ? "Bilgi yok" : Model.Profile.MaskedTcKimlikNo)</strong></p>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.BirthDate" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext"><strong>@(Model.Profile.BirthDate.HasValue ? Model.Profile.BirthDate.Value.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR")) : "Bilgi yok")</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.Email" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext"><strong>@(string.IsNullOrEmpty(Model.Profile.Email) ? "Bilgi yok" : Model.Profile.Email)</strong></p>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.Phone" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext"><strong>@FormatPhone(Model.Profile.Phone)</strong></p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <h5 class="mb-3">
-                        <i class="fas fa-map-marker-alt me-2 text-secondary-custom"></i>
-                        Adres Bilgileri
-                    </h5>
-                    <div class="row mb-3">
+                    <div class="row g-3">
                         <div class="col-12">
-                            <label asp-for="Profile.Address" class="form-label text-muted"></label>
-                            <!-- Görüntüleme modu -->
-                            <p class="form-control-plaintext view-mode">
-                                <strong id="display_address">@(string.IsNullOrEmpty(Model.Profile.Address) ? "Bilgi yok" : Model.Profile.Address)</strong>
-                            </p>
-                            <!-- Düzenleme modu -->
-                            <textarea class="form-control edit-mode" id="input_address" rows="2" style="display: none;">@Model.Profile.Address</textarea>
+                            <label class="form-label small text-muted">Açık Adres</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.Address) ? "Belirtilmemiş" : Model.Profile.Address)</div>
+                            <textarea class="form-control edit-mode d-none" id="input_address" rows="3">@Model.Profile.Address</textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">İl</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.City) ? "Belirtilmemiş" : Model.Profile.City)</div>
+                            <input type="text" class="form-control edit-mode d-none" id="input_city" value="@Model.Profile.City" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">İlçe</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.District) ? "Belirtilmemiş" : Model.Profile.District)</div>
+                            <input type="text" class="form-control edit-mode d-none" id="input_district" value="@Model.Profile.District" readonly>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label asp-for="Profile.City" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext view-mode"><strong id="display_city">@(string.IsNullOrEmpty(Model.Profile.City) ? "Bilgi yok" : Model.Profile.City)</strong></p>
-                            <select class="form-select edit-mode" id="input_city" style="display: none;">
-                                <option value="">Seçiniz</option>
-                                @{
-                                    var cities = new[] { "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce" };
-                                    foreach (var c in cities)
-                                    {
-                                        var isSelected = Model.Profile.City == c;
-                                        <option value="@c" selected="@(isSelected ? "selected" : null)">@c</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label asp-for="Profile.District" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext view-mode"><strong id="display_district">@(string.IsNullOrEmpty(Model.Profile.District) ? "Bilgi yok" : Model.Profile.District)</strong></p>
-                            <input type="text" class="form-control edit-mode" id="input_district" value="@Model.Profile.District" style="display: none;" placeholder="İlçe giriniz">
-                        </div>
-                        <div class="col-md-4">
-                            <label asp-for="Profile.PostalCode" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext view-mode"><strong id="display_postalCode">@(string.IsNullOrEmpty(Model.Profile.PostalCode) ? "Bilgi yok" : Model.Profile.PostalCode)</strong></p>
-                            <input type="text" class="form-control edit-mode" id="input_postalCode" value="@Model.Profile.PostalCode" style="display: none;" maxlength="5" placeholder="34000">
-                        </div>
-                    </div>
+                </div>
 
-                    <hr>
-
-                    <h5 class="mb-3">
-                        <i class="fas fa-briefcase me-2 text-secondary-custom"></i>
-                        İş Bilgileri
+                <!-- İş ve Gelir -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center">
+                        <i class="fas fa-briefcase text-primary me-2"></i> İş ve Gelir Bilgileri
                     </h5>
-                    <div class="row mb-3">
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.Profession" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext view-mode"><strong id="display_profession">@(string.IsNullOrEmpty(Model.Profile.Profession) ? "Bilgi yok" : Model.Profile.Profession)</strong></p>
-                            <input type="text" class="form-control edit-mode" id="input_profession" value="@Model.Profile.Profession" style="display: none;" placeholder="Mesleğinizi giriniz">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Meslek</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.Profession) ? "Belirtilmemiş" : Model.Profile.Profession)</div>
+                            <input type="text" class="form-control edit-mode d-none" id="input_profession" value="@Model.Profile.Profession">
                         </div>
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Profile.IncomeRange" class="form-label text-muted"></label>
-                            <p class="form-control-plaintext view-mode"><strong id="display_incomeRange">@{
-                                var income = Model.Profile.IncomeRange;
-                                string incomeDisplay = string.IsNullOrEmpty(income) ? "Bilgi yok" : income switch
-                                {
-                                    "0-10000" => "₺0 - ₺10 bin",
-                                    "10000-20000" => "₺10 - ₺20 bin",
-                                    "20000-30000" => "₺20 - ₺30 bin",
-                                    "30000-40000" => "₺30 - ₺40 bin",
-                                    "40000-50000" => "₺40 - ₺50 bin",
-                                    "50000+" => "₺50+",
-                                    _ => income
-                                };
-                                @incomeDisplay
-                            }</strong></p>
-                            <select class="form-select edit-mode" id="input_incomeRange" style="display: none;">
-                                <option value="">Seçiniz</option>
-                                <option value="0-10000" selected="@(Model.Profile.IncomeRange == "0-10000" ? "selected" : null)">₺0 - ₺10 bin</option>
-                                <option value="10000-20000" selected="@(Model.Profile.IncomeRange == "10000-20000" ? "selected" : null)">₺10 - ₺20 bin</option>
-                                <option value="20000-30000" selected="@(Model.Profile.IncomeRange == "20000-30000" ? "selected" : null)">₺20 - ₺30 bin</option>
-                                <option value="30000-40000" selected="@(Model.Profile.IncomeRange == "30000-40000" ? "selected" : null)">₺30 - ₺40 bin</option>
-                                <option value="40000-50000" selected="@(Model.Profile.IncomeRange == "40000-50000" ? "selected" : null)">₺40 - ₺50 bin</option>
-                                <option value="50000+" selected="@(Model.Profile.IncomeRange == "50000+" ? "selected" : null)">₺50+</option>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Gelir Aralığı</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.IncomeRange) ? "Belirtilmemiş" : Model.Profile.IncomeRange)</div>
+                            <select class="form-select edit-mode d-none" id="input_incomeRange">
+                                <option value="0-20k" selected="@(Model.Profile.IncomeRange == "0-20k")">0 - 20.000 TL</option>
+                                <option value="20k-50k" selected="@(Model.Profile.IncomeRange == "20k-50k")">20.000 - 50.000 TL</option>
+                                <option value="50k-100k" selected="@(Model.Profile.IncomeRange == "50k-100k")">50.000 - 100.000 TL</option>
+                                <option value="100k+" selected="@(Model.Profile.IncomeRange == "100k+")">100.000 TL+</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <!-- Kaydet/İptal Butonları (Düzenleme modunda görünür) -->
-                    <div class="edit-mode mt-4" style="display: none;">
-                        <button type="button" class="btn btn-primary me-2" onclick="saveProfile()">
-                            <i class="fas fa-save me-2"></i>Kaydet
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="cancelEdit()">
-                            <i class="fas fa-times me-2"></i>İptal
-                        </button>
-                    </div>
+                </div>
 
-                    <hr>
-
-                    <h5 class="mb-3">
-                        <i class="fas fa-shield-alt me-2 text-secondary-custom"></i>
-                        Güvenlik
+                <!-- Finansal Durum & Varlıklar -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center">
+                        <i class="fas fa-chart-pie text-primary me-2"></i> Finansal Durum ve Varlıklar
                     </h5>
-                    <div class="security_item">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>İki Faktörlü Doğrulama</strong>
-                                <br>
-                                <small class="text-muted">Aktif</small>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" checked>
-                            </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Finansal Durum</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.FinancialStatus) ? "Belirtilmemiş" : Model.Profile.FinancialStatus)</div>
+                            <textarea class="form-control edit-mode d-none" id="input_financialStatus" rows="2">@Model.Profile.FinancialStatus</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Varlık Bilgileri</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.AssetInfo) ? "Belirtilmemiş" : Model.Profile.AssetInfo)</div>
+                            <textarea class="form-control edit-mode d-none" id="input_assetInfo" rows="2">@Model.Profile.AssetInfo</textarea>
                         </div>
                     </div>
+                </div>
+
+                <!-- Eş Bilgileri -->
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center">
+                        <i class="fas fa-heart text-primary me-2"></i> Eş Bilgileri
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Eş Çalışma Durumu</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.SpouseWorkStatus) ? "Belirtilmemiş" : Model.Profile.SpouseWorkStatus)</div>
+                            <div class="edit-mode d-none fw-bold p-2 bg-warning-soft rounded">Bu alan API üzerinden sadece okunabilir.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Eş Gelir Aralığı</label>
+                            <div class="view-mode fw-semibold p-2 bg-light rounded">@(string.IsNullOrEmpty(Model.Profile.SpouseIncomeRange) ? "Belirtilmemiş" : Model.Profile.SpouseIncomeRange)</div>
+                            <div class="edit-mode d-none fw-bold p-2 bg-warning-soft rounded">Bu alan API üzerinden sadece okunabilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kaydet Butonu -->
+                <div class="edit-mode d-none mt-4 text-end">
+                    <button class="btn btn-outline-secondary px-4 py-2 me-2 rounded-pill" onclick="toggleEditMode()">Vazgeç</button>
+                    <button class="btn btn-success px-5 py-2 rounded-pill shadow-sm" onclick="saveProfile()">
+                        <i class="fas fa-save me-2"></i>Değişiklikleri Kaydet
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@functions {
-    string FormatPhone(string? phone)
-    {
-        if (string.IsNullOrEmpty(phone)) return "5XX XXX XX XX";
-        
-        // Sadece rakamları al
-        var digits = new string(phone.Where(char.IsDigit).ToArray());
-        
-        if (digits.Length == 10)
-        {
-            return $"{digits[0..3]} {digits[3..6]} {digits[6..8]} {digits[8..10]}";
-        }
-        else if (digits.Length == 11 && digits.StartsWith("0"))
-        {
-            return $"{digits[1..4]} {digits[4..7]} {digits[7..9]} {digits[9..11]}";
-        }
-        
-        return phone;
-    }
-}
-
 <style>
-    .profile_container {
-        padding: 2rem 0;
-        margin: -1cm 5cm 0 5cm;
-    }
-
-    .page_header {
-        border-bottom: 2px solid var(--border-color);
-        padding-bottom: 1rem;
-        margin-top: 1cm;
-    }
-
-    .profile_avatar {
-        margin: 0 auto;
-    }
-
-    .form-control-plaintext {
-        padding: 0.5rem 0;
-        font-size: 1rem;
-    }
-
-    .security_item {
-        padding: 1rem;
-        background: var(--bg-light);
-        border-radius: 8px;
-    }
-
-    .alert {
-        border-radius: 12px;
-        margin-bottom: 1.5rem;
-    }
-    
-    /* Düzenleme modu stilleri */
-    .edit-mode {
-        transition: all 0.3s ease;
-    }
-    
-    .view-mode {
-        transition: all 0.3s ease;
-    }
-    
-    .btn-outline-primary {
-        border-color: #2E6DF8;
-        color: #2E6DF8;
-    }
-    
-    .btn-outline-primary:hover {
-        background-color: #2E6DF8;
-        color: white;
-    }
-    
-    /* Başarı animasyonu */
-    .success-pulse {
-        animation: successPulse 0.5s ease;
-    }
-    
-    @@keyframes successPulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.02); }
-        100% { transform: scale(1); }
-    }
-    
-    /* Loading overlay */
-    .loading-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
-    
-    .loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #2E6DF8;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-    
-    @@keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+    .bg-success-soft { background-color: #e8f5e9; color: #2e7d32; }
+    .bg-warning-soft { background-color: #fff3e0; color: #ef6c00; }
+    .bg-primary-soft { background-color: #e3f2fd; color: #1565c0; }
+    .rounded-4 { border-radius: 1rem !important; }
+    .form-control:focus, .form-select:focus { border-color: #2E6DF8; box-shadow: 0 0 0 0.25rem rgba(46, 109, 248, 0.1); }
 </style>
 
 <script>
-    let isEditMode = false;
-    let originalValues = {};
-    
-    // Düzenleme modunu aç/kapat
+    let isEdit = false;
+
     function toggleEditMode() {
-        isEditMode = !isEditMode;
-        
-        const viewElements = document.querySelectorAll('.view-mode');
-        const editElements = document.querySelectorAll('.edit-mode');
-        const editBtn = document.getElementById('editModeBtn');
-        
-        if (isEditMode) {
-            // Orijinal değerleri kaydet
-            originalValues = {
-                address: document.getElementById('input_address').value,
-                city: document.getElementById('input_city').value,
-                district: document.getElementById('input_district').value,
-                postalCode: document.getElementById('input_postalCode').value,
-                profession: document.getElementById('input_profession').value,
-                incomeRange: document.getElementById('input_incomeRange').value
-            };
-            
-            // Düzenleme modunu göster
-            viewElements.forEach(el => el.style.display = 'none');
-            editElements.forEach(el => el.style.display = '');
+        isEdit = !isEdit;
+        const viewElems = document.querySelectorAll('.view-mode');
+        const editElems = document.querySelectorAll('.edit-mode');
+        const editBtn = document.getElementById('editBtn');
+
+        if (isEdit) {
+            viewElems.forEach(el => el.classList.add('d-none'));
+            editElems.forEach(el => el.classList.remove('d-none'));
             editBtn.innerHTML = '<i class="fas fa-eye me-2"></i>Görüntüle';
-            editBtn.classList.remove('btn-outline-primary');
-            editBtn.classList.add('btn-outline-secondary');
+            editBtn.classList.replace('btn-primary', 'btn-outline-primary');
         } else {
-            // Görüntüleme moduna dön
-            viewElements.forEach(el => el.style.display = '');
-            editElements.forEach(el => el.style.display = 'none');
+            viewElems.forEach(el => el.classList.remove('d-none'));
+            editElems.forEach(el => el.classList.add('d-none'));
             editBtn.innerHTML = '<i class="fas fa-edit me-2"></i>Düzenle';
-            editBtn.classList.remove('btn-outline-secondary');
-            editBtn.classList.add('btn-outline-primary');
+            editBtn.classList.replace('btn-outline-primary', 'btn-primary');
         }
     }
-    
-    // Düzenlemeyi iptal et
-    function cancelEdit() {
-        // Orijinal değerleri geri yükle
-        document.getElementById('input_address').value = originalValues.address;
-        document.getElementById('input_city').value = originalValues.city;
-        document.getElementById('input_district').value = originalValues.district;
-        document.getElementById('input_postalCode').value = originalValues.postalCode;
-        document.getElementById('input_profession').value = originalValues.profession;
-        document.getElementById('input_incomeRange').value = originalValues.incomeRange;
-        
-        toggleEditMode();
-    }
-    
-    // Profili kaydet
+
     async function saveProfile() {
         const data = {
             address: document.getElementById('input_address').value,
-            city: document.getElementById('input_city').value,
-            district: document.getElementById('input_district').value,
-            postalCode: document.getElementById('input_postalCode').value,
             profession: document.getElementById('input_profession').value,
-            incomeRange: document.getElementById('input_incomeRange').value
+            incomeRange: document.getElementById('input_incomeRange').value,
+            financialStatus: document.getElementById('input_financialStatus').value,
+            assetInfo: document.getElementById('input_assetInfo').value
         };
-        
-        // Validasyon
-        if (!data.address.trim()) {
-            showError('Lütfen adres bilgisini giriniz.');
-            return;
-        }
-        if (!data.city) {
-            showError('Lütfen şehir seçiniz.');
-            return;
-        }
-        
-        // Loading göster
-        showLoading();
-        
+
+        const saveBtn = event.target.closest('button');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Kaydediliyor...';
+
         try {
-            const response = await fetch('/Profile?handler=UpdateProfile', {
+            const resp = await fetch('/Profile?handler=UpdateProfile', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            
-            const result = await response.json();
-            
-            hideLoading();
-            
-            if (result.success) {
-                // Görüntüleme değerlerini güncelle
-                updateDisplayValues(data);
-                
-                // Başarı mesajı göster
-                showSuccess(result.message || 'Profiliniz başarıyla güncellendi!');
-                
-                // Düzenleme modundan çık
-                toggleEditMode();
-                
-                // Başarı animasyonu
-                document.querySelector('.card-body').classList.add('success-pulse');
-                setTimeout(() => {
-                    document.querySelector('.card-body').classList.remove('success-pulse');
-                }, 500);
+            const res = await resp.json();
+            if (res.success) {
+                alert('Profil başarıyla güncellendi: ' + res.message);
+                window.location.reload();
             } else {
-                showError(result.error || 'Güncelleme sırasında bir hata oluştu.');
+                alert('Hata: ' + res.error);
             }
-        } catch (error) {
-            hideLoading();
-            showError('Bağlantı hatası: ' + error.message);
+        } catch (e) {
+            alert('Bağlantı hatası oluştu.');
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = originalText;
         }
-    }
-    
-    // Görüntüleme değerlerini güncelle
-    function updateDisplayValues(data) {
-        document.getElementById('display_address').textContent = data.address || 'Bilgi yok';
-        document.getElementById('display_city').textContent = data.city || 'Bilgi yok';
-        document.getElementById('display_district').textContent = data.district || 'Bilgi yok';
-        document.getElementById('display_postalCode').textContent = data.postalCode || 'Bilgi yok';
-        document.getElementById('display_profession').textContent = data.profession || 'Bilgi yok';
-        
-        // Gelir aralığını formatla
-        const incomeMap = {
-            '0-10000': '₺0 - ₺10 bin',
-            '10000-20000': '₺10 - ₺20 bin',
-            '20000-30000': '₺20 - ₺30 bin',
-            '30000-40000': '₺30 - ₺40 bin',
-            '40000-50000': '₺40 - ₺50 bin',
-            '50000+': '₺50+'
-        };
-        document.getElementById('display_incomeRange').textContent = incomeMap[data.incomeRange] || data.incomeRange || 'Bilgi yok';
-    }
-    
-    // Başarı mesajı göster
-    function showSuccess(message) {
-        const alert = document.getElementById('successAlert');
-        document.getElementById('successMessage').textContent = message;
-        alert.style.display = 'block';
-        alert.classList.add('show');
-        
-        // 5 saniye sonra kapat
-        setTimeout(() => hideAlert('successAlert'), 5000);
-    }
-    
-    // Hata mesajı göster
-    function showError(message) {
-        const alert = document.getElementById('errorAlert');
-        document.getElementById('errorMessage').textContent = message;
-        alert.style.display = 'block';
-        alert.classList.add('show');
-    }
-    
-    // Alert gizle
-    function hideAlert(alertId) {
-        const alert = document.getElementById(alertId);
-        alert.classList.remove('show');
-        setTimeout(() => alert.style.display = 'none', 150);
-    }
-    
-    // Loading göster
-    function showLoading() {
-        const overlay = document.createElement('div');
-        overlay.id = 'loadingOverlay';
-        overlay.className = 'loading-overlay';
-        overlay.innerHTML = '<div class="loading-spinner"></div>';
-        document.body.appendChild(overlay);
-    }
-    
-    // Loading gizle
-    function hideLoading() {
-        const overlay = document.getElementById('loadingOverlay');
-        if (overlay) overlay.remove();
     }
 </script>

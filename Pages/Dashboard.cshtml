@@ -2,379 +2,269 @@
 @model figjam2.Pages.DashboardModel
 @{
     ViewData["Title"] = "Dashboard";
-    var userName = ViewContext.HttpContext.Session.GetString("UserName") ?? "Ahmet Yılmaz";
 }
 
-<div class="dashboard-container">
-    <div class="container py-3">
-        <div class="row g-4 align-items-stretch">
-            <!-- Kullanılabilir Limitlerim - Yukarı Taşındı -->
-            <div class="col-12 col-lg-8">
-                <div class="limit-management-section fade-in h-100">
-                    <div class="limit-card h-100" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1); display: flex; flex-direction: column;">
-                        <h3 class="fw-bold mb-4" style="color: #2E6DF8;">
-                            <i class="fas fa-wallet me-2"></i>
-                            Kullanılabilir Limitlerim
-                        </h3>
-
-                        <!-- Kredi Kartı Limiti -->
-                        <div class="limit-item mb-4 pb-4" style="border-bottom: 1px solid #E6F7FF;">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-credit-card" style="color: #2E6DF8; font-size: 1.2rem;"></i>
-                                    <span class="fw-semibold" style="color: #333;">Kredi Kartı Limiti</span>
+<div class="dashboard-wrapper py-4" style="background: #F8FAFC; min-height: 100vh;">
+    <div class="container">
+        <!-- Top Row: Card and Balance -->
+        <div class="row g-4 mb-4">
+            <!-- Debit Card Account -->
+            <div class="col-12 col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0" style="color: #1E293B;">Banka Kartı Hesabı</h5>
+                        <button type="button" class="btn btn-link text-muted p-0 shadow-none"><i class="fas fa-ellipsis-h"></i></button>
                     </div>
-                                <span class="fw-bold" style="color: #2E6DF8;">₺50.000</span>
+                    <div class="d-flex flex-wrap gap-4 align-items-center justify-content-center justify-content-sm-start mt-3">
+                        <!-- Overlapping Cards Stack -->
+                        <div class="card-stack position-relative" style="width: 320px; height: 200px;">
+                            <!-- Top subtle shadow card -->
+                            <div class="bank-card position-absolute rounded-4 shadow-sm" 
+                                 style="background: #94A3B8; width: 300px; height: 180px; top: -15px; left: 15px; z-index: 1; opacity: 0.3;">
+                            </div>
+                            <!-- Middle subtle shadow card -->
+                            <div class="bank-card position-absolute rounded-4 shadow-sm" 
+                                 style="background: #64748B; width: 310px; height: 190px; top: -8px; left: 8px; z-index: 2; opacity: 0.5;">
+                            </div>
+                            
+                            <div class="bank-card shadow-lg position-relative rounded-4 p-4 text-white overflow-hidden transition-all" 
+                                 style="background: linear-gradient(135deg, #2E6DF8 0%, #1E4BB5 100%); width: 320px; height: 200px; z-index: 3; cursor: pointer;">
+                                <div class="d-flex justify-content-between mb-4">
+                                    <span class="fw-bold" style="font-size: 0.8rem; letter-spacing: 1px;">FINCARD</span>
+                                    <span class="opacity-75 fw-medium" style="font-size: 0.65rem;">Platin Banka Kartı</span>
+                                </div>
+                                <div class="mb-3 mt-1">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <!-- Realistic Card Chip -->
+                                        <div class="card-chip shadow-sm" style="width: 42px; height: 30px; background: linear-gradient(135deg, #FDE68A 0%, #D97706 100%); border-radius: 4px; position: relative; overflow: hidden;">
+                                            <div style="position: absolute; width: 100%; height: 1px; background: rgba(0,0,0,0.1); top: 33%;"></div>
+                                            <div style="position: absolute; width: 100%; height: 1px; background: rgba(0,0,0,0.1); top: 66%;"></div>
+                                            <div style="position: absolute; height: 100%; width: 1px; background: rgba(0,0,0,0.1); left: 33%;"></div>
+                                            <div style="position: absolute; height: 100%; width: 1px; background: rgba(0,0,0,0.1); left: 66%;"></div>
+                                        </div>
+                                        <i class="fas fa-wifi opacity-50" style="transform: rotate(90deg); font-size: 0.9rem;"></i>
+                                    </div>
+                                </div>
+                                <div class="fw-bold mb-3" style="font-family: 'OCR A Extended', 'Courier New', monospace; font-size: 1.15rem; letter-spacing: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                    4771 6080 1080 @(Model.Profile.TcKimlikNo?.Length >= 4 ? Model.Profile.TcKimlikNo.Substring(Model.Profile.TcKimlikNo.Length - 4) : "7889")
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <div class="smaller opacity-75 mb-0" style="font-size: 0.5rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Kart Sahibi</div>
+                                        <div class="fw-bold" style="font-size: 0.8rem; text-transform: uppercase;">@Model.Profile.FirstName @Model.Profile.LastName</div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="smaller opacity-75 mb-0" style="font-size: 0.5rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Son Kullanma</div>
+                                        <div class="fw-bold" style="font-size: 0.8rem;">08/25</div>
+                                    </div>
+                                    <div class="ms-2">
+                                        <i class="fab fa-cc-visa fa-2x opacity-90"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                            <div class="progress mb-2" style="height: 12px; border-radius: 12px; background: #E6F7FF;">
-                                <div class="progress-bar" style="background: linear-gradient(90deg, #2E6DF8 0%, #0056B3 100%); width: 25%; border-radius: 12px; transition: width 0.6s ease;"></div>
+                        
+                        <!-- Add Card Placeholder (Exactly like image) -->
+                        <div class="add-card-placeholder rounded-4 d-flex flex-column align-items-center justify-content-center transition-all hover-scale" 
+                             style="width: 150px; height: 150px; background: #F8FAFC; border: 1.5px solid #EDF2F7; cursor: pointer;"
+                             onclick="alert('Kart başvurusu sayfasına yönlendiriliyorsunuz...')">
+                            <div class="bg-white rounded-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 55px; height: 55px; border: 1px solid #F1F5F9;">
+                                <i class="fas fa-plus text-primary opacity-50"></i>
+                            </div>
+                            <span class="smaller text-primary fw-bold mt-3">Yeni Kart Ekle</span>
+                        </div>
                     </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="text-muted small">Kullanılabilir: <strong style="color: #28a745;">₺37.500</strong></span>
-                                <span class="text-muted small">Kullanım: <strong style="color: #2E6DF8;">%25</strong></span>
+                </div>
+            </div>
+
+            <!-- Total Balance -->
+            <div class="col-12 col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                    <div class="mb-4">
+                        <h6 class="text-muted small fw-bold mb-2">Toplam Bakiyeniz</h6>
+                        <div class="d-flex align-items-center mb-1">
+                            <span class="fs-2 fw-bold text-dark" style="color: #1E293B !important;">₺ @(string.IsNullOrEmpty(Model.Profile.AssetInfo) ? "80,201.50" : Model.Profile.AssetInfo)</span>
+                        </div>
+                        <p class="text-muted smaller fw-medium mb-0">@(DateTime.Now.ToString("dd MMMM yyyy • HH:mm", new System.Globalization.CultureInfo("tr-TR")))</p>
+                    </div>
+                    
+                    <div class="d-flex gap-2 p-3 bg-light rounded-4 shadow-inner mt-auto">
+                        <button type="button" class="btn btn-white shadow-sm flex-grow-1 py-2 rounded-3 border-0 transition-all hover-scale" onclick="location.href='/Transfer'">
+                            <i class="fas fa-paper-plane text-primary mb-1 d-block"></i>
+                            <span class="smaller fw-bold text-dark">Gönder</span>
+                        </button>
+                        <button type="button" class="btn btn-white shadow-sm flex-grow-1 py-2 rounded-3 border-0 transition-all hover-scale" onclick="location.href='/Deposit'">
+                            <i class="fas fa-plus-circle text-primary mb-1 d-block"></i>
+                            <span class="smaller fw-bold text-dark">Yükle</span>
+                        </button>
+                        <button type="button" class="btn btn-white shadow-sm flex-grow-1 py-2 rounded-3 border-0 transition-all hover-scale" onclick="location.href='/Dashboard'">
+                            <i class="fas fa-th-large text-primary mb-1 d-block"></i>
+                            <span class="smaller fw-bold text-dark">Daha Fazla</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-                        <!-- Ek Hesap -->
-                        <div class="limit-item mb-4 pb-4" style="border-bottom: 1px solid #E6F7FF;">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-plus-circle" style="color: #2E6DF8; font-size: 1.2rem;"></i>
-                                    <span class="fw-semibold" style="color: #333;">Ek Hesap</span>
-                            </div>
-                                <span class="fw-bold" style="color: #2E6DF8;">₺30.000</span>
-                        </div>
-                            <div class="progress mb-2" style="height: 12px; border-radius: 12px; background: #E6F7FF;">
-                                <div class="progress-bar" style="background: linear-gradient(90deg, #2E6DF8 0%, #0056B3 100%); width: 40%; border-radius: 12px; transition: width 0.6s ease;"></div>
-                    </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted small">Kullanılabilir: <strong style="color: #28a745;">₺18.000</strong></span>
-                                <span class="text-muted small">Kullanım: <strong style="color: #2E6DF8;">%40</strong></span>
-            </div>
-                            </div>
-
-                        <!-- Taksitli Nakit Avans -->
-                        <div class="limit-item">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="fas fa-money-bill-wave" style="color: #2E6DF8; font-size: 1.2rem;"></i>
-                                    <span class="fw-semibold" style="color: #333;">Taksitli Nakit Avans</span>
-                        </div>
-                                <span class="fw-bold" style="color: #2E6DF8;">₺25.000</span>
-                    </div>
-                            <div class="progress mb-2" style="height: 12px; border-radius: 12px; background: #E6F7FF;">
-                                <div class="progress-bar" style="background: linear-gradient(90deg, #2E6DF8 0%, #0056B3 100%); width: 15%; border-radius: 12px; transition: width 0.6s ease;"></div>
-            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted small">Kullanılabilir: <strong style="color: #28a745;">₺21.250</strong></span>
-                                <span class="text-muted small">Kullanım: <strong style="color: #2E6DF8;">%15</strong></span>
+        <!-- Middle Row: Transactions and Gauge -->
+        <div class="row g-4 mb-4">
+            <!-- Recent Transactions -->
+            <div class="col-12 col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0" style="color: #1E293B;">Son İşlemler</h5>
+                        <div class="d-flex gap-3 align-items-center">
+                            <i class="fas fa-search text-muted cursor-pointer"></i>
+                            <div class="d-flex align-items-center gap-1 cursor-pointer bg-light px-2 py-1 rounded-pill">
+                                <i class="far fa-calendar-alt text-muted small"></i>
+                                <select class="form-select form-select-sm border-0 bg-transparent text-muted smaller fw-bold p-0 shadow-none cursor-pointer" style="width: auto; min-width: 100px;">
+                                    <option value="7">Son 7 Gün</option>
+                                    <option value="30">Bu Ay</option>
+                                    <option value="90">Son 3 Ay</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-            </div>
-                            </div>
-            
-            <!-- Sağ taraf - Kredi Güven Raporu (Kare) -->
-            <div class="col-12 col-lg-4">
-                <div class="credit-report-section fade-in h-100">
-                    <div class="credit-report-card-square h-100" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1); aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                        <h2 class="fw-bold mb-3" style="color: #2E6DF8; font-size: 1.5rem;">
-                            <i class="fas fa-shield-alt me-2"></i>
-                            Kredi Güven Raporu
-                        </h2>
-                        <p class="text-muted mb-4" style="font-size: 0.9rem;">Finansal sağlığınızın güvenilir göstergesi</p>
-                        
-                        <!-- İnteraktif Kredi Skoru Gauge Chart -->
-                        <div class="credit-score-gauge-square" style="position: relative; width: 200px; height: 200px; margin: 0 auto 1.5rem;">
-                            <svg width="200" height="200" viewBox="0 0 200 200" style="transform: rotate(-90deg);">
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="#E6F7FF" stroke-width="12"/>
-                                <circle cx="100" cy="100" r="80" fill="none" stroke="#2E6DF8" stroke-width="12" 
-                                        stroke-dasharray="@(2 * Math.PI * 80)" 
-                                        stroke-dashoffset="@(2 * Math.PI * 80 * (1 - 0.72))" 
-                                        stroke-linecap="round" class="gauge-fill"/>
-                            </svg>
-                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                <div style="font-size: 3rem; font-weight: 800; line-height: 1; color: #2E6DF8;">720</div>
-                                <div style="font-size: 0.9rem; color: #6c757d; margin-top: 0.25rem; font-weight: 500;">/ 1000</div>
-                        </div>
-                    </div>
-                        
-                        <!-- Motive Edici Geri Bildirim -->
-                        <div class="feedback-badge mb-3" style="display: inline-block; background: linear-gradient(135deg, #E6F7FF 0%, #D1ECF1 100%); padding: 0.75rem 1rem; border-radius: 12px; border-left: 4px solid #28a745;">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-check-circle" style="color: #28a745; font-size: 1.2rem;"></i>
+                    <div class="transaction-list">
+                        <div class="transaction-item d-flex align-items-center justify-content-between p-3 mb-2 rounded-4 hover-bg-light transition-all cursor-pointer">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light rounded-3 p-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fab fa-paypal text-primary fs-5"></i>
+                                </div>
                                 <div>
-                                    <div class="fw-bold" style="color: #2E6DF8; font-size: 0.9rem;">Skorun Çok İyi!</div>
-                                    <div class="small text-muted" style="font-size: 0.75rem;">Finansal durumunuz güçlü</div>
-            </div>
-        </div>
-    </div>
-
-                        <a href="/CreditReport" class="btn btn-primary-custom" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.6rem 1.5rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
-                            <i class="fas fa-file-alt"></i>
-                            Detaylı Rapor Al
-                    </a>
+                                    <div class="fw-bold text-dark" style="font-size: 0.95rem;">Paypal - Gelen</div>
+                                    <div class="smaller text-muted fw-medium">20 Aralık 2024, 08:20</div>
+                                </div>
+                            </div>
+                            <span class="fw-bold" style="color: #1E293B; font-size: 1.05rem;">+ ₺8.200,00</span>
+                        </div>
+                        <div class="transaction-item d-flex align-items-center justify-content-between p-3 mb-2 rounded-4 hover-bg-light transition-all cursor-pointer">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light rounded-3 p-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fab fa-spotify text-success fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 0.95rem;">Spotify Premium</div>
+                                    <div class="smaller text-muted fw-medium">19 Aralık 2024, 19:25</div>
+                                </div>
+                            </div>
+                            <span class="fw-bold text-muted" style="font-size: 1.05rem;">- ₺199,00</span>
+                        </div>
+                        <div class="transaction-item d-flex align-items-center justify-content-between p-3 rounded-4 hover-bg-light transition-all cursor-pointer">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-light rounded-3 p-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-exchange-alt text-info fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 0.95rem;">Transferwise - Gelen</div>
+                                    <div class="smaller text-muted fw-medium">19 Aralık 2024, 10:15</div>
+                                </div>
+                            </div>
+                            <span class="fw-bold text-dark" style="font-size: 1.05rem;">+ ₺1.200,00</span>
+                        </div>
+                    </div>
                 </div>
-                                </div>
-                                </div>
-                            </div>
+            </div>
 
-        <div class="row g-4 mt-1 align-items-stretch">
-            <!-- Sol taraf - Tablo ile Dolduruldu -->
-            <div class="col-12 col-lg-8">
-                <div class="fade-in h-100">
-                    <div class="table-card h-100" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1); display: flex; flex-direction: column;">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h3 class="fw-bold mb-0" style="color: #2E6DF8;">
-                                <i class="fas fa-table me-2"></i>
-                                Hesap Özeti
-                            </h3>
-                            <div class="text-end">
-                                <div class="small text-muted mb-1">Toplam Bakiye</div>
-                                <div class="fw-bold" style="color: #2E6DF8; font-size: 1.25rem;">₺196.500</div>
-                            </div>
+            <!-- Expenses Instead Gauge -->
+            <div class="col-12 col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white text-center">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0" style="color: #1E293B;">Harcama Durumu</h5>
+                        <button type="button" class="btn btn-link text-muted p-0 shadow-none"><i class="fas fa-ellipsis-h"></i></button>
+                    </div>
+                    
+                    <div class="position-relative mx-auto my-4" style="width: 240px; height: 120px;">
+                        <svg width="240" height="120" viewBox="0 0 240 120">
+                            <!-- Background Path (Semi-circle) -->
+                            <path d="M 30 110 A 90 90 0 0 1 210 110" fill="none" stroke="#EDF2F7" stroke-width="20" stroke-linecap="round" />
+                            <!-- Progress Path (42.8%) -->
+                            <path d="M 30 110 A 90 90 0 0 1 97.6 22.8" fill="none" stroke="#2E6DF8" stroke-width="20" stroke-linecap="round" style="filter: drop-shadow(0 2px 4px rgba(46, 109, 248, 0.2));" />
+                        </svg>
+                        <div class="position-absolute top-100 start-50 translate-middle text-center mt-[-20px]">
+                            <div class="fs-1 fw-bold text-dark" style="font-size: 2.2rem !important; line-height: 1;">42.8%</div>
+                            <div class="smaller text-muted fw-bold mt-1">İyi Seviye</div>
                         </div>
-                        <div class="mb-3 pb-3 border-bottom" style="border-color: #E6F7FF !important;">
-                            <div class="row g-3">
-                                <div class="col-6 col-md-3">
-                                    <div class="text-muted small mb-1">Toplam Hesap</div>
-                                    <div class="fw-bold" style="color: #2E6DF8;">6 Hesap</div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="text-muted small mb-1">Aktif Hesap</div>
-                                    <div class="fw-bold" style="color: #28a745;">6 Hesap</div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="text-muted small mb-1">Toplam Döviz</div>
-                                    <div class="fw-bold" style="color: #2E6DF8;">$2.450</div>
-                            </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="text-muted small mb-1">Altın</div>
-                                    <div class="fw-bold" style="color: #2E6DF8;">15.5 gr</div>
-                            </div>
+                    </div>
+                    
+                    <div class="mt-5 pt-3">
+                        <div class="bg-light rounded-pill px-4 py-2 d-inline-block shadow-sm border border-white">
+                            <span class="smaller text-muted me-1 fw-medium">Toplam Harcama:</span>
+                            <span class="smaller fw-bold text-dark">₺1.820,80</span>
                         </div>
-                                </div>
-                        <div class="table-responsive flex-grow-1">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr style="background-color: #F5F7FA;">
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Hesap Türü</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Hesap No</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Bakiye</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Faiz Oranı</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Durum</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">İşlem</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-university" style="color: #2E6DF8;"></i>
-                                                <span>Vadeli Hesap</span>
-                                </div>
-                                        </td>
-                                        <td>****1234</td>
-                                        <td class="fw-bold" style="color: #28a745;">₺45.250</td>
-                                        <td class="text-muted">%12.5</td>
-                                        <td><span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Aktif</span></td>
-                                        <td>
-                                            <a href="/Dashboard" class="btn btn-sm" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 8px; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
-                                                Detay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-wallet" style="color: #2E6DF8;"></i>
-                                                <span>Vadesiz Hesap</span>
-                            </div>
-                                        </td>
-                                        <td>****5678</td>
-                                        <td class="fw-bold" style="color: #28a745;">₺12.500</td>
-                                        <td class="text-muted">-</td>
-                                        <td><span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Aktif</span></td>
-                                        <td>
-                                            <a href="/Dashboard" class="btn btn-sm" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 8px; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
-                                                Detay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-piggy-bank" style="color: #2E6DF8;"></i>
-                                                <span>Tasarruf Hesabı</span>
-                            </div>
-                                        </td>
-                                        <td>****9012</td>
-                                        <td class="fw-bold" style="color: #28a745;">₺8.750</td>
-                                        <td class="text-muted">%8.5</td>
-                                        <td><span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Aktif</span></td>
-                                        <td>
-                                            <a href="/Dashboard" class="btn btn-sm" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 8px; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
-                                                Detay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-coins" style="color: #2E6DF8;"></i>
-                                                <span>Döviz Hesabı (USD)</span>
-                        </div>
-                                        </td>
-                                        <td>****3456</td>
-                                        <td class="fw-bold" style="color: #28a745;">$2.450</td>
-                                        <td class="text-muted">%2.0</td>
-                                        <td><span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Aktif</span></td>
-                                        <td>
-                                            <a href="/Dashboard" class="btn btn-sm" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 8px; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
-                                                Detay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-chart-line" style="color: #2E6DF8;"></i>
-                                                <span>Yatırım Hesabı</span>
-                                </div>
-                                        </td>
-                                        <td>****7890</td>
-                                        <td class="fw-bold" style="color: #28a745;">₺125.000</td>
-                                        <td class="text-muted">%15.2</td>
-                                        <td><span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Aktif</span></td>
-                                        <td>
-                                            <a href="/Dashboard" class="btn btn-sm" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 8px; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
-                                                Detay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-gift" style="color: #2E6DF8;"></i>
-                                                <span>Altın Hesabı</span>
-                                </div>
-                                        </td>
-                                        <td>****2468</td>
-                                        <td class="fw-bold" style="color: #28a745;">15.5 gr</td>
-                                        <td class="text-muted">-</td>
-                                        <td><span class="badge" style="background-color: #28a745; color: white; padding: 0.25rem 0.75rem; border-radius: 12px;">Aktif</span></td>
-                                        <td>
-                                            <a href="/Dashboard" class="btn btn-sm" style="background-color: #E6F7FF; color: #2E6DF8; border: 1px solid #2E6DF8; border-radius: 8px; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
-                                                Detay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                     </div>
                 </div>
             </div>
         </div>
 
-            <!-- Sağ taraf - Son Finansal İşlemler -->
-            <div class="col-12 col-lg-4">
-                <div class="action-history-section fade-in h-100">
-                    <div class="history-card h-100" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1); display: flex; flex-direction: column;">
-                        <h3 class="fw-bold mb-4" style="color: #2E6DF8;">
-                            <i class="fas fa-history me-2"></i>
-                            Son Finansal İşlemleriniz
-                        </h3>
-
-                        <div class="table-responsive flex-grow-1">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr style="background-color: #F5F7FA;">
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">İşlem</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Tarih</th>
-                                        <th style="color: #2E6DF8; font-weight: 600; border-bottom: 2px solid #E6F7FF;">Tutar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-user-edit" style="color: #2E6DF8; font-size: 0.75rem;"></i>
-                                                <span>Hesap Bilgileri Güncellendi</span>
-                </div>
-                                        </td>
-                                        <td class="text-muted">14 Ocak 2025</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-credit-card" style="color: #DC3545; font-size: 0.75rem;"></i>
-                                                <span>Kart Harcaması</span>
-                        </div>
-                                        </td>
-                                        <td class="text-muted">12 Ocak 2025</td>
-                                        <td class="fw-bold text-danger">-₺850</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-chart-line" style="color: #28a745; font-size: 0.75rem;"></i>
-                                                <span>Yeni Limit Tanımlandı</span>
-                        </div>
-                                        </td>
-                                        <td class="text-muted">10 Ocak 2025</td>
-                                        <td>-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-file-invoice-dollar" style="color: #DC3545; font-size: 0.75rem;"></i>
-                                                <span>Kredi Ödemesi</span>
-                    </div>
-                                        </td>
-                                        <td class="text-muted">8 Ocak 2025</td>
-                                        <td class="fw-bold text-danger">-₺2.500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="fas fa-exchange-alt" style="color: #28a745; font-size: 0.75rem;"></i>
-                                                <span>Para Transferi</span>
-                        </div>
-                                        </td>
-                                        <td class="text-muted">5 Ocak 2025</td>
-                                        <td class="fw-bold text-success">+₺5.000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <!-- 3. HIZLI ERİŞİM VE HİZMETLER -->
-        <div class="quick-access-section mt-2 fade-in">
-            <div class="row">
-                <div class="col-12">
-                    <div class="quick-access-card" style="background: white; border: 2px solid #E6F7FF; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(46, 109, 248, 0.1);">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-md-8">
-                                <h3 class="fw-bold mb-3" style="color: #2E6DF8;">
-                                    <i class="fas fa-bolt me-2"></i>
-                                    Hızlı Erişim ve Hizmetler
-                                </h3>
-                                <p class="text-muted mb-0" style="line-height: 1.6;">
-                                    Tüm bankacılık hizmetlerinize tek tıkla erişin. Kredi hesaplama, yatırım ürünleri, dijital bankacılık ve daha fazlası için hızlı erişim sağlayın.
-                                </p>
-                </div>
-                            <div class="col-12 col-md-4 text-center text-md-end mt-3 mt-md-0">
-                                <a href="/Services" class="btn" style="background-color: #2E6DF8; color: white; border: none; border-radius: 12px; padding: 0.75rem 2rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-arrow-right"></i>
-                                    Tüm Hizmetleri Gör
-                                </a>
+        <!-- Bottom Row: Invoice Activity -->
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                        <h5 class="fw-bold mb-0" style="color: #1E293B;">Fatura Hareketleri</h5>
+                        <div class="d-flex gap-3 align-items-center flex-wrap">
+                            <div class="position-relative">
+                                <i class="fas fa-search text-muted position-absolute top-50 start-0 translate-middle-y ms-3 smaller"></i>
+                                <input type="text" class="form-control form-control-sm bg-light border-0 ps-5 rounded-pill shadow-none" placeholder="Ara..." style="width: 200px;">
                             </div>
+                            <button type="button" class="btn btn-link text-muted p-0 shadow-none text-decoration-none smaller fw-bold"><i class="fas fa-filter me-1"></i> Filtrele</button>
+                            <button type="button" class="btn btn-link text-muted p-0 shadow-none text-decoration-none smaller fw-bold"><i class="fas fa-external-link-alt me-1"></i> Dışa Aktar</button>
                         </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 border-0">
+                            <thead class="text-muted smaller text-uppercase fw-bold bg-light rounded-3">
+                                <tr>
+                                    <th class="ps-4 py-3 border-0">Fatura Tipi</th>
+                                    <th class="py-3 border-0">Fatura No</th>
+                                    <th class="py-3 border-0">Son Ödeme</th>
+                                    <th class="py-3 border-0">Tutar</th>
+                                    <th class="py-3 border-0">Durum</th>
+                                    <th class="pe-4 py-3 border-0 text-end">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-0">
+                                <tr class="transition-all cursor-pointer">
+                                    <td class="ps-4 py-4 border-0">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="bg-warning bg-opacity-10 rounded-circle p-2 text-warning" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-bolt smaller"></i>
+                                            </div>
+                                            <span class="fw-bold text-dark" style="font-size: 0.9rem;">Elektrik Faturası</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 border-0 text-muted smaller fw-medium">CK-98721</td>
+                                    <td class="py-4 border-0 text-muted smaller fw-medium">25 Ocak 2025</td>
+                                    <td class="py-4 border-0 fw-bold text-dark">₺ 450,00</td>
+                                    <td class="py-4 border-0">
+                                        <span class="badge rounded-pill px-3 py-2 fw-bold" style="background: #FFFBEB; color: #D97706; font-size: 0.7rem;">Beklemede</span>
+                                    </td>
+                                    <td class="pe-4 py-4 border-0 text-end">
+                                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm fw-bold" style="font-size: 0.75rem;" onclick="alert('Ödeme sayfasına yönlendiriliyorsunuz...')">Öde</button>
+                                    </td>
+                                </tr>
+                                <tr class="transition-all cursor-pointer">
+                                    <td class="ps-4 py-4 border-0">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="bg-info bg-opacity-10 rounded-circle p-2 text-info" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-tint smaller"></i>
+                                            </div>
+                                            <span class="fw-bold text-dark" style="font-size: 0.9rem;">Su Faturası</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 border-0 text-muted smaller fw-medium">SK-44120</td>
+                                    <td class="py-4 border-0 text-muted smaller fw-medium">20 Ocak 2025</td>
+                                    <td class="py-4 border-0 fw-bold text-dark">₺ 120,50</td>
+                                    <td class="py-4 border-0">
+                                        <span class="badge rounded-pill px-3 py-2 fw-bold" style="background: #DEF7EC; color: #03543F; font-size: 0.7rem;">Ödendi</span>
+                                    </td>
+                                    <td class="pe-4 py-4 border-0 text-end">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-4 shadow-sm fw-bold" style="font-size: 0.75rem;" onclick="alert('Detaylar yükleniyor...')">Detaylar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -383,180 +273,33 @@
 </div>
 
 <style>
-    .dashboard-container {
-        padding: 1.5rem 0;
-        background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
-        min-height: calc(100vh - 200px);
-    }
-
-    /* Animasyonlar */
-    .fade-in {
-        animation: fadeInUp 0.6s ease-out;
-    }
-
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Kredi Güven Raporu Kartı */
-    .credit-report-card {
-        transition: all 0.3s ease;
-    }
-
-    .credit-report-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(46, 109, 248, 0.15) !important;
-    }
-
-    /* Kredi Güven Raporu Kare Kartı */
-    .credit-report-card-square {
-        transition: all 0.3s ease;
-    }
-
-    .credit-report-card-square:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(46, 109, 248, 0.15) !important;
-    }
-
-    .gauge-fill {
-        transition: stroke-dashoffset 1s ease-out;
-    }
-
-    /* Limit Yönetimi */
-    .limit-card {
-        transition: all 0.3s ease;
-    }
-
-    .limit-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.12) !important;
-    }
-
-    .btn-outline-primary-custom:hover {
-        background-color: #2E6DF8 !important;
-        color: white !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(46, 109, 248, 0.2);
-    }
-
-    .btn-outline-primary-custom:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 6px rgba(46, 109, 248, 0.15);
-    }
-
-    /* Aksiyon Geçmişi */
-    .history-card {
-        transition: all 0.3s ease;
-    }
-
-    .history-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.12) !important;
-    }
-
-    .timeline::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .timeline::-webkit-scrollbar-track {
-        background: #F5F7FA;
-        border-radius: 10px;
-    }
-
-    .timeline::-webkit-scrollbar-thumb {
-        background: #E6F7FF;
-        border-radius: 10px;
-    }
-
-    .timeline::-webkit-scrollbar-thumb:hover {
-        background: #2E6DF8;
-    }
-
-    /* Tablo Kartı */
-    .table-card {
-        transition: all 0.3s ease;
-    }
-
-    .table-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.12) !important;
-    }
-
-    .table-card table {
-        margin-bottom: 0;
-    }
-
-    .table-card tbody tr {
-        transition: all 0.2s ease;
-    }
-
-    .table-card tbody tr:hover {
-        background-color: #F5F7FA;
-    }
-
-    /* Hızlı Erişim Kartı */
-    .quick-access-card {
-        transition: all 0.3s ease;
-    }
-
-    .quick-access-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(46, 109, 248, 0.12) !important;
-    }
-
-    /* Buton Hover Efektleri */
-    .btn-primary-custom:hover {
-        background-color: #0056B3 !important;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(46, 109, 248, 0.3);
-    }
-
-    .btn-primary-custom:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 8px rgba(46, 109, 248, 0.2);
-    }
-
-    /* Disabled State */
-    .btn:disabled,
-    .btn.disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
-    /* Responsive */
-    @@media (max-width: 992px) {
-        .credit-report-card {
-            padding: 2rem !important;
-    }
-
-        .credit-score-gauge {
-            width: 220px !important;
-            height: 220px !important;
-        }
-    }
-
-    @@media (max-width: 768px) {
-        .dashboard-container {
-            padding: 1rem 0;
-        }
-
-        .credit-report-card,
-        .limit-card,
-        .history-card {
-            padding: 1.5rem !important;
-    }
-
-        .credit-score-gauge {
-            width: 200px !important;
-            height: 200px !important;
-        }
+    .letter-spacing-2 { letter-spacing: 2px; }
+    .bg-success-soft { background-color: #DEF7EC; color: #03543F; }
+    .bg-warning-soft { background-color: #FDF2F2; color: #9B1C1C; }
+    .transition-all { transition: all 0.2s ease-in-out; }
+    .hover-bg-light:hover { background-color: #F8FAFC !important; cursor: pointer; }
+    .bank-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .bank-card:hover { transform: translateY(-8px) scale(1.01); z-index: 10 !important; }
+    .card-stack-wrapper:hover .bank-card:not(:last-child) { transform: translateY(-5px); opacity: 0.8; }
+    .rounded-4 { border-radius: 1.25rem !important; }
+    .shadow-inner { box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+    .btn-white { background: white; color: #2E6DF8; border: 1px solid #F1F5F9; }
+    .btn-white:hover { background: #F8FAFC; color: #1E4BB5; transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .letter-spacing-2 { letter-spacing: 3px; }
+    .smaller { font-size: 0.72rem; }
+    .cursor-pointer { cursor: pointer; }
+    .hover-scale { transition: transform 0.2s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+    
+    /* Table Fixes */
+    .table > :not(caption) > * > * { padding: 1rem 0.5rem; }
+    .table thead th { white-space: nowrap; font-size: 0.7rem; letter-spacing: 0.5px; }
+    .table tbody td { vertical-align: middle; }
+    .btn-sm { font-size: 0.75rem; padding: 0.4rem 1rem; }
+    
+    /* Responsive Fixes */
+    @@media (max-width: 576px) {
+        .card-stack-wrapper { width: 100% !important; max-width: 320px; margin: 0 auto; }
+        .add-card-placeholder { width: 100% !important; max-width: 320px; height: 120px !important; flex-direction: row !important; gap: 15px; }
     }
 </style>
