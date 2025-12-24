@@ -498,36 +498,54 @@ namespace figjam2.Pages
                     var jsonDoc = JsonDocument.Parse(json);
                     
                     string? token = null;
-                    if (jsonDoc.RootElement.TryGetProperty("token", out var tokenElement))
-                    {
-                        token = tokenElement.GetString();
-                    }
-                    else if (jsonDoc.RootElement.TryGetProperty("access_token", out var accessToken))
-                    {
-                        token = accessToken.GetString();
-                    }
-                    else if (jsonDoc.RootElement.TryGetProperty("jwt", out var jwt))
-                    {
-                        token = jwt.GetString();
-                    }
+                    string? firstName = null;
+                    string? lastName = null;
+                    string? email = null;
+                    string? phone = null;
+
+                    // Token ve kullanıcı bilgilerini parse et
+                    ParseUserInfoFromResponse(jsonDoc.RootElement, ref token, ref firstName, ref lastName, ref email, ref phone);
 
                     if (!string.IsNullOrEmpty(token))
                     {
                         _apiClient.SetToken(HttpContext, token);
                     }
 
+                    // Kullanıcı adını oluştur
+                    var fullName = !string.IsNullOrEmpty(firstName) || !string.IsNullOrEmpty(lastName)
+                        ? $"{firstName} {lastName}".Trim()
+                        : "Ahmet Yılmaz"; // Varsayılan
+
                     // Set session as logged in
                     HttpContext.Session.SetString("IsLoggedIn", "true");
-                    HttpContext.Session.SetString("UserName", "Ahmet Yılmaz");
+                    HttpContext.Session.SetString("UserName", fullName);
+                    HttpContext.Session.SetString("UserFirstName", firstName ?? "Ahmet");
+                    HttpContext.Session.SetString("UserLastName", lastName ?? "Yılmaz");
                     HttpContext.Session.SetString("Identifier", Identifier ?? "");
+                    if (!string.IsNullOrEmpty(email))
+                        HttpContext.Session.SetString("UserEmail", email);
+                    if (!string.IsNullOrEmpty(phone))
+                        HttpContext.Session.SetString("UserPhone", phone);
 
                     // Create claims for cookie authentication
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, "Ahmet Yılmaz"),
+                        new Claim(ClaimTypes.Name, fullName),
+                        new Claim("FullName", fullName), // Custom claim for header
+                        new Claim(ClaimTypes.GivenName, firstName ?? "Ahmet"),
+                        new Claim(ClaimTypes.Surname, lastName ?? "Yılmaz"),
                         new Claim(ClaimTypes.NameIdentifier, Identifier ?? ""),
                         new Claim("IsLoggedIn", "true")
                     };
+
+                    if (!string.IsNullOrEmpty(email))
+                        claims.Add(new Claim(ClaimTypes.Email, email));
+                    if (!string.IsNullOrEmpty(phone))
+                        claims.Add(new Claim(ClaimTypes.MobilePhone, phone));
+
+                    var customerId = HttpContext.Session.GetString("CustomerId");
+                    if (!string.IsNullOrEmpty(customerId))
+                        claims.Add(new Claim("CustomerId", customerId));
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
@@ -538,6 +556,9 @@ namespace figjam2.Pages
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                    _logger.LogInformation("OnPostVerifyOtp: Kullanıcı giriş yaptı. FullName: {FullName}, CustomerId: {CustomerId}", 
+                        fullName, customerId);
 
                     return new JsonResult(new { success = true, redirect = "/Dashboard" });
                 }
@@ -558,18 +579,36 @@ namespace figjam2.Pages
 
         public async Task<IActionResult> OnPostLogin()
         {
+            // Session'dan kullanıcı bilgilerini al (varsa)
+            var firstName = HttpContext.Session.GetString("UserFirstName") ?? "Ahmet";
+            var lastName = HttpContext.Session.GetString("UserLastName") ?? "Yılmaz";
+            var fullName = $"{firstName} {lastName}".Trim();
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            var email = HttpContext.Session.GetString("UserEmail");
+            var phone = HttpContext.Session.GetString("Gsm");
+
             // Set session as logged in
             HttpContext.Session.SetString("IsLoggedIn", "true");
-            HttpContext.Session.SetString("UserName", "Ahmet Yılmaz");
+            HttpContext.Session.SetString("UserName", fullName);
             HttpContext.Session.SetString("Identifier", Identifier ?? "");
 
             // Create claims for cookie authentication
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "Ahmet Yılmaz"),
+                new Claim(ClaimTypes.Name, fullName),
+                new Claim("FullName", fullName), // Custom claim for header
+                new Claim(ClaimTypes.GivenName, firstName),
+                new Claim(ClaimTypes.Surname, lastName),
                 new Claim(ClaimTypes.NameIdentifier, Identifier ?? ""),
                 new Claim("IsLoggedIn", "true")
             };
+
+            if (!string.IsNullOrEmpty(email))
+                claims.Add(new Claim(ClaimTypes.Email, email));
+            if (!string.IsNullOrEmpty(phone))
+                claims.Add(new Claim(ClaimTypes.MobilePhone, phone));
+            if (!string.IsNullOrEmpty(customerId))
+                claims.Add(new Claim("CustomerId", customerId));
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties
@@ -581,7 +620,85 @@ namespace figjam2.Pages
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
                 new ClaimsPrincipal(claimsIdentity), authProperties);
 
+            _logger.LogInformation("OnPostLogin: Kullanıcı giriş yaptı. FullName: {FullName}", fullName);
+
             return RedirectToPage("/Dashboard");
+        }
+
+        /// <summary>
+        /// API yanıtından kullanıcı bilgilerini parse eder
+        /// </summary>
+        private void ParseUserInfoFromResponse(JsonElement root, ref string? token, ref string? firstName, ref string? lastName, ref string? email, ref string? phone)
+        {
+            // Token ara
+            if (root.TryGetProperty("token", out var tokenElement))
+                token = tokenElement.GetString();
+            else if (root.TryGetProperty("access_token", out var accessToken))
+                token = accessToken.GetString();
+            else if (root.TryGetProperty("jwt", out var jwt))
+                token = jwt.GetString();
+
+            // data.value veya value içinden kullanıcı bilgilerini ara
+            JsonElement? userElement = null;
+
+            if (root.TryGetProperty("data", out var dataElem) && dataElem.ValueKind == JsonValueKind.Object)
+            {
+                if (dataElem.TryGetProperty("value", out var valElem) && valElem.ValueKind == JsonValueKind.Object)
+                    userElement = valElem;
+                else if (dataElem.TryGetProperty("user", out var userElem) && userElem.ValueKind == JsonValueKind.Object)
+                    userElement = userElem;
+            }
+            else if (root.TryGetProperty("value", out var valElemDirect) && valElemDirect.ValueKind == JsonValueKind.Object)
+            {
+                userElement = valElemDirect;
+            }
+            else if (root.TryGetProperty("user", out var userElemDirect) && userElemDirect.ValueKind == JsonValueKind.Object)
+            {
+                userElement = userElemDirect;
+            }
+
+            if (userElement.HasValue)
+            {
+                var user = userElement.Value;
+
+                // Ad
+                if (user.TryGetProperty("FirstName", out var fn))
+                    firstName = fn.GetString();
+                else if (user.TryGetProperty("firstName", out var fnLower))
+                    firstName = fnLower.GetString();
+                else if (user.TryGetProperty("name", out var name))
+                    firstName = name.GetString();
+
+                // Soyad
+                if (user.TryGetProperty("LastName", out var ln))
+                    lastName = ln.GetString();
+                else if (user.TryGetProperty("lastName", out var lnLower))
+                    lastName = lnLower.GetString();
+                else if (user.TryGetProperty("surname", out var surname))
+                    lastName = surname.GetString();
+
+                // E-posta
+                if (user.TryGetProperty("Email", out var em))
+                    email = em.GetString();
+                else if (user.TryGetProperty("email", out var emLower))
+                    email = emLower.GetString();
+
+                // Telefon
+                if (user.TryGetProperty("Phone", out var ph))
+                    phone = ph.GetString();
+                else if (user.TryGetProperty("phone", out var phLower))
+                    phone = phLower.GetString();
+                else if (user.TryGetProperty("Gsm", out var gsm))
+                    phone = gsm.GetString();
+                else if (user.TryGetProperty("gsm", out var gsmLower))
+                    phone = gsmLower.GetString();
+            }
+
+            // Root seviyesinde de kontrol et
+            if (string.IsNullOrEmpty(firstName) && root.TryGetProperty("firstName", out var rootFn))
+                firstName = rootFn.GetString();
+            if (string.IsNullOrEmpty(lastName) && root.TryGetProperty("lastName", out var rootLn))
+                lastName = rootLn.GetString();
         }
     }
 }
